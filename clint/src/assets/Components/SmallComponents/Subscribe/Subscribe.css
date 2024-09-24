@@ -1,0 +1,36 @@
+.signUpContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 180px;
+    width: 100%;
+    /* background-color: rgb(255, 255, 255); */
+    margin-top: 90px;
+    color: rgb(0, 0, 0);
+    gap: 10px;
+}
+
+.topSignupText {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.subscribeText {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.submission {
+    display: flex;
+    gap: 5px
+}
+
+.submission input {
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    margin-right: 10px;
+    width: 250px;
+    padding: 10px 50px 10px 50px;
+    border-radius: 15px;
+    outline: none;
+}

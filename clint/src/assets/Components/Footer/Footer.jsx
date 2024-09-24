@@ -1,0 +1,33 @@
+import React from 'react';
+import './Footer.css';
+
+const Footer = () => {
+    return (
+        <footer>
+            <div className="footer-container">
+                <div className="footer-section">
+                    <h4>About Us</h4>
+                    <p>Your go-to place for the best books across genres. Discover, read, and enjoy!</p>
+                </div>
+                <div className="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>Email: <a href="mailto:support@bookstore.com">support@bookstore.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                </div>
+                <div className="footer-section">
+                    <h4>Follow Us</h4>
+                    <ul className="social-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div className="footer-bottom">
+                <p>&copy; 2024 Your Bookstore. All Rights Reserved.</p>
+            </div>
+        </footer>
+    );
+};
+
+export default Footer;
