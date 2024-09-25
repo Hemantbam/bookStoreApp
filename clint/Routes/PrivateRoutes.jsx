@@ -22,9 +22,8 @@ const PrivateRoutes = (props) => {
     if (isAdmin() == true) {
         const Component = props.component;
         return <Component />;
-    } else {
-        return <Navigate to='/login' />;
     }
+    return <Navigate to='/login' />;
 };
 
 export default PrivateRoutes;

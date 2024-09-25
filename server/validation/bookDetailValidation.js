@@ -6,7 +6,7 @@ const bookInputValidate = (name, category, author, price) => {
     author.trim() !== ""
   ) {
     return true;
-  } else {
+  }  {
     return false;
   }
 };

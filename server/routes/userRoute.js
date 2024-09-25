@@ -1,14 +1,15 @@
 import express from "express";
-import { getTotalUsers } from "../controllers/userController.js";
-
+import {
+  getTotalUsers,
+  getLatestUser,
+  updateUserEmail,getUsers, deleteUserFromDb} from "../controllers/userController.js";
+import { verifyToken, isAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-// Define the route for adding a new book
+router.get("/totalUsers", verifyToken, isAdmin, getTotalUsers);
+router.get("/getNewUser", verifyToken, isAdmin, getLatestUser);
+router.get("/getAllUsers", verifyToken, isAdmin, getUsers);
+router.put("/update/:id", verifyToken, isAdmin, updateUserEmail);
+router.delete("/delete/:id", verifyToken, isAdmin, deleteUserFromDb);
 
-router.get("/totalUsers", getTotalUsers);
-
-
-
-
-// Named export
 export const userRoute = router;

@@ -12,7 +12,7 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   /**Handel the registration submit */
-  const handleSubmit = async (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');

@@ -1,8 +1,7 @@
 import db from "../config/dbConn.js";
 import bookInputValidate from "../validation/bookDetailValidation.js";
 import bookQueries from "../repository/queries/bookQueries.js";
-import { serverError } from "../repository/statusCode/serverError.js";
-
+import  serverError  from "../repository/statusCode/serverError.js";
 const addNewBook = async (req, res) => {
   const { bookName, bookCategory, bookAuthor, bookPrice } = req.body;
 
@@ -118,5 +117,8 @@ const getTotalBooks = async (req, res) => {
     serverError(req, res);
   }
 };
+
+
+
 
 export { addNewBook, getBooks, deleteBook, updateBook, getTotalBooks };

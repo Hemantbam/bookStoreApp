@@ -28,10 +28,12 @@ const Login = () => {
             setSuccessMessage('Login successful!');
             if (decodedToken.role == 'admin') {
                 setTimeout(() => navigate('/adminDashboard'), 1000);
-            } else {
+                return;
+            } 
+            
                 setTimeout(() => navigate('/'), 1000);
 
-            }
+      
         } catch (err) {
             setError('Login failed. Please check your details');
         }

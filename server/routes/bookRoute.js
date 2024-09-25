@@ -1,16 +1,21 @@
 import express from "express";
-import { addNewBook, getBooks, deleteBook , updateBook, getTotalBooks} from "../controllers/bookController.js"; // Ensure this path is correct
-
+import {
+  addNewBook,
+  getBooks,
+  deleteBook,
+  updateBook,
+  getTotalBooks,
+} from "../controllers/bookController.js"; 
+import { verifyToken, isAdmin } from "../middleware/authMiddleware.js";
+verifyToken;
 const router = express.Router();
 
-// Define the route for adding a new book
-router.post("/addBook", addNewBook);
-router.get("/getBooks", getBooks);
-router.get("/totalBooks", getTotalBooks);
-router.delete("/removeBook/:id", deleteBook);
-router.put("/updateBook/:id",updateBook)
+//**Routes for books opeations */
+router.post("/addBook", verifyToken, isAdmin, addNewBook);
+router.get("/getBooks", verifyToken, getBooks);
+router.get("/totalBooks", verifyToken, getTotalBooks);
+router.delete("/removeBook/:id", verifyToken, isAdmin, deleteBook);
+router.put("/updateBook/:id", verifyToken, isAdmin, updateBook);
 
 
-
-// Named export
 export const bookRouter = router;
