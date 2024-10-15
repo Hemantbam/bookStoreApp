@@ -1,20 +1,27 @@
 import bcrypt from "bcrypt";
-import userQuery from "../repository/queries/user.js";
+import {
+  getUserDetails,
+  createUserQuery,
+} from "../repository/authRepository.js";
 import db from "../config/dbConn.js";
 import jwt from "jsonwebtoken";
-
+import { emailPasswordValidation } from "../validation/EmailPasswordValidation.js";
 const secretKey = "keySecretForbookStoreAuthentication9898#@";
 
 const register = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [userDetails] = await db.query(userQuery.getUserByEmail, [email]);
+    if (!emailPasswordValidation(email, password)) {
+      return res.status(400).json({ message: "Invalid Input" });
+    }
+    const userEmail = email.toLowerCase();
+    const userDetails = await getUserDetails(userEmail);
     if (userDetails.length > 0) {
       return res.status(409).json({ message: "User already exists" });
     } else {
       const encodedPassword = await bcrypt.hash(password, 10);
-      await db.query(userQuery.createUserQuery, [email, encodedPassword]);
+      await createUserQuery(userEmail, encodedPassword);
       return res.status(201).json({ message: "User created successfully" });
     }
   } catch (err) {
@@ -26,8 +33,12 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const [userDetails] = await db.query(userQuery.getUserByEmail, [email]);
-    if (userDetails.length > 0) {
+    if (!emailPasswordValidation(email, password)) {
+      return res.status(400).json({ message: "Inavlid Input" });
+    }
+    const userEmail = email.toLowerCase();
+    const userDetails = await getUserDetails(userEmail);
+    if (userDetails) {
       const passwordMatch = await bcrypt.compare(
         password,
         userDetails[0].userPassword

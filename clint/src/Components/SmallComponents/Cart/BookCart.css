@@ -1,0 +1,93 @@
+.cartContainer {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 80px;
+}
+
+.cartContainer h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.addedItemstoCartBox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.books {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.books:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.books p {
+    margin: 0;
+    font-size: 18px;
+    color: #555;
+}
+
+.books p:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+.books p:last-child {
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.bookItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.totalItems {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 20px;
+    color: #333;
+}
+
+.removeBtn {
+    padding: 7px;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 3px;
+    transition: box-shadow 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+
+.removeBtn img {
+    height: 25px;
+    width: 25px;
+}
+
+.removeBtn:hover {
+    box-shadow: 1px 2px 10px rgb(255, 0, 0);
+}
+
+.quantity {
+    display: flex;
+    gap: 5px;
+}

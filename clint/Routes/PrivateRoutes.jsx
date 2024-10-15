@@ -1,29 +1,33 @@
-import React from "react";
 import { Navigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
-/** Private route for the authentication and secured access as per the authorization */
 const PrivateRoutes = (props) => {
     const token = localStorage.getItem('token');
-    const isAdmin = () => {
+    
+    const getUserRole = () => {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                if (decoded.role === "admin") {
-                    return true
-                }
+                return decoded.role; 
             } catch (error) {
-                return false;
+                console.error("Token decoding failed:", error);
+                return null; 
             }
         }
-        return false;
+        return null; 
     };
 
-    if (isAdmin() == true) {
-        const Component = props.component;
+    const userRole = getUserRole();
+
+    if (userRole === "admin") {
+        const Component = props.component; 
         return <Component />;
+    } else if (userRole === "basic") {
+        const Component = props.component; 
+        return <Component />;
+    } else {
+        return <Navigate to='/login' />; 
     }
-    return <Navigate to='/login' />;
 };
 
 export default PrivateRoutes;
