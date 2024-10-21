@@ -2,20 +2,22 @@ import express, { json } from "express";
 import authRouter from "./routes/authRoute.js";
 import { bookRouter } from "./routes/bookRoute.js";
 import { userRoute } from "./routes/userRoute.js";
-import cors from 'cors'
-// import { Book } from "./models/userQueries.js";
+import { order } from "./routes/orderRoute.js";
+import { otpAndMail } from "./routes/passwordResetRoute.js";
+import cors from "cors";
 
 const app = express();
 const port = 8080;
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 app.use(express.json());
 
 //-------------------------------------------------------------------------------
 
-/**Add a new book to the store database*/
 app.use("/auth", authRouter);
 app.use("/book", bookRouter);
-app.use("/user",userRoute)
+app.use("/user", userRoute);
+app.use("/order", order);
+app.use("/reset", otpAndMail);
 //-------------------------------------------------------------------------------
 
 app.listen(port);

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api/authApi';
 import './Login.css';
@@ -29,11 +29,11 @@ const Login = () => {
             if (decodedToken.role == 'admin') {
                 setTimeout(() => navigate('/adminDashboard'), 1000);
                 return;
-            } 
-            
-                setTimeout(() => navigate('/'), 1000);
+            }
 
-      
+            setTimeout(() => navigate('/'), 1000);
+
+
         } catch (err) {
             setError('Login failed. Please check your details');
         }
@@ -59,6 +59,8 @@ const Login = () => {
                     </form>
 
                     <span>Don't have an account ? <Link to="/register">Register </Link></span>
+                    <span> <Link to="/resetPassword">Forget Password</Link></span>
+                    <span><Link to="/">Go to homepage</Link></span>
 
                 </div>
             </div>

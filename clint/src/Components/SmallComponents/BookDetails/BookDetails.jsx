@@ -1,15 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import './BookDetails.css';
-import BookCart from '../Cart/BookCart';
-import CartContext from '../../../Context/CartContext';
+import BookCart from '../../Cart/BookCart';
+import { CartContext } from '../../../Context/context';
 import Swal from 'sweetalert2';
-function BookDetails({ bookName, bookCategory, bookPrice, bookPicture }) {
+function BookDetails({ bookId, bookName, bookCategory, bookPrice, bookPicture }) {
     const { books, setBooks } = useContext(CartContext);
     const bookToAdd = {
         name: bookName,
         category: bookCategory,
-        price: parseInt(bookPrice),
-        quantity: 1
+        price: parseFloat(bookPrice),
+        quantity: 1,
+        id: bookId
     };
 
     const isBookInCart = books.find(book => book.name === bookName)
@@ -30,10 +31,7 @@ function BookDetails({ bookName, bookCategory, bookPrice, bookPicture }) {
             icon: "warning"
         });
 
-
     };
-
-
 
 
     return (
@@ -43,9 +41,10 @@ function BookDetails({ bookName, bookCategory, bookPrice, bookPicture }) {
             </div>
             <div className="bookDetails">
                 <span className='bookName'>{bookName}</span>
+                <span className='bookName'>{bookId}</span>
                 <span className='bookCategory'>{bookCategory}</span>
                 <span className='bookPrice'>Rs {bookPrice}</span>
-                <button className={isBookInCart ? 'bookInCartBtn':'buyBtn'} onClick={handleAddToCart} >{isBookInCart ? "In cart" : "Add to cart"}</button>
+                <button className={isBookInCart ? 'bookInCartBtn' : 'buyBtn'} onClick={handleAddToCart} >{isBookInCart ? "In cart" : "Add to cart"}</button>
             </div>
         </div>
     );

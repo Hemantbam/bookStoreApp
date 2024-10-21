@@ -39,7 +39,6 @@ export const getlatestRegisteredUser = async () => {
 export const updateUserDetails = async (userEmail, userId) => {
   const query = "UPDATE users SET userEmail = ? WHERE userId = ?";
   await dbConn.query(query, [userEmail, userId]);
-
 };
 
 //____________________________________________________________________________________
@@ -52,10 +51,10 @@ export const deleteUser = async (userId) => {
 //____________________________________________________________________________________
 
 export const checkUserEmailDuplicate = async (userEmail) => {
-  console.log(userEmail)
+  console.log(userEmail);
   const query = "SELECT count(*) as user FROM users WHERE userEmail = ?";
   const [result] = await dbConn.query(query, [userEmail]);
-  console.log(result)
+  console.log(result);
   if (result.user === 0) {
     return true;
   }
@@ -72,3 +71,14 @@ export const getAllUserDetails = async () => {
 };
 
 //____________________________________________________________________________________
+
+export const checkUserByEmail = async (userEmail) => {
+  console.log(userEmail);
+  const query = "SELECT count(*) as user FROM users WHERE userEmail = ?";
+  const [result] = await dbConn.query(query, [userEmail]);
+  console.log(result);
+  if (result[0].user === 1) {
+    return true;
+  }
+  return false;
+};

@@ -1,50 +1,62 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../api/authApi';
-import '../Login/login.css'; 
+import { Link, useNavigate } from 'react-router-dom';
+import { generateOtpForUserRegistration } from '../../api/authApi';
+import { useContext } from 'react';
+import { userEmailContext } from '../../Context/context';
+import '../Login/login.css';
 
 const RegisterForm = () => {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { email, setEmail, password, setPassword } = useContext(userEmailContext);
+  const [userEmail, setUseremail] = useState('');
+  const [userPassword, setUserpassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-  /**Handel the registration submit */
-   const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
 
     try {
-      const data = await registerUser(email, password);
-      if (data.message === 'User created successfully') {
+      setEmail(userEmail);
+      setPassword(userPassword);
+
+      const data = await generateOtpForUserRegistration(userEmail);
+      console.log("Data received from API:", data);
+      if (data.status === 409) {
+        setError("User already exists")
+        setSuccessMessage('');
+        return
+      }
+      if (data) {
         setSuccessMessage(data.message);
-        setTimeout(() => navigate('/login'), 2000); 
+        console.log("OTP sent successfully");
+        navigate('/registerOtpVerification');
       } else {
-        setError(data.message || 'Registration failed');
+        setError('Registration failed');
       }
     } catch (err) {
-      setError('An error occurred during registration.');
+      console.log(err);
+      setError(err.message);
     }
   };
 
   return (
-    <div className="container"> 
+    <div className="container">
       <div className="formBox">
-        <h2>Sign Up</h2> 
+        <h2>Sign Up</h2>
         {error && <p className="error">{error}</p>}
         {successMessage && <p className="success">{successMessage}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="emailArea"> 
+          <div className="emailArea">
             <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
               placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={userEmail}
+              onChange={(e) => setUseremail(e.target.value)}
               required
             />
           </div>
@@ -54,8 +66,8 @@ const RegisterForm = () => {
               type="password"
               id="password"
               placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={userPassword}
+              onChange={(e) => setUserpassword(e.target.value)}
               required
             />
           </div>
@@ -63,7 +75,7 @@ const RegisterForm = () => {
         </form>
         <span>
           Already have an account?{' '}
-          <a href="/login" className="register-link">Login here</a> 
+          <Link to="/login" className="register-link">Login here</Link>
         </span>
       </div>
     </div>

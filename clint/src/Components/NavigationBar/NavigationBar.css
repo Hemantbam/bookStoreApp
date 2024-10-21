@@ -27,17 +27,17 @@ nav .pagesOption {
     align-items: center;
     justify-content: center;
     gap: 40px;
-    flex-grow: 1; /* Allow this section to take available space */
+    flex-grow: 1; 
 }
 
 nav .pagesOption span {
     font-size: 1.2rem;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease-in-out;
 }
 
 nav .pagesOption span:hover {
-    color: #1d3557;
+    color: #3f5f8d;
 }
 
 nav .userAccount {
@@ -80,10 +80,10 @@ nav .userAccount button:hover {
 }
 
 .dropDownContent {
-    display: none; /* Initially hidden */
+    display: none; 
     position: absolute;
     top: 100%;
-    right: 0; /* Align dropdown to the right of the user icon */
+    right: 0;
     z-index: 100;
     padding: 10px;
     background-color: #bababa;
@@ -92,13 +92,13 @@ nav .userAccount button:hover {
 }
 
 .useracc:hover .dropDownContent {
-    display: block; /* Show dropdown on hover */
+    display: block;
 }
 
 .dropDownContent a {
     display: block;
     color: #000000;
-    padding: 8px 15px; /* Adjust padding for better spacing */
+    padding: 8px 15px; 
     font-size: 13px;
     font-weight: 700;
     text-decoration: none;
@@ -147,4 +147,9 @@ nav .userAccount button:hover {
     align-items: center;
     font-size: 10px;
     color: white;
+}
+
+.navBarPageLinks{
+text-decoration: none;
+color: #000000;
 }

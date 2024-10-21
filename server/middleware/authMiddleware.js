@@ -24,4 +24,6 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
+ 
+
 export { verifyToken, isAdmin };

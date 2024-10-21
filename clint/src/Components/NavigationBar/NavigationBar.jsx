@@ -4,7 +4,7 @@ import './NavigationBar.css';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import CartContext from '../../Context/CartContext';
+import { CartContext } from '../../Context/context';
 
 function NavigationBar() {
     const [isLoggedin, setIsLoggedin] = useState(false);
@@ -44,13 +44,13 @@ function NavigationBar() {
                     </Link>
                 </div>
                 <div className="pagesOption">
-                    <Link to="/">
+                    <Link to="/" className='navBarPageLinks'>
                         <span>Home</span>
                     </Link>
-                    <Link to="/about">
+                    <Link to="/aboutUs" className='navBarPageLinks'>
                         <span>About Us</span>
                     </Link>
-                    <Link to="/textbooks">
+                    <Link to="/textbooks" className='navBarPageLinks'>
                         <span>Text Books</span>
                     </Link>
                 </div>

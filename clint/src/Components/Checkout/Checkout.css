@@ -1,0 +1,76 @@
+h1{
+    margin-top: 100px;
+    text-align: center;
+    position: sticky;
+}
+.checkoutContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 0px;
+}
+
+.checkoutBooks {
+    margin-bottom: 20px;
+}
+
+.booksList {
+    max-height: 200px;
+    overflow-y: auto; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.checkoutBookItem {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.checkoutBookItem:last-child {
+    border-bottom: none;
+}
+
+.deliveryAddress textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    background-color: #fff;
+}
+
+.paymentMode label {
+    display: block;
+    margin: 10px 0;
+}
+
+.placeOrderBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.placeOrderBtn:hover {
+    background-color: #218838;
+}
+
+.checkoutTotal {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.checkoutBooks h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
