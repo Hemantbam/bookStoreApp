@@ -3,8 +3,9 @@ import { CartContext, userEmailContext } from "./context";
 
 export const CartContextProvider = ({ children }) => {
     const [books, setBooks] = useState([]);
+    const [bookDetails, setBookDetails] = useState("")
     return (
-        <CartContext.Provider value={{ books, setBooks }}>
+        <CartContext.Provider value={{ books, setBooks, bookDetails, setBookDetails }}>
             {children}
         </CartContext.Provider>
     );

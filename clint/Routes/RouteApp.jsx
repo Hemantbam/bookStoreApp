@@ -10,6 +10,8 @@ import ResetPassword from "../src/Pages/ResetPassword/ResetPassword.jsx";
 import OtpVerification from '../src/Pages/ResetPassword/OtpVerification.jsx'
 import AboutUs from "../src/Pages/AboutUs/AboutUs.jsx";
 import RegistrationOtpVerification from "../src/Components/Register/RegistrationOtpVerification.jsx";
+import BookDescription from "../src/Components/BookDescription/BookDescription.jsx";
+import TextBookPage from "../src/Pages/TextBookPage/TextBookPage.jsx";
 function RouteApp() {
     return (
         <>
@@ -24,6 +26,8 @@ function RouteApp() {
                     <Route path='/register' element={<RegisterForm />} />
                     <Route path='/cart' element={<BookCart />} />
                     <Route path='/checkout' element={<Checkout />} />
+                    <Route path='/bookDetails' element={<BookDescription />} />
+                    <Route path='/textBooks' element={<TextBookPage />} />
                     <Route path="/admindashboard" element={<PrivateRoutes component={AdminDashboard} />} />
                     <Route path="*" element={"Page not found"} />
                 </Routes>

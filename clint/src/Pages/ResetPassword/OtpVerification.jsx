@@ -5,7 +5,6 @@ import { resetPassword } from '../../api/otpVerify';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { userEmailContext } from '../../Context/context';
-
 const OtpVerification = () => {
     const { email, setEmail } = useContext(userEmailContext);
 

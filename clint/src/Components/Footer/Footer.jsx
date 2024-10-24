@@ -11,7 +11,7 @@ const Footer = () => {
                 <div className="footer-section">
                     <h4>Contact Us</h4>
                     <p>Email: <a href="mailto:support@bookstore.com">support@bookstore.com</a></p>
-                    <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+977 9865986060</a></p>
                 </div>
                 <div className="footer-section">
                     <h4>Follow Us</h4>

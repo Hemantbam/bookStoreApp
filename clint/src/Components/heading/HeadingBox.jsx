@@ -16,7 +16,8 @@ function HeadingBox() {
 
     const handelBookAuthor = async () => {
         const details = await getMostFeaturedAuthor();
-        setAuthorDetails(details.authorDetails)
+        console.log(details)
+        setAuthorDetails(details.bookDetails)
     }
     useEffect(() => {
         handelBookData();
@@ -49,7 +50,7 @@ function HeadingBox() {
 
                 {books.length > 0 ? (
                     <>
-                        <BookHighlights bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture="./Images/bookCoverPhoto.jpg" />
+                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture="./Images/bookCoverPhoto.jpg" />
 
                     </>
 

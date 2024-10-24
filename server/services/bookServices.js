@@ -12,165 +12,170 @@ import {
 } from "../repository/bookRepository.js";
 import bookInputValidate from "../validation/bookDetailValidation.js";
 
+//______________________________________________________________________________________________
+
+export const addNewBooktoDb = async (reqBody) => {
+  if (!bookInputValidate(reqBody)) {
+    return {
+      success: false,
+      status: 400,
+      message: "Invalid input. Please fill all fields correctly.",
+    };
+  }
+
+  const BookDetais = await getBookByBookName(reqBody.bookName);
+
+  if (BookDetais) {
+    return { success: false, status: 409, message: "Book already exists" };
+  }
+
+  const response = await addBook(reqBody);
+  console.log(response)
+  if (response) {
+    return { success: true, status: 201, message: "Book added successfully" };
+  }
+  return { success: false, status: 400, message: "Failed to add book." };
+};
 
 //______________________________________________________________________________________________
 
-export const addNewBooktoDb = async (req, res, reqBody) => {
-  try {
-    if (!bookInputValidate(reqBody)) {
-      return res
-        .status(400)
-        .json({ message: "Invalid input. Please fill all fields correctly." });
-    }
+export const getAllBooksDetails = async () => {
+  const allBooks = await getBooks();
+  if (allBooks) {
+    return { success: true, status: 200, books: allBooks };
+  }
+  return { success: false, status: 404, message: "Books not found" };
+};
 
-    const bookDetails = await getBookByBookName(reqBody.bookName);
-    if (bookDetails) {
-      return res.status(409).json({ message: "Book already exists" });
-    }
+//______________________________________________________________________________________________
 
-    await addBook(reqBody);
-    return res.status(201).json({ message: "Book added successfully" });
-  } catch (err) {
-    console.error("Error adding book:", err);
-    set500Err(err, req, res);
+export const getBookDetailsById = async (bookId) => {
+  const book = await getBookByBookId(bookId);
+  if (book == null) {
+    return { success: false, status: 404, message: "Book not found" };
+  }
+  return { success: true, status: 200, bookDetails: book };
+};
+
+//______________________________________________________________________________________________
+
+export const deleteBookByBookId = async (bookId) => {
+  const book = await getBookByBookId(bookId);
+
+  if (!book) {
+    return { success: false, status: 404, message: "Book not found" };
+  }
+  const response = await deleteBookDetails(bookId);
+  if (response) {
+    return { success: true, status: 200, message: "Book deleted succeddfully" };
+  }
+  return { success: false, status: 400, message: "Error while deleting book" };
+};
+
+//______________________________________________________________________________________________
+
+export const updateBookByBookId = async (bookId, reqBody) => {
+  if (!bookInputValidate(reqBody)) {
+    return {
+      success: false,
+      status: 400,
+      message: "Invalid input. Please check all fields.",
+    };
+  }
+
+  const existingBook = await getBookByBookId(bookId);
+  if (!existingBook) {
+    return { success: false, status: 404, message: "Book not found" };
+  }
+
+  const duplicateBook = await getBookByBookName(reqBody.bookName);
+  if (duplicateBook && duplicateBook.id !== bookId) {
+    return {
+      success: false,
+      status: 409,
+      message: "A book with the same name already exists",
+    };
+  }
+
+  const updateResult = await updateBook(bookId, reqBody);
+  if (updateResult === 0) {
+    return {
+      success: false,
+      status: 400,
+      message: "Book not found or no changes made",
+    };
+  }
+
+  return { success: true, status: 200, message: "Book updated successfully" };
+};
+
+//______________________________________________________________________________________________
+
+export const getTotalBookCount = async () => {
+  const totalBooks = await getTotalBooksCount();
+  if (totalBooks) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      bookCount: totalBooks,
+    };
+  } else {
+    return { success: false, status: 404, message: "No books found" };
   }
 };
 
 //______________________________________________________________________________________________
 
-
-export const getAllBooksDetails = async (req, res) => {
-  try {
-    const allBooks = await getBooks();
-    return res.status(200).json(allBooks);
-  } catch (err) {
-    set500Err(err, req, res);
+export const getLatestAddedFourBooks = async () => {
+  const books = await getLatestBooks();
+  if (books && books.length > 0) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      bookDetails: books,
+    };
+  } else {
+    return { success: false, status: 404, message: "No books found" };
   }
 };
 
 //______________________________________________________________________________________________
 
+export const getAuthorWithMostBooks = async () => {
+  const author = await getAuthorDetails();
 
-export const getBookDetailsById = async (req, res, bookId) => {
-  if (isNaN(bookId)) {
-    return res.status(404).json({ message: "Book Not Found" });
+  console.log(author);
+  if (author) {
+    console.log("second",author)
+
+    return {
+      success: true,
+      status: 200,
+      message:"Data fetched successfully",
+      bookDetails: author,
+    };
   }
-
-  try {
-    const book = await getBookByBookId(bookId);
-
-    if (book == null) {
-      return res.status(404).json({ message: "Book not found" });
-    }
-
-    return res.status(200).json({ bookDetails: book });
-  } catch (err) {
-    set500Err(err, req, res);
-  }
+  return { success: false, status: 404, message: "author not found" };
 };
 
 //______________________________________________________________________________________________
+export const getBookWith = async () => {
+  const author = await getAuthorDetails();
 
+  console.log(author);
+  if (author) {
+    console.log("second",author)
 
-export const deleteBookByBookId = async (req, res, bookId) => {
-  if (isNaN(bookId)) {
-    return res.status(404).json({ message: "Book not found" });
+    return {
+      success: true,
+      status: 200,
+      message:"Data fetched successfully",
+      bookDetails: author,
+    };
   }
-
-  try {
-    const book = await getBookByBookId(bookId);
-    if (!book) {
-      return res.status(404).json({ message: "Book not found" });
-    }
-    await deleteBookDetails(bookId);
-    return res.status(200).json({ message: "Book Deleted Successfully" });
-  } catch (err) {
-    set500Err(err, req, res);
-  }
-};
-
-//______________________________________________________________________________________________
-
-
-export const updateBookByBookId = async (req, res, bookId, reqBody) => {
-  if (isNaN(bookId)) {
-    return res.status(400).json({ message: "Invalid book ID" });
-  }
-
-  try {
-    if (!bookInputValidate(reqBody)) {
-      return res
-        .status(400)
-        .json({ message: "Invalid input. Please check all fields." });
-    }
-
-    const existingBook = await getBookByBookId(bookId);
-    if (!existingBook) {
-      return res.status(404).json({ message: "Book not found" });
-    }
-
-    const duplicateBook = await getBookByBookName(reqBody.bookName);
-    if (duplicateBook && duplicateBook.id !== bookId) {
-      return res
-        .status(409)
-        .json({ message: "A book with the same name already exists" });
-    }
-
-    const updateResult = await updateBook(bookId, reqBody);
-    if (updateResult === 0) {
-      return res
-        .status(404)
-        .json({ message: "Book not found or no changes made" });
-    }
-
-    res.status(200).json({ message: "Book updated successfully" });
-  } catch (err) {
-    console.error("Error updating book:", err);
-    res.status(500).json({ message: "Server error. Please try again later." });
-  }
-};
-
-//______________________________________________________________________________________________
-
-
-export const getTotalBookCount = async (req, res) => {
-  try {
-    const totalBooks = await getTotalBooksCount();
-    res
-      .status(200)
-      .json({ message: "Data fetched Successfully", bookCount: totalBooks });
-  } catch (err) {
-    set500Err(err, req, res);
-  }
-};
-
-//______________________________________________________________________________________________
-
-
-
-export const getLatestAddedFourBooks = async (req, res) => {
-  try {
-    const books = await getLatestBooks();
-    res
-      .status(200)
-      .json({ message: "Data fetched Sucessfully", bookDetails: books });
-  } catch (err) {
-    set500Err(err, req, res);
-  }
-};
-
-//______________________________________________________________________________________________
-
-
-export const getAuthorWithMostBooks= async (req, res) => {
-  try {
-    const author = await getAuthorDetails();
-    res
-      .status(200)
-      .json({ message: "Data fetched Sucessfully", authorDetails: author });
-  } catch (err) {
-    set500Err(err, req, res);
-  }
+  return { success: false, status: 404, message: "author not found" };
 };
 
 //______________________________________________________________________________________________

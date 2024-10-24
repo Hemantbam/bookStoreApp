@@ -48,3 +48,60 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
+
+.featuredBookDescription p.bookName{
+    font-weight: bold;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.featuredBookDescription p .bookAuthor{
+    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.featuredBookDescription p .bookDescription{
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #7d7d7d;
+}
+
+.featuredBookDescription p .bookPrice{
+    margin-top: 20px;
+    font-weight: 700;
+}
+
+.bookInCartBtn{
+    padding: 10px 20px;
+    background-color: #353535;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+.buyBtn {
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+.buyBtn:hover {
+    background-color: #004d40;
+}

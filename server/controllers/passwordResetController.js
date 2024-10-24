@@ -3,10 +3,12 @@ import { userPasswordReset } from "../services/userPasswordReset.js";
 
 export const sendOtpforPasswordReset = async (req, res) => {
   const { email } = req.body;
-  await sendOtpToMailForResetPassword(res, email);
+  const result = await sendOtpToMailForResetPassword(email);
+  return res.status(result.status).json({ message: result.message });
 };
 
 export const resetUserPassword = async (req, res) => {
   const { email, password, otp } = req.body;
-  await userPasswordReset(res, email, password, otp);
+  const result = await userPasswordReset(email, password, otp);
+  return res.status(result.status).json({ message: result.message });
 };

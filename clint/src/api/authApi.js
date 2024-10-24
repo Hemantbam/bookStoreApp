@@ -10,13 +10,12 @@ export const registerUser = async (email, password, otp) => {
       otp,
     });
 
-    console.log(response);
-    return response; // This should contain the data from the backend
+    console.log(response); 
+    return response; 
   } catch (error) {
-    // Log the error for debugging
+
     console.error("Error during registration:", error);
 
-    // Return an object that includes error details or a generic error message
     return {
       message:
         error.response?.data?.message || "An error occurred. Please try again.",
@@ -30,6 +29,7 @@ export const loginUser = async (email, password) => {
       email,
       password,
     });
+    console.log(response)
     const data = response.data;
     return data;
   } catch (error) {}

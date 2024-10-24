@@ -9,21 +9,20 @@ import {
   getLatestFourBooks,
   getMostFeaturedAuthor
 } from "../controllers/bookController.js";
-
 import { verifyToken, isAdmin} from "../middleware/authMiddleware.js";
-verifyToken;
+import { errorHandlerWrapper } from "../middleware/errorHandellerWrapper.js";
 const router = express.Router();
 
 //**Routes for books opeations */
-router.get("/getBooks", getAllBooks);
-router.get("/getMostFeaturedAuthor", getMostFeaturedAuthor);
+router.get("/getBooks", errorHandlerWrapper(getAllBooks));
+router.get("/getMostFeaturedAuthor", errorHandlerWrapper(getMostFeaturedAuthor));
 
 // router.get("/admin/getBooks",verifyToken,isAdmin, getAllBooksForAdmin);
-router.post("/admin/addBook", verifyToken,  isAdmin, addNewBook);
-router.get("/bookCount", verifyToken, getTotalBooks);
-router.get("/latestBooks", getLatestFourBooks );
-router.get("/bookById/:id", verifyToken, getBookByID);
-router.delete("/admin/removeBook/:id", verifyToken, isAdmin, deleteBook);
-router.put("/admin/updateBook/:id", verifyToken, isAdmin, updateBookDetails);
+router.post("/admin/addBook", verifyToken,  isAdmin, errorHandlerWrapper(addNewBook));
+router.get("/bookCount", verifyToken, errorHandlerWrapper(getTotalBooks));
+router.get("/latestBooks", errorHandlerWrapper(getLatestFourBooks) );
+router.get("/bookById/:id", errorHandlerWrapper(getBookByID));
+router.delete("/admin/removeBook/:id", verifyToken, isAdmin, errorHandlerWrapper(deleteBook));
+router.put("/admin/updateBook/:id", verifyToken, isAdmin, errorHandlerWrapper(updateBookDetails));
 
 export const bookRouter = router;

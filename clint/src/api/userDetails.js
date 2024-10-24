@@ -12,7 +12,7 @@ const userDetails = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const userData = response.data.userDetails[0];
+    const userData = response.data.userDetails.userDetails[0];
     return userData;
   } catch (err) {}
 };
@@ -28,7 +28,7 @@ const allUserDetails = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const userData = response.data.userDetails;
+    const userData = response.data.userDetails.userDetails;
     return userData;
   } catch (err) {}
 };
@@ -47,6 +47,7 @@ const deleteUser = async (userId) => {
         },
       }
     );
+    console.log(response)
     return response.data;
   } catch (err) {
     return err;
@@ -69,6 +70,7 @@ const updateUser = async (id, email) => {
         },
       }
     );
+    console.log(response)
     return response.data;
   } catch (err) {
     return err;

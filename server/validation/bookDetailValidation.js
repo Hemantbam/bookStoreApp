@@ -3,6 +3,7 @@ const bookInputValidate = (reqBody) => {
   const trimmedCategory = reqBody.bookCategory.trim();
   const trimmedAuthor = reqBody.bookAuthor.trim();
   const trimmedPrice = reqBody.bookPrice.trim();
+  const trimmedBookDescription = reqBody.bookDescription.trim();
   const float = parseFloat(trimmedPrice);
   const ceilPrice = Math.ceil(float);
 
@@ -10,6 +11,7 @@ const bookInputValidate = (reqBody) => {
     trimmedName !== "" &&
     trimmedCategory !== "" &&
     trimmedAuthor !== "" &&
+    trimmedBookDescription !== "" &&
     ceilPrice >= 1
   ) {
     return true;

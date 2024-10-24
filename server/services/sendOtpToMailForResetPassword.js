@@ -5,13 +5,11 @@ import { addOtpToresetPassword } from "../repository/passwordReset.js";
 import { UpdateOtpStatus } from "../repository/passwordReset.js";
 import { checkUserByEmail } from "../repository/userRepository.js";
 
-export const sendOtpToMailForResetPassword = async (res, email) => {
+export const sendOtpToMailForResetPassword = async (email) => {
   const otpStatus = "Valid";
   
   try {
-
     const otp = generateOtp();
-
     const userExist = await checkUserByEmail(email);
 
     if (userExist) {
@@ -19,15 +17,16 @@ export const sendOtpToMailForResetPassword = async (res, email) => {
       await addOtpToresetPassword(otp, otpStatus, email);
 
       const emailSubject = "Your OTP for Password Reset";
-      const emailMessage =
-        "Your OTP for password reset is valid for only 5 minutes";
-      await sendMaill(email, emailSubject, emailMessage, otp);
+      const emailMessage = "Your OTP for password reset is valid for only 5 minutes";
+      sendMaill(email, emailSubject, emailMessage, otp);
 
-      return res.status(200).json({ message: "OTP sent successfully." });
+      return { success: true, status: 200, message: "OTP sent successfully." };
     }
-    res.status(404).json({ message: "User not found" });
+    
+    return { success: false, status: 404, message: "User not found" };
+    
   } catch (err) {
     console.error(err);
-    set500Err(res, "Failed to send OTP.");
+    return { success: false, status: 500, message: "Internal server error" };
   }
 };

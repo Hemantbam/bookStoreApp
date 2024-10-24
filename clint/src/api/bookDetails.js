@@ -4,7 +4,7 @@ const API_URL = "http://localhost:8080";
 
 export const addBook = async (bookData) => {
   const token = localStorage.getItem("token");
-  console.log(token)
+  console.log(token);
   if (!token) {
     return { error: "unauthorized" };
   }
@@ -18,6 +18,7 @@ export const addBook = async (bookData) => {
         },
       }
     );
+    console.log(response);
     return response.data;
   } catch (err) {
     if (err.response) {
@@ -28,18 +29,12 @@ export const addBook = async (bookData) => {
 };
 
 export const getBooks = async () => {
-  const token = localStorage.getItem("token");
 
-  if (!token) {
-    return "unauthorized";
-  }
   try {
     const response = await axios.get(`${API_URL}/book/getBooks`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
-    return response.data;
+    console.log(response);
+    return response.data.books;
   } catch (err) {
     console.error(err);
   }
@@ -100,11 +95,20 @@ export const getLatestFourBooks = async () => {
   }
 };
 
-
 export const getMostFeaturedAuthor = async () => {
   try {
     const response = await axios.get(`${API_URL}/book/getMostFeaturedAuthor`);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
+export const getBookById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/book/bookById/${id}`);
+    console.log("this is response", response);
     return response.data;
   } catch (err) {
     console.error(err);

@@ -15,20 +15,37 @@ import {
 
 const addNewBook = async (req, res) => {
   const reqBody = req.body;
-  await addNewBooktoDb(req, res, reqBody);
+    const result = await addNewBooktoDb(reqBody);
+    res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
 
 const getAllBooks = async (req, res) => {
-  await getAllBooksDetails(req, res);
+
+    const result = await getAllBooksDetails();
+    if (result.success) {
+      return res.status(result.status).json({ books: result.books });
+    }
+    return res.status(result.status).json({ message: result.message });
+
 };
 
 //______________________________________________________________________________________________
 
 const getBookByID = async (req, res) => {
   const bookId = parseInt(req.params.id);
-  getBookDetailsById(req, res);
+  if (isNaN(bookId)) {
+    return res.status(400).json({ message: "Invalid book ID." });
+  }
+
+    const result = await getBookDetailsById(bookId);
+    if (result.success) {
+      return res
+        .status(result.status)
+        .json({ bookDetails: result.bookDetails });
+    }
+    return res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
@@ -39,7 +56,13 @@ const getAllBooksForAdmin = async (req, res) => {};
 
 const deleteBook = async (req, res) => {
   const bookId = parseInt(req.params.id);
-  await deleteBookByBookId(req, res, bookId);
+  if (isNaN(bookId)) {
+    return res.status(400).json({ message: "Invalid book ID" });
+  }
+
+    const result = await deleteBookByBookId(bookId);
+    res.status(result.status).json({ message: result.message });
+
 };
 //______________________________________________________________________________________________
 
@@ -47,26 +70,49 @@ const updateBookDetails = async (req, res) => {
   const bookId = parseInt(req.params.id);
   const reqBody = req.body;
 
-  await updateBookByBookId(req, res, bookId, reqBody);
+    if (isNaN(bookId)) {
+      return res.status(400).json({ message: "Invalid book ID." });
+    }
+    const result = await updateBookByBookId(bookId, reqBody);
+    return res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
 
 const getTotalBooks = async (req, res) => {
-  await getTotalBookCount(req, res);
+
+    const result = await getTotalBookCount();
+    if (result.success) {
+      return res.status(result.status).json({ bookCount: result.bookCount });
+    }
+    return res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
 
 const getLatestFourBooks = async (req, res) => {
-  await getLatestAddedFourBooks(req, res);
+  const result = await getLatestAddedFourBooks(req, res);
+    if (result.success) {
+      return res
+        .status(result.status)
+        .json({ bookDetails: result.bookDetails });
+    }
+    return res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
 
 const getMostFeaturedAuthor = async (req, res) => {
-  await getAuthorWithMostBooks(req, res);
+  const result = await getAuthorWithMostBooks(req, res);
+    if (result.success) {
+      return res
+        .status(result.status)
+        .json({ message: result.message, bookDetails: result.bookDetails });
+    }
+
 };
+
+//______________________________________________________________________________________________
 
 export {
   addNewBook,

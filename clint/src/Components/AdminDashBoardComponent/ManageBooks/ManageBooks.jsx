@@ -11,10 +11,12 @@ const ManageBooks = () => {
   const [bookCategory, setBookCategory] = useState("");
   const [bookAuthor, setBookAuthor] = useState("");
   const [bookPrice, setBookPrice] = useState("");
+  const [bookDescription, setBookDescription] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [updateBookId, setUpdateBookId] = useState(null);
+  const [updateBookDescription, setUpdateBookDescription] = useState("");
   const [updateBookName, setUpdateBookName] = useState("");
   const [updateBookCategory, setUpdateBookCategory] = useState("");
   const [updateBookAuthor, setUpdateBookAuthor] = useState("");
@@ -61,6 +63,7 @@ const ManageBooks = () => {
       bookCategory: bookCategory.trim(),
       bookAuthor: bookAuthor.trim(),
       bookPrice: bookPrice.trim(),
+      bookDescription: bookDescription.trim(),
     };
 
     try {
@@ -120,11 +123,14 @@ const ManageBooks = () => {
       bookCategory: updateBookCategory.trim(),
       bookAuthor: updateBookAuthor.trim(),
       bookPrice: updateBookPrice.trim(),
+      bookDescription: updateBookDescription.trim(),
     };
 
     try {
+      console.log(updatedBook)
+      console.log(bookId)
       const result = await updateBook(bookId, updatedBook);
-
+      console.log(result)
       if (result === "unauthorized") {
         setUpdateErrorMessage("You are not authorized to update books.");
         setUpdateSuccessMessage("");
@@ -157,7 +163,7 @@ const ManageBooks = () => {
       clearEditForm();
 
       setBookId(null);
-      
+
     } catch (error) {
       setUpdateErrorMessage("Failed to update book. Please try again.");
       console.error("Error updating book:", error);
@@ -172,6 +178,7 @@ const ManageBooks = () => {
     setUpdateBookCategory(book.bookCategory);
     setUpdateBookAuthor(book.bookAuthor);
     setUpdateBookPrice(book.bookPrice);
+    setUpdateBookDescription(book.bookDescription);
   };
 
   useEffect(() => {
@@ -199,6 +206,7 @@ const ManageBooks = () => {
               <th className="headerCell">Category</th>
               <th className="headerCell">Author</th>
               <th className="headerCell">Price</th>
+              <th className="headerCell">Description</th>
               <th className="headerCell">Actions</th>
             </tr>
           </thead>
@@ -210,6 +218,7 @@ const ManageBooks = () => {
                   <td className="tableCell">{book.bookCategory}</td>
                   <td className="tableCell">{book.bookAuthor}</td>
                   <td className="tableCell">{book.bookPrice}</td>
+                  <td className="tableCell">{book.bookDescription}</td>
                   <td className="tableCell">
                     <div className="buttonContainer">
                       <button
@@ -224,6 +233,12 @@ const ManageBooks = () => {
                       >
                         Edit
                       </button>
+                      <button
+                        className="editButton"
+                        onClick={() => handleEditButtonClick(book)}
+                      >
+                        View Details
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -237,8 +252,6 @@ const ManageBooks = () => {
         </table>
       </div>
       <section className="addEditBox">
-
-
         <div className="addBook">
           <h2>Add Book</h2>
           {errorMessage && <p className="error">{errorMessage}</p>}
@@ -284,6 +297,16 @@ const ManageBooks = () => {
               placeholder="Book Price"
               value={bookPrice}
               onChange={(e) => setBookPrice(e.target.value)}
+              required
+            /> <br />
+            <label htmlFor="bookDescription">Book Description</label>
+            <input
+              type="text"
+              id="bookDescription"
+              name="bookDescription"
+              placeholder="Book Description"
+              value={bookDescription}
+              onChange={(e) => setBookDescription(e.target.value)}
               required
             />
             <button type="submit" className="editButton">
@@ -334,9 +357,19 @@ const ManageBooks = () => {
               name="updateBookPrice"
               placeholder="Book Price"
               step="0.1"
-          
               value={updateBookPrice}
               onChange={(e) => setUpdateBookPrice(e.target.value)}
+              required
+            />
+            <br />
+            <label htmlFor="UpdateBookDescription">Book Description</label>
+            <input
+              type="text"
+              id="UpdateBookDescription"
+              name="UpdateBookDescription"
+              placeholder="Book Description"
+              value={updateBookDescription}
+              onChange={(e) => setUpdateBookDescription(e.target.value)}
               required
             />
             <button type="submit" className="editButton">

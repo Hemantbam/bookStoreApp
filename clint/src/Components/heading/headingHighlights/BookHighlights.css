@@ -47,8 +47,8 @@
 }
 
 .bookHighlightBox .bookDetailsBox img {
-    height: 200px;
-    width: 200px;
+    height: 170px;
+    width: 170px;
     margin-top: -8px;
     object-fit: contain;
 }

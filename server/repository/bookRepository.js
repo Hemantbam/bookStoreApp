@@ -4,13 +4,18 @@ import dbConn from "../config/dbConn.js";
 
 export const addBook = async (reqBody) => {
   const query =
-    "INSERT INTO bookdetails (bookName, bookCategory, bookAuthor, bookPrice) VALUES (?, ?, ?, ?)";
-  await dbConn.query(query, [
+    "INSERT INTO bookdetails (bookName, bookCategory, bookAuthor, bookPrice, bookDescription) VALUES (?, ?, ?, ?,?)";
+  const response= await dbConn.query(query, [
     reqBody.bookName.toLowerCase(),
     reqBody.bookCategory.toLowerCase(),
     reqBody.bookAuthor.toLowerCase(),
     reqBody.bookPrice,
+    reqBody.bookDescription,
   ]);
+  if(response){
+    return true;
+  }
+  return false
 };
 
 //____________________________________________________________________________________
@@ -48,12 +53,13 @@ export const deleteBookDetails = async (bookId) => {
 
 export const updateBook = async (bookId, bookData) => {
   const query =
-    "UPDATE bookdetails SET bookName = ?, bookCategory = ?, bookAuthor = ?, bookPrice = ? WHERE id = ?";
+    "UPDATE bookdetails SET bookName = ?, bookCategory = ?, bookAuthor = ?, bookPrice = ? , bookDescription=? WHERE id = ?";
   await dbConn.query(query, [
     bookData.bookName.toLowerCase(),
     bookData.bookCategory.toLowerCase(),
     bookData.bookAuthor.toLowerCase(),
     bookData.bookPrice,
+    bookData.bookDescription,
     bookId,
   ]);
 };

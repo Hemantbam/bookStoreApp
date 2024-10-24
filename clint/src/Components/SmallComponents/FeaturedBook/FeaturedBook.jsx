@@ -1,19 +1,52 @@
 import './FeaturedBook.css';
 import RedSubmitBtn from '../Button/RedSubmitBtn';
+import { CartContext } from '../../../Context/context';
+import Swal from 'sweetalert2';
+import { useContext } from 'react';
 
-function FeaturedBook() {
+function FeaturedBook({ bookName, bookCategory, bookAuthor, bookPrice, bookDescription, }) {
+
+    const bookToAdd = {
+        name: bookName,
+        category: bookCategory,
+        price: parseFloat(bookPrice),
+        quantity: 1,
+    };
+
+    const { books, setBooks } = useContext(CartContext);
+
+
+    const isBookInCart = books.find(book => book.name === bookName)
+
+    const handleAddToCart = () => {
+
+        if (!isBookInCart) {
+            Swal.fire({
+                title: "Book added to cart",
+                text: "You just added a book to cart",
+                icon: "success"
+            });
+            return setBooks([...books, bookToAdd]);
+        }
+        Swal.fire({
+            title: "Opps",
+            text: "Book already in cart ",
+            icon: "warning"
+        });
+
+    };
     return (
         <div className="featuredBookContainer">
             <div className="featuredBook">
                 <div className="featuredBookDescription">
-                    <span className='bookCategory'>POLITICAL SCIENCE</span>
+                    <span className='bookCategory'>{bookCategory}</span>
                     <p>
-                        In Black Men: Obsolete, Single, Dangerous?, Haki Madhubuti provides insightful
-                        commentary on Black life and culture, addressing critical issues in African American
-                        families and offering practical solutions for their betterment.
-                        Click the button to select more of our titles.
+                        <span className="bookName">{bookName}</span> <br />
+                        <span className="bookAuthor">By {bookAuthor}</span> <br /> 
+                        <span className="bookDescription">{bookDescription}</span> <br />
+                        <span className="bookPrice">Price: {bookPrice}</span>
                     </p>
-                   <RedSubmitBtn btnName="Explore more"/>
+                    <button className={isBookInCart ? 'bookInCartBtn' : 'buyBtn'} onClick={handleAddToCart}>{isBookInCart ? "In cart" : "Add to cart"}  </button>
                 </div>
                 <div className="featuredBookImage">
                     <img src="./Images/book3.jpg" alt="Featured Book" />

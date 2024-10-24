@@ -13,9 +13,11 @@ export const getTotalUsers = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const count = response.data.userCount.count;
+    const count = response.data.userCount.count.count;
     return count;
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 };
 
 export const getTotalBooks = async () => {
@@ -27,7 +29,7 @@ export const getTotalBooks = async () => {
     await isValidToken();
     const response = await axios(`${API_URL}/book/bookCount`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Proper Authorization Header
+        Authorization: `Bearer ${token}`, 
       },
     });
     const count = response.data.bookCount.count;

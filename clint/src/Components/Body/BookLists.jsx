@@ -67,7 +67,14 @@ function BookLists() {
         </div>
       </div>
 
-      <FeaturedBook />
+      {books.length > 0 ? (
+
+        <FeaturedBook bookName={(books[0].bookName.toUpperCase())} bookCategory={(books[0].bookCategory).toUpperCase()} bookAuthor={books[0].bookAuthor} bookPrice={books[0].bookPrice} bookDescription={books[0].bookDescription} />
+
+      ) : (
+        <p>Loading book Details...</p>
+      )}
+
       <ContactUs />
     </>
   );

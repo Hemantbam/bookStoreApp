@@ -2,8 +2,9 @@
     padding: 20px;
     background-color: #f9f9f9;
     flex-grow: 1;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
 }
 
 .title {
@@ -26,9 +27,9 @@
 
 .tableHeader {
     background-color: #faedcd;
-    position: sticky; 
-    top: 0; 
-    z-index: 100; 
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .headerCell {
@@ -83,15 +84,15 @@
     background-color: #e53935;
 }
 
-
+/* Add/Edit form box */
 .addEditBox {
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
     background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
@@ -113,13 +114,16 @@
     color: #333;
 }
 
+/* Input styles for consistency with the form */
 .addEditForm input,
 .addEditForm select {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #474747;
     border-radius: 5px;
     width: 100%;
     max-width: 300px;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
 }
 
 .addEditForm input:focus,
@@ -128,16 +132,25 @@
     outline: none;
 }
 
+/* Textarea styling */
 .addEditForm textarea {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #474747;
     border-radius: 5px;
     width: 100%;
     height: 100px;
     resize: vertical;
 }
 
-
+/* Action buttons styling */
+.addEditActions button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
 
 .addEditActions button:hover {
     background-color: #45a049;
@@ -145,12 +158,14 @@
 
 .addEditActions .cancelButton {
     background-color: #f44336;
+    color: white;
 }
 
 .addEditActions .cancelButton:hover {
     background-color: #e53935;
 }
 
+/* Styling for error and success messages */
 .success,
 .error {
     margin-top: 10px;
@@ -158,9 +173,17 @@
 }
 
 .success {
-    color: green;
+    color: #2ecc71;
+    background-color: #eafaf1;
+    padding: 10px;
+    border-left: 4px solid #2ecc71;
+    border-radius: 5px;
 }
 
 .error {
-    color: red;
+    color: #e74c3c;
+    background-color: #fce4e4;
+    padding: 10px;
+    border-left: 4px solid #e74c3c;
+    border-radius: 5px;
 }
