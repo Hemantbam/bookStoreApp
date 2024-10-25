@@ -4,10 +4,12 @@ import './textBook.css'
 import NavigationBar from '../../Components/NavigationBar/NavigationBar.jsx'
 import Footer from '../../Components/Footer/Footer.jsx'
 import BookDetails from '../../Components/SmallComponents/BookDetails/BookDetails.jsx'
-import { getBooks } from '../../api/bookDetails.js'
+import { getBooks, searchBook } from '../../api/bookDetails.js'
 function TextBookPage() {
     const [books, setBooks] = useState([])
+    const [searchWord, setSearchWord] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
+    const [noResult, setNoResult] = useState(false)
     const [pageSize] = useState(6)
     const handelGetBookDetails = async () => {
         const result = await getBooks()
@@ -22,7 +24,8 @@ function TextBookPage() {
 
     const totalPages = Math.ceil(books.length / pageSize)
 
-    const displayedBooks = books.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    const displayedBooks = Array.isArray(books) ? books.slice((currentPage - 1) * pageSize, currentPage * pageSize) : [];
+
     const firstRowBooks = displayedBooks.slice(0, 3);
     const secondRowBooks = displayedBooks.slice(3, 6);
 
@@ -30,25 +33,58 @@ function TextBookPage() {
 
         setCurrentPage(pageNumber);
     };
+
+
+    const handelSearch = async (word) => {
+        const trimmedWord = word.trim()
+        if (trimmedWord === "") {
+            return handelGetBookDetails()
+
+        }
+        const response = await searchBook(trimmedWord)
+        console.log(response)
+        if (response) {
+            setBooks([response])
+            setNoResult(false)
+        } else {
+            setBooks([])
+            setNoResult(true)
+        }
+    }
+
+    const handleSearchInputChange = (e) => {
+        const word = e.target.value;
+        setSearchWord(word);
+        handelSearch(word);
+    };
+
+
     return (
         <>
             <NavigationBar />
             <div className="TextBookViewContainer">
                 <div className="searchBar">
                     <label htmlFor="search">Search</label>
-                    <input type="text" placeholder='search here' />
+                    <input type="text" placeholder='search here' value={searchWord} onChange={handleSearchInputChange} />
                 </div>
 
                 <p>Available Books</p>
                 <div className="BooksBox">
 
+                    <div className="noResult">
+                        {noResult &&
+                            <>
+                                <h2 className='notfoundBookText'>Book not found</h2>
+                                <img src="./Images/notFound.png" alt="book" />
+                            </>}
+                    </div>
                     <div className="bookDetailsViewBox">
-                        {firstRowBooks.map(book => (
+                        {Array.isArray(firstRowBooks) && firstRowBooks.map(book => (
                             <BookDetails
                                 key={book.id}
                                 bookId={book.id}
-                                bookName={book.bookName}
-                                bookCategory={book.bookCategory}
+                                bookName={book.bookName.toUpperCase()}
+                                bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
                                 bookPicture={"./Images/book3.jpg"}
                             />
@@ -58,18 +94,19 @@ function TextBookPage() {
 
                     </div>
                     <div className="bookDetailsViewBox">
-                        {secondRowBooks.map(book => (
+                        {Array.isArray(secondRowBooks) && secondRowBooks.map(book => (
                             <BookDetails
                                 key={book.id}
                                 bookId={book.id}
-                                bookName={book.bookName}
-                                bookCategory={book.bookCategory}
+                                bookName={book.bookName.toUpperCase()}
+                                bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
                                 bookPicture={"./Images/book2.jpg"}
 
                             />
                         ))}
                     </div>
+
                 </div>
                 <div className="pagination">
                     <button

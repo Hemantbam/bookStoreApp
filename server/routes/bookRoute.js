@@ -7,22 +7,25 @@ import {
   updateBookDetails,
   deleteBook,
   getLatestFourBooks,
-  getMostFeaturedAuthor
+  getMostFeaturedAuthor,
+   getBookBywords,
 } from "../controllers/bookController.js";
 import { verifyToken, isAdmin} from "../middleware/authMiddleware.js";
 import { errorHandlerWrapper } from "../middleware/errorHandellerWrapper.js";
+import { uploadBookImage } from "../multer/multerConfig.js";
 const router = express.Router();
 
-//**Routes for books opeations */
+
 router.get("/getBooks", errorHandlerWrapper(getAllBooks));
 router.get("/getMostFeaturedAuthor", errorHandlerWrapper(getMostFeaturedAuthor));
 
-// router.get("/admin/getBooks",verifyToken,isAdmin, getAllBooksForAdmin);
-router.post("/admin/addBook", verifyToken,  isAdmin, errorHandlerWrapper(addNewBook));
+router.post("/admin/addBook", verifyToken, isAdmin, uploadBookImage.single('bookImage'), errorHandlerWrapper(addNewBook));
+router.post("/admin/updateBook/:id", verifyToken, isAdmin, uploadBookImage.single('updateImage'), errorHandlerWrapper(updateBookDetails));
+
 router.get("/bookCount", verifyToken, errorHandlerWrapper(getTotalBooks));
+router.get("/searchBook", errorHandlerWrapper(getBookBywords));
 router.get("/latestBooks", errorHandlerWrapper(getLatestFourBooks) );
 router.get("/bookById/:id", errorHandlerWrapper(getBookByID));
 router.delete("/admin/removeBook/:id", verifyToken, isAdmin, errorHandlerWrapper(deleteBook));
-router.put("/admin/updateBook/:id", verifyToken, isAdmin, errorHandlerWrapper(updateBookDetails));
 
 export const bookRouter = router;

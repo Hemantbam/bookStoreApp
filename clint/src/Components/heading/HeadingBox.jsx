@@ -6,12 +6,14 @@ import { getLatestFourBooks, getMostFeaturedAuthor } from '../../api/bookDetails
 import { useState, useEffect } from 'react'
 
 function HeadingBox() {
+    const serverURL = "http://localhost:8080";
     const [books, setBooks] = useState([]);
     const [authorDetails, setAuthorDetails] = useState(null);
-
+    const [bookImagePath, setBookImagePath] = useState("")
     const handelBookData = async () => {
         const details = await getLatestFourBooks();
         setBooks(details.bookDetails);
+        console.log("../../server/" + (books[0].bookImage).replace(/\\/g, '/'))
     };
 
     const handelBookAuthor = async () => {
@@ -41,7 +43,7 @@ function HeadingBox() {
                 <div className="bookCoverPicture">
                     <img src="./Images/bookCoverPhoto.jpg" alt="" />
                 </div>
-                {authorDetails? (
+                {authorDetails ? (
                     <>
                         <AuthorHighlightBox name={(authorDetails.bookAuthor).toUpperCase()} totalBooks={authorDetails.totalBooks} picture="./Images/1.png" />
 
@@ -50,8 +52,8 @@ function HeadingBox() {
 
                 {books.length > 0 ? (
                     <>
-                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture="./Images/bookCoverPhoto.jpg" />
-
+                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture={`${serverURL}/${books[0].bookImage}`}
+                            alt={books[0].bookName} />
                     </>
 
                 ) : (<span>Data Loading</span>)}

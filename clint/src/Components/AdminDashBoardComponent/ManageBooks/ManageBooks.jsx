@@ -12,9 +12,11 @@ const ManageBooks = () => {
   const [bookAuthor, setBookAuthor] = useState("");
   const [bookPrice, setBookPrice] = useState("");
   const [bookDescription, setBookDescription] = useState("");
+  const [bookImage, setBookImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [updateBookImage, setUpdateBookImage] = useState(null);
   const [updateBookId, setUpdateBookId] = useState(null);
   const [updateBookDescription, setUpdateBookDescription] = useState("");
   const [updateBookName, setUpdateBookName] = useState("");
@@ -46,10 +48,10 @@ const ManageBooks = () => {
       try {
         await deleteBook(id);
         handleBookDetails();
-        setDeleteSuccessMessage("Book deleted successfully!");
-        setDeleteErrorMessage("");
+        setSuccessMessage("Book deleted successfully!");
+        setErrorMessage("");
       } catch (err) {
-        setDeleteErrorMessage("Failed to delete book.");
+        setErrorMessage("Failed to delete book.");
         console.log(err);
       }
     }
@@ -58,16 +60,18 @@ const ManageBooks = () => {
   const handleAddBook = async (e) => {
     e.preventDefault();
 
-    const newBook = {
-      bookName: bookName.trim(),
-      bookCategory: bookCategory.trim(),
-      bookAuthor: bookAuthor.trim(),
-      bookPrice: bookPrice.trim(),
-      bookDescription: bookDescription.trim(),
-    };
+    const newBook = new FormData(); // Use FormData to send files
+    newBook.append("bookName", bookName.trim());
+    newBook.append("bookCategory", bookCategory.trim());
+    newBook.append("bookAuthor", bookAuthor.trim());
+    newBook.append("bookPrice", bookPrice.trim());
+    newBook.append("bookDescription", bookDescription.trim());
+    newBook.append("bookImage", bookImage);
 
     try {
+      // const result = await addBook(newBook);
       const result = await addBook(newBook);
+
 
       if (result === "unauthorized") {
         setErrorMessage("You are not authorized to add books.");
@@ -98,13 +102,13 @@ const ManageBooks = () => {
     }
   };
 
-
-
   const clearAddForm = () => {
     setBookName("");
     setBookCategory("");
     setBookAuthor("");
     setBookPrice("");
+    setBookDescription("");
+    setBookImage(null); // Set to null instead of empty string
   };
 
   const clearEditForm = () => {
@@ -112,25 +116,27 @@ const ManageBooks = () => {
     setUpdateBookCategory("");
     setUpdateBookAuthor("");
     setUpdateBookPrice("");
+    setUpdateBookDescription("");
+    setUpdateBookImage(null); // Set to null instead of empty string
   };
-
 
   const handleEditBook = async (e) => {
     e.preventDefault();
 
-    const updatedBook = {
-      bookName: updateBookName.trim(),
-      bookCategory: updateBookCategory.trim(),
-      bookAuthor: updateBookAuthor.trim(),
-      bookPrice: updateBookPrice.trim(),
-      bookDescription: updateBookDescription.trim(),
-    };
+    const formData = new FormData();
+    formData.append("bookName", updateBookName.trim());
+    formData.append("bookCategory", updateBookCategory.trim());
+    formData.append("bookAuthor", updateBookAuthor.trim());
+    formData.append("bookPrice", updateBookPrice.trim());
+    formData.append("bookDescription", updateBookDescription.trim());
+    formData.append("updateImage", updateBookImage);
 
     try {
-      console.log(updatedBook)
-      console.log(bookId)
-      const result = await updateBook(bookId, updatedBook);
-      console.log(result)
+      const result = await updateBook(bookId, formData);
+  
+  
+      // const result = await addBook(formData);
+
       if (result === "unauthorized") {
         setUpdateErrorMessage("You are not authorized to update books.");
         setUpdateSuccessMessage("");
@@ -159,18 +165,14 @@ const ManageBooks = () => {
       setUpdateErrorMessage("");
 
       handleBookDetails();
-
       clearEditForm();
-
-      setBookId(null);
+      setBookId(null); // Reset the selected book ID
 
     } catch (error) {
       setUpdateErrorMessage("Failed to update book. Please try again.");
       console.error("Error updating book:", error);
     }
   };
-
-
 
   const handleEditButtonClick = (book) => {
     setBookId(book.id);
@@ -179,20 +181,23 @@ const ManageBooks = () => {
     setUpdateBookAuthor(book.bookAuthor);
     setUpdateBookPrice(book.bookPrice);
     setUpdateBookDescription(book.bookDescription);
+    setUpdateBookImage(book.bookImage); // Reset image or set it to the current book's image if needed
   };
 
   useEffect(() => {
     handleBookDetails();
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSuccessMessage('');
+      setErrorMessage('');
+      setUpdateErrorMessage('');
+      setUpdateSuccessMessage('');
 
-  setTimeout(() => {
-    setSuccessMessage('');
-    setErrorMessage('')
-    setUpdateErrorMessage('')
-    setUpdateSuccessMessage('')
-  }, 7000);
-
+    }, 7000);
+    return () => clearTimeout(timer);
+  }, [successMessage, errorMessage, updateErrorMessage, updateSuccessMessage]);
 
   return (
     <div className="manageBooksContainer">
@@ -245,7 +250,7 @@ const ManageBooks = () => {
               ))
             ) : (
               <tr className="tableRow">
-                <td className="noBooksCell" colSpan="5">No books found</td>
+                <td className="noBooksCell" colSpan="6">No books found</td>
               </tr>
             )}
           </tbody>
@@ -256,125 +261,113 @@ const ManageBooks = () => {
           <h2>Add Book</h2>
           {errorMessage && <p className="error">{errorMessage}</p>}
           {successMessage && <p className="success">{successMessage}</p>}
-          <form onSubmit={handleAddBook} className='bookForm'>
-            <label htmlFor="bookName">Name</label>
+          <form onSubmit={handleAddBook} className='bookForm' method="post" encType="multipart/form-data">
+            <label htmlFor="bookName">Book Name</label>
             <input
               type="text"
               id="bookName"
-              name="bookName"
-              placeholder="Book Name"
               value={bookName}
               onChange={(e) => setBookName(e.target.value)}
               required
             />
-            <label htmlFor="bookCategory">Category</label>
+            <label htmlFor="bookCategory">Book Category</label>
             <input
               type="text"
               id="bookCategory"
-              name="bookCategory"
-              placeholder="Book Category"
               value={bookCategory}
               onChange={(e) => setBookCategory(e.target.value)}
               required
             />
-            <label htmlFor="bookAuthor">Author</label>
+            <label htmlFor="bookAuthor">Book Author</label>
             <input
               type="text"
               id="bookAuthor"
-              name="bookAuthor"
-              placeholder="Book Author"
               value={bookAuthor}
               onChange={(e) => setBookAuthor(e.target.value)}
               required
             />
-            <label htmlFor="bookPrice">Price</label>
+            <label htmlFor="bookPrice">Book Price</label>
             <input
               type="number"
               id="bookPrice"
-              name="bookPrice"
-              step="0.1"
-              min="1"
-              placeholder="Book Price"
               value={bookPrice}
               onChange={(e) => setBookPrice(e.target.value)}
               required
-            /> <br />
+            />
             <label htmlFor="bookDescription">Book Description</label>
-            <input
-              type="text"
+            <textarea
               id="bookDescription"
-              name="bookDescription"
-              placeholder="Book Description"
               value={bookDescription}
               onChange={(e) => setBookDescription(e.target.value)}
               required
             />
-            <button type="submit" className="editButton">
-              Add
-            </button>
+            <label htmlFor="bookImage">Book Image</label>
+            <input
+              type="file"
+              id="bookImage"
+              name="bookImage"
+              onChange={(e) => setBookImage(e.target.files[0])}
+              accept="image/*"
+            />
+            <button type="submit" className="submitButton">Add Book</button>
           </form>
         </div>
 
-        <div className="addBook">
+        <div className="editBook"> 
           <h2>Edit Book</h2>
           {updateErrorMessage && <p className="error">{updateErrorMessage}</p>}
           {updateSuccessMessage && <p className="success">{updateSuccessMessage}</p>}
-          <form onSubmit={handleEditBook}>
-            <label htmlFor="updateBookName">Name</label>
+
+          <form onSubmit={handleEditBook} className='bookForm' method="post" encType="multipart/form-data">
+
+            <label htmlFor="updateBookName">Book Name</label>
             <input
               type="text"
               id="updateBookName"
-              name="updateBookName"
-              placeholder="Book Name"
               value={updateBookName}
               onChange={(e) => setUpdateBookName(e.target.value)}
               required
             />
-            <label htmlFor="updateBookCategory">Category</label>
+            <label htmlFor="updateBookCategory">Book Category</label>
             <input
               type="text"
               id="updateBookCategory"
-              name="updateBookCategory"
-              placeholder="Book Category"
               value={updateBookCategory}
               onChange={(e) => setUpdateBookCategory(e.target.value)}
               required
             />
-            <label htmlFor="updateBookAuthor">Author</label>
+            <label htmlFor="updateBookAuthor">Book Author</label>
             <input
               type="text"
               id="updateBookAuthor"
-              name="updateBookAuthor"
-              placeholder="Book Author"
               value={updateBookAuthor}
               onChange={(e) => setUpdateBookAuthor(e.target.value)}
               required
             />
-            <label htmlFor="updateBookPrice">Price</label>
+            <label htmlFor="updateBookPrice">Book Price</label>
             <input
               type="number"
               id="updateBookPrice"
-              name="updateBookPrice"
-              placeholder="Book Price"
-              step="0.1"
               value={updateBookPrice}
               onChange={(e) => setUpdateBookPrice(e.target.value)}
               required
             />
-            <br />
-            <label htmlFor="UpdateBookDescription">Book Description</label>
-            <input
-              type="text"
-              id="UpdateBookDescription"
-              name="UpdateBookDescription"
-              placeholder="Book Description"
+            <label htmlFor="updateBookDescription">Book Description</label>
+            <textarea
+              id="updateBookDescription"
               value={updateBookDescription}
               onChange={(e) => setUpdateBookDescription(e.target.value)}
               required
             />
-            <button type="submit" className="editButton">
-              Update
-            </button>
+            <label htmlFor="updateImagex">Book Image</label>
+            <input
+              type="file"
+              id="updateImagex"
+              name="updateImagex"
+              onChange={(e) => setUpdateBookImage(e.target.files[0])}
+              accept="image/*"
+            />
+            <button type="submit" className="submitButton">Update Book</button>
           </form>
         </div>
       </section>

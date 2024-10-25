@@ -1,10 +1,10 @@
-const multer = require('multer');
-const path = require('path');
-
+import multer from 'multer'
+import path from 'path'
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); 
+    cb(null, './uploads/images/bookImages'); 
+
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname);
@@ -12,6 +12,18 @@ const storage = multer.diskStorage({
 });
 
 
-const upload = multer({ storage: storage });
+export const uploadBookImage = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png/; // 
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
 
-module.exports = upload;
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb("Error: File type not supported!", false);
+  }
+});
+
+

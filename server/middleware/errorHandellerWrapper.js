@@ -6,6 +6,11 @@ export const errorHandlerWrapper = (handlerFunction) => {
             await handlerFunction(req, res, next);  
         } catch (err) {
             set500Err(err, req, res); 
+            return {
+                success: false,
+                status: 500,
+                message: "Internal server error. Please try again later.",
+              };
         }
     };
 };

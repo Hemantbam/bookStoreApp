@@ -1,10 +1,11 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { getTotalBooks, getTotalUsers } from '../../../api/totalDetails';
 import { jwtDecode } from 'jwt-decode';
 import { userDetails } from '../../../api/userDetails';
 import Swal from 'sweetalert2';
+import { getPendingOrders } from '../../../api/orderDetails';
 const Dashboard = () => {
     const [totalUsers, setTotalUsers] = useState(0)
     const [totalBooks, setTotalBooks] = useState(0)
@@ -45,6 +46,9 @@ const Dashboard = () => {
             setTotalUsers(countUsers)
             const countBooks = await getTotalBooks();
             setTotalBooks(countBooks)
+            const totalPendingOrders = await getPendingOrders();
+            console.log("orders",totalPendingOrders)
+            setTotalOrders(totalPendingOrders.count)
         } catch (err) {
             setTotalBooks(0)
             setTotalUsers(0)

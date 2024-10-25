@@ -25,8 +25,18 @@ export const sendOtpForUserRegistration = async (res, email) => {
     if (result === true) {
       const subject = "Otp for user registration";
 
-      const message =
-        "Your otp for user registration at bookMandu (otp valid for only 5 minutes)";
+      const message = `
+<div style="font-family: Arial, sans-serif; line-height: 1.6;">
+  <h1 style="color: black;">BookMandu</h1>
+
+  <h3 style="color: black;">One Time Password (OTP)</h3>
+  <p style="color: red;">Do not share the OTP with anyone.</p>
+  <hr style="border: 1px solid #ccc;">
+  <p style="font-size: 1.2rem; color: black;">Your OTP for user registration is valid for only 5 minutes.</p>
+  <p style="font-weight: 800; font-size: 1.1rem;">Your OTP: <span style="color: #6a994e;">${otp}</span></p>
+</div>
+`;
+
 
       await sendMaill(email, subject, message, otp);
 

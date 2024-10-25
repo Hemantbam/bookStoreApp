@@ -8,7 +8,7 @@ export const getUserByUserId = async (userId) => {
   if (user.length === 0) {
     return false;
   }
-  return user;
+  return user[0];
 };
 
 //____________________________________________________________________________________

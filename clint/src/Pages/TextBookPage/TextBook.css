@@ -79,7 +79,21 @@
     background-color: #ccc;
     cursor: not-allowed;
 }
-
+.noResult{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.notfoundBookText{
+    color: #555;
+    font-weight: 400;
+}
+.noResult img
+{
+height: 50px;
+width: 50px;
+}
 @media (max-width: 768px) {
     .bookDetailsViewBox {
         flex-direction: column;

@@ -25,8 +25,6 @@ export const addBookOrder = async (reqBody, userId) => {
 
 
     await addOrderItems(connection, orderId, reqBody.purchasedBooks);
-    throw Error("test")
-
     await connection.commit();
     return orderId;
 
@@ -62,3 +60,15 @@ const addOrderItems = async (connection, bookOrderId, purchasedBooks) => {
     }
   }
 };
+
+
+export const getPendingOrders=async()=>{
+  const query="SELECT COUNT(*) as count FROM bookOrder where orderStatus='pending';"
+ const [response]=await dbConn.query(query)
+ console.log(response[0].count)
+ if(response){
+  return {success:true, status:200, count: response[0].count}
+ }
+ return null
+
+}
