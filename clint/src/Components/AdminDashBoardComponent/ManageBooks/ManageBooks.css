@@ -163,7 +163,7 @@
     background-color: #4CAF50;
     color: white;
     padding: 10px 0px 10px 0px;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 1rem;
     border: none;
     width: 200px;
@@ -187,4 +187,11 @@
 .tableRow img {
     height: 70px;
     width: 50px;
+}
+
+.line{
+    height: 5px;
+    width: 100%;
+    background-color: #e0e0e0;
+    margin-top: 10px;
 }

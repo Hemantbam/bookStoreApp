@@ -2,7 +2,7 @@ import dbConn from "../config/dbConn.js";
 
 //____________________________________________________________________________________
 
-export const addBook = async (reqBody,bookImage) => {
+export const addBook = async (reqBody, bookImage) => {
   const query =
     "INSERT INTO bookdetails (bookName, bookCategory, bookAuthor, bookPrice, bookDescription, bookImage) VALUES (?, ?, ?, ?, ?, ?)";
   const response = await dbConn.query(query, [
@@ -49,18 +49,19 @@ export const deleteBookDetails = async (bookId) => {
 
 //____________________________________________________________________________________
 
-export const updateBook = async (bookId, bookData, bookImage) => {
+export const updateBook = async (bookId, bookData) => {
+  //bookImage
   const query =
-    "UPDATE bookdetails SET bookName = ?, bookCategory = ?, bookAuthor = ?, bookPrice = ? , bookDescription=?, bookImage=? WHERE id = ?";
-  await dbConn.query(query, [
+    "UPDATE bookdetails SET bookName = ?, bookCategory = ?, bookAuthor = ?, bookPrice = ? , bookDescription=? WHERE id = ?"; //bookImage=?
+  const result= await dbConn.query(query, [
     bookData.bookName.toLowerCase(),
     bookData.bookCategory.toLowerCase(),
     bookData.bookAuthor.toLowerCase(),
     bookData.bookPrice,
     bookData.bookDescription,
-    bookImage,
     bookId,
   ]);
+  return result.affectedRows;
 };
 
 //____________________________________________________________________________________
@@ -87,7 +88,7 @@ export const getBookByBookName = async (bookName) => {
 
 export const getLatestBooks = async () => {
   const query = "SELECT * FROM bookdetails ORDER BY id DESC LIMIT 4";
-  const [books] = await dbConn.query(query); 
+  const [books] = await dbConn.query(query);
   if (books.length < 0) {
     return null;
   }
@@ -119,4 +120,10 @@ export const searchBook = async (word) => {
     return result[0];
   }
   return null;
+};
+
+export const updateBookImage = async (bookId, bookImage) => {
+  const query = "UPDATE bookdetails SET bookImage=? WHERE id = ?";
+  const result = await dbConn.query(query, [bookImage, bookId]);
+  return result.affectedRows;
 };

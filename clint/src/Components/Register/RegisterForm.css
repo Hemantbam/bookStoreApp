@@ -53,15 +53,17 @@
   }
   
   .error {
-    color: red;
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: bold; 
+    color: #dc3545;
+    background-color: #faeaea;
+    padding: 10px;
+    border-left: 4px solid #dc5151;
+    border-radius: 5px;
   }
   .success {
-    color: green; 
-    text-align: center;
-    margin-bottom: 10px; 
-    font-weight: bold; 
+    color: #2ecc71;
+    background-color: #eafaf1;
+    padding: 10px;
+    border-left: 4px solid #2ecc71;
+    border-radius: 5px;
 }
   

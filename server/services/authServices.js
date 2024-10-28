@@ -37,7 +37,7 @@ export const userRegistration = async (email, password, otp) => {
     return {
       success: false,
       status: 400,
-      message: "Invalid OTP: Please check the OTP you received.",
+      message: "Invalid or Expired OTP: Please check the OTP you received.",
     };
   }
 

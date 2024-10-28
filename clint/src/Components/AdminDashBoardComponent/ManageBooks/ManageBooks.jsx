@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getBooks, deleteBook, addBook, updateBook } from '../../../api/bookDetails';
+import { getBooks, deleteBook, addBook, updateBook, updateBookImageByID } from '../../../api/bookDetails';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import './manageBooks.css';
@@ -17,7 +17,6 @@ const ManageBooks = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [updateBookImage, setUpdateBookImage] = useState(null);
-  const [updateBookId, setUpdateBookId] = useState(null);
   const [updateBookDescription, setUpdateBookDescription] = useState("");
   const [updateBookName, setUpdateBookName] = useState("");
   const [updateBookCategory, setUpdateBookCategory] = useState("");
@@ -25,6 +24,11 @@ const ManageBooks = () => {
   const [updateBookPrice, setUpdateBookPrice] = useState("");
   const [updateSuccessMessage, setUpdateSuccessMessage] = useState("");
   const [updateErrorMessage, setUpdateErrorMessage] = useState("");
+
+
+  const [updateBookImageName, setUpdateBookImageName] = useState("");
+  const [updateImageID, setUpdateImageID] = useState(null);
+
 
   const MySwal = withReactContent(Swal);
 
@@ -34,13 +38,13 @@ const ManageBooks = () => {
   };
 
   const validateImageFile = (file) => {
-    if (!file) return true; 
+    if (!file) return true;
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
       setErrorMessage("Please upload a valid image file (JPEG, PNG, GIF, WEBP).");
       return false;
     }
-    setErrorMessage(""); 
+    setErrorMessage("");
     return true;
   };
 
@@ -72,7 +76,7 @@ const ManageBooks = () => {
   const handleAddBook = async (e) => {
     e.preventDefault();
 
-    const newBook = new FormData(); 
+    const newBook = new FormData();
     newBook.append("bookName", bookName.trim());
     newBook.append("bookCategory", bookCategory.trim());
     newBook.append("bookAuthor", bookAuthor.trim());
@@ -119,7 +123,7 @@ const ManageBooks = () => {
     setBookAuthor("");
     setBookPrice("");
     setBookDescription("");
-    setBookImage(null); 
+    setBookImage(null);
   };
 
   const clearEditForm = () => {
@@ -128,19 +132,19 @@ const ManageBooks = () => {
     setUpdateBookAuthor("");
     setUpdateBookPrice("");
     setUpdateBookDescription("");
-    setUpdateBookImage(null); 
+    setUpdateBookImage(null);
   };
 
   const handleEditBook = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("bookName", updateBookName.trim());
-    formData.append("bookCategory", updateBookCategory.trim());
-    formData.append("bookAuthor", updateBookAuthor.trim());
-    formData.append("bookPrice", updateBookPrice.trim());
-    formData.append("bookDescription", updateBookDescription.trim());
-    formData.append("updateImage", updateBookImage);
+    const formData = {
+      bookName: updateBookName.trim(),
+      bookCategory: updateBookCategory.trim(),
+      bookAuthor: updateBookAuthor.trim(),
+      bookPrice: updateBookPrice.trim(),
+      bookDescription: updateBookDescription.trim(),
+    }
 
     try {
       const result = await updateBook(bookId, formData);
@@ -190,8 +194,29 @@ const ManageBooks = () => {
     setUpdateBookAuthor(book.bookAuthor);
     setUpdateBookPrice(book.bookPrice);
     setUpdateBookDescription(book.bookDescription);
-    setUpdateBookImage(book.bookImage); 
   };
+
+  const handelUpdateImageButtonCLick = (book) => {
+    setUpdateImageID(book.id);
+    setUpdateBookImageName(book.bookName);
+    setUpdateBookImage(book.bookImage);
+
+
+  }
+
+  const handelUpdateImage = async (e) => {
+    e.preventDefault();
+    const imageData = new FormData();
+    imageData.append("updateImage", updateBookImage);
+    try {
+      const result = await updateBookImageByID(updateImageID, imageData);
+      handleBookDetails();
+      setBookId(null);
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
 
   useEffect(() => {
     handleBookDetails();
@@ -234,7 +259,7 @@ const ManageBooks = () => {
             {dbBooks.length > 0 ? (
               dbBooks.map((book) => (
                 <tr className="tableRow" key={book.id}>
-                  <td className="tableCell"><img src={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`: "./Images/defaultBook.png"} alt={bookName} className='bookImageInTable' /></td>
+                  <td className="tableCell"><img src={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"} alt={bookName} className='bookImageInTable' /></td>
                   <td className="tableCell">{book.bookName}</td>
                   <td className="tableCell">{book.bookCategory}</td>
                   <td className="tableCell">{book.bookAuthor}</td>
@@ -254,6 +279,12 @@ const ManageBooks = () => {
                       >
                         Edit
                       </button>
+                      <button
+                        className="editButton"
+                        onClick={() => handelUpdateImageButtonCLick(book)}
+                      >
+                        Update Image
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -269,7 +300,6 @@ const ManageBooks = () => {
 
 
       <section className="addEditBox">
-
 
         <div className="addBook">
           <h2>Add Book</h2>
@@ -331,11 +361,7 @@ const ManageBooks = () => {
         </div>
 
 
-
-
-
-
-
+        <div className="line"></div>
 
 
         <div className="editBook">
@@ -343,7 +369,7 @@ const ManageBooks = () => {
           {updateErrorMessage && <p className="error">{updateErrorMessage}</p>}
           {updateSuccessMessage && <p className="success">{updateSuccessMessage}</p>}
 
-          <form onSubmit={handleEditBook} className='bookForm' method="post" encType="multipart/form-data">
+          <form onSubmit={handleEditBook} className='bookForm'>
 
             <label htmlFor="updateBookName">Book Name</label>
             <input
@@ -384,17 +410,39 @@ const ManageBooks = () => {
               onChange={(e) => setUpdateBookDescription(e.target.value)}
               required
             />
+            <button type="submit" className="submitButton">Update Book</button>
+          </form>
+        </div>
+
+<div className="line"></div>
+
+        <div className="editBook">
+          <h2>Update Book Image</h2>
+          
+          <form onSubmit={handelUpdateImage} className='bookForm' method="post" encType="multipart/form-data">
+            <label htmlFor="updateBookImageName">Book Name</label>
+
+            <input
+              type="text"
+              id="updateBookName"
+              value={updateBookImageName}
+              onChange={(e) => setUpdateBookName(e.target.value)}
+              disabled
+            />
+
             <label htmlFor="updateImage">Book Image</label>
             <input
               type="file"
               id="updateImage"
               name="updateImage"
               onChange={(e) => setUpdateBookImage(e.target.files[0])}
-  
+
             />
-            <button type="submit" className="submitButton">Update Book</button>
+            <button type="submit" className="submitButton">Update Image</button>
+
           </form>
         </div>
+        
       </section>
     </div>
   );

@@ -46,8 +46,8 @@ const Login = () => {
             <div className="container">
                 <div className="formBox">
                     <h2>Login</h2>
-                    <span className='errorMessage'>{error}</span>
-                    <span className='successMessage'>{successMessage}</span>
+                   {error && <p className='errorMessage'>{error}</p> }
+                  {successMessage &&  <p className='successMessage'>{successMessage}</p>}
                     <form onSubmit={handleSubmit}>
                         <div className="emailArea">
                             <label htmlFor="email">Email</label>

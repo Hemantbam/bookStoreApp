@@ -43,7 +43,7 @@ export const sendOtpForUserRegistration = async (email) => {
 </div>
 `;
 
-      await sendMaill(email, subject, message, otp);
+       sendMaill(email, subject, message, otp);
 
       return {
         success: true,

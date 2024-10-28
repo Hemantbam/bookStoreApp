@@ -10,7 +10,7 @@ const RegisterForm = () => {
   const [userEmail, setUseremail] = useState('');
   const [userPassword, setUserpassword] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,19 +24,20 @@ const RegisterForm = () => {
 
       const result = await generateOtpForUserRegistration(userEmail);
       console.log(result.status)
-      console.log(result.data.message)
       if (result.status === 409) {
-         setError(result.data.message)
+        setError("User already exists")
         setSuccessMessage('');
         return
       }
       if (result.status === 200) {
         setError("")
-         setSuccessMessage(result.data.message);
+        setSuccessMessage("Otp Sent successfully");
         console.log("OTP sent successfully");
-      console.log("message",successMessage)
+        console.log("message", successMessage)
+        setTimeout(() => {
+          navigate('/registerOtpVerification');
 
-        navigate('/registerOtpVerification');
+        }, 3000)
       } else {
         setError('Registration failed');
         setSuccessMessage('');

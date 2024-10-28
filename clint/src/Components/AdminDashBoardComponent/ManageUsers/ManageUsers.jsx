@@ -151,6 +151,9 @@ const ManageUsers = () => {
         </table>
       </div>
 
+<br />
+
+
       <h2>Add User</h2>
       <div className="addUser">
         {errorMessage && <p className="error">{errorMessage}</p>}
@@ -176,11 +179,14 @@ const ManageUsers = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit" className="editButton">
+          <button type="submit" className="submitButton">
             Add
           </button>
         </form>
       </div>
+      
+<br />
+<div className="line"></div>
 
       <h2>Edit User</h2>
       <div className="editUser">
@@ -197,7 +203,7 @@ const ManageUsers = () => {
             onChange={(e) => setUpdateEmail(e.target.value)}
             required
           />
-          <button type="submit" className="editButton">
+          <button type="submit" className="submitButton">
             Save
           </button>
         </form>

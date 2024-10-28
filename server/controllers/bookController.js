@@ -10,6 +10,7 @@ import {
   getTotalBookCount,
   updateBookByBookId,
   searchBookByKeyWords,
+  updateBookImageById,
 } from "../services/bookServices.js";
 
 //______________________________________________________________________________________________
@@ -82,14 +83,14 @@ const updateBookDetails = async (req, res) => {
     req.body;
   console.log("Received request body:", req.body);
 
-  const updateImage = req.file ? req.file.path : null;
+  // const updateImage = req.file ? req.file.path : null;
 
-  console.log("backend book image", updateImage);
+  // console.log("backend book image", updateImage);
   if (isNaN(bookId)) {
     return res.status(400).json({ message: "Invalid book ID." });
   }
 
-  console.log(updateImage);
+  // console.log(updateImage);
 
   console.log("Incoming update for book ID:", bookId);
 
@@ -101,7 +102,7 @@ const updateBookDetails = async (req, res) => {
     bookDescription,
   };
 
-  const result = await updateBookByBookId(bookId, bookData, updateImage);
+  const result = await updateBookByBookId(bookId, bookData ); //updateImage
 
   return res.status(result.status).json({ message: result.message });
 };
@@ -145,6 +146,23 @@ const getBookBywords = async (req, res) => {
     .json({ message: result.message, bookDetails: result.bookdetails });
 };
 
+
+
+const updateBookImage = async (req, res) => {
+  const bookId = parseInt(req.params.id);
+console.log("backend bookId",bookId)
+  const updateImage = req.file ? req.file.path : null;
+
+  if (isNaN(bookId)) {
+    return res.status(400).json({ message: "Invalid book ID." });
+  }
+
+
+  const result = await updateBookImageById(bookId, updateImage ); 
+
+  return res.status(result.status).json({ message: result.message });
+};
+
 //______________________________________________________________________________________________
 
 export {
@@ -158,4 +176,5 @@ export {
   getLatestFourBooks,
   getMostFeaturedAuthor,
   getBookBywords,
+  updateBookImage,
 };

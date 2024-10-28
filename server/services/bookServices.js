@@ -9,6 +9,7 @@ import {
   getLatestBooks,
   getAuthorDetails,
   searchBook,
+  updateBookImage,
 } from "../repository/bookRepository.js";
 import bookInputValidate from "../validation/bookDetailValidation.js";
 
@@ -78,7 +79,7 @@ export const deleteBookByBookId = async (bookId) => {
 
 //______________________________________________________________________________________________
 
-export const updateBookByBookId = async (bookId, reqBody, bookImage) => {
+export const updateBookByBookId = async (bookId, reqBody) => { //bookImage
 
   if (!bookInputValidate(reqBody)) {
       return {
@@ -107,7 +108,7 @@ export const updateBookByBookId = async (bookId, reqBody, bookImage) => {
       ...reqBody,
   };
 
-  const updateResult = await updateBook(bookId, updateData, bookImage);
+  const updateResult = await updateBook(bookId, updateData); //bookImage
   
   if (updateResult === 0) {
       return {
@@ -201,3 +202,26 @@ export const searchBookByKeyWords = async (word) => {
   }
   return { success: false, status: 404, message: "book not found" };
 };
+
+
+
+
+export const updateBookImageById = async (bookId, bookImage) => { //bookImage
+
+  const existingBook = await getBookByBookId(bookId);
+  if (!existingBook) {
+      return { success: false, status: 404, message: "Book not found" };
+  }
+
+  const updateResult = await updateBookImage(bookId, bookImage); //bookImage
+  
+  if (updateResult === 0) {
+      return {
+          success: false,
+          status: 400,
+          message: "Book not found or no changes made",
+      };
+  }
+
+  return { success: true, status: 200, message: "Book Image updated successfully" };
+}

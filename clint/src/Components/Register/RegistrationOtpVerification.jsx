@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { userEmailContext } from '../../Context/context';
 import { registerUser } from '../../api/authApi';
+import { generateOtpForUserRegistration } from '../../api/authApi';
 import './ResetPassword.css';
 
 const RegistrationOtpVerification = () => {
@@ -13,15 +14,18 @@ const RegistrationOtpVerification = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+    setError('')
+    setMessage('')
     try {
       const response = await registerUser(email, password, otp);
       console.log(response);
-      
-      if (response.status=== 201) {
-        setMessage(response.data.message);
+
+      if (response.status === 201) {
         setError('');
-        setTimeout(() => navigate('/login'), 2000); 
+        setMessage(response.data.message);
+
+        setTimeout(() => navigate('/login'), 2000);
       } else {
         setError(response.message);
       }
@@ -31,12 +35,18 @@ const RegistrationOtpVerification = () => {
     }
   };
 
+  const regenerateOtp = async () => {
+    await generateOtpForUserRegistration(email);
+    setError('')
+    setMessage("OTP resend Successfully")
+  }
+
   return (
     <div className="container">
       <div className="formBox">
         <h2>Verify Email</h2>
-        {error && <span className="errorMessage">{error}</span>}
-        {message && <span className="successMessage">{message}</span>}
+        {error && <p className="errorMessage">{error}</p>}
+        {message && <p className="successMessage">{message}</p>}
         <form onSubmit={handleSubmit}>
           <div className="emailArea">
             <label htmlFor="otp">OTP</label>
@@ -53,6 +63,7 @@ const RegistrationOtpVerification = () => {
             Verify Email
           </button>
         </form>
+        <span onClick={regenerateOtp} className='resentOtpBtn'>Resend Otp</span>
         <span>
           <Link to="/">Back to homepage</Link>
         </span>

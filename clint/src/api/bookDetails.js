@@ -124,3 +124,29 @@ export const searchBook = async (word) => {
     console.log(err);
   }
 };
+
+
+export const updateBookImageByID = async (id, bookImage) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return { error: "unauthorized" };
+  }
+  try {
+    const response = await axios.post(
+      `${API_URL}/book/admin/updateBookImage/${id}`,
+      bookImage,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      return { error: err.response.data, status: err.response.status };
+    }
+    return { error: err.message };
+  }
+};

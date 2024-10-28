@@ -3,7 +3,6 @@ import dbConn from "../config/dbConn.js";
 export const getUserDetails = async (userEmail) => {
   const query = "SELECT * from users WHERE userEmail = ?";
   const [result] = await dbConn.query(query, [userEmail]);
-  console.log(result)
   if (result.length > 0) {
     return result;
   }
@@ -19,7 +18,6 @@ export const createUserQuery = async (userEmail, userPassword) => {
 export const getUserEmailInOtpTable = async (userEmail) => {
   const query = "SELECT * from resetPassword WHERE userEmail = ?";
   const [result] = await dbConn.query(query, [userEmail]);
-  console.log(result)
   if (result.length > 0) {
     return result;
   }
