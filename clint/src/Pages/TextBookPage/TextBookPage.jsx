@@ -88,7 +88,7 @@ function TextBookPage() {
                                 bookName={book.bookName.toUpperCase()}
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
-                                bookPicture={`${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`} 
+                                bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`: "./Images/defaultBook.png"} 
                                 
                             />
                         ))}
@@ -104,7 +104,7 @@ function TextBookPage() {
                                 bookName={book.bookName.toUpperCase()}
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
-                                bookPicture={`${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`}
+                                bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`: "./Images/defaultBook.png"}
 
 
                             />

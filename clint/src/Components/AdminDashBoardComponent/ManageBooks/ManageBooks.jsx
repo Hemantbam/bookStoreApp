@@ -33,6 +33,18 @@ const ManageBooks = () => {
     setDbBooks(books);
   };
 
+  const validateImageFile = (file) => {
+    if (!file) return true; 
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setErrorMessage("Please upload a valid image file (JPEG, PNG, GIF, WEBP).");
+      return false;
+    }
+    setErrorMessage(""); 
+    return true;
+  };
+
+
   const handleDeleteBook = async (id) => {
     const result = await MySwal.fire({
       title: 'Are you sure?',
@@ -60,7 +72,7 @@ const ManageBooks = () => {
   const handleAddBook = async (e) => {
     e.preventDefault();
 
-    const newBook = new FormData(); // Use FormData to send files
+    const newBook = new FormData(); 
     newBook.append("bookName", bookName.trim());
     newBook.append("bookCategory", bookCategory.trim());
     newBook.append("bookAuthor", bookAuthor.trim());
@@ -69,7 +81,6 @@ const ManageBooks = () => {
     newBook.append("bookImage", bookImage);
 
     try {
-      // const result = await addBook(newBook);
       const result = await addBook(newBook);
 
 
@@ -108,7 +119,7 @@ const ManageBooks = () => {
     setBookAuthor("");
     setBookPrice("");
     setBookDescription("");
-    setBookImage(null); // Set to null instead of empty string
+    setBookImage(null); 
   };
 
   const clearEditForm = () => {
@@ -117,7 +128,7 @@ const ManageBooks = () => {
     setUpdateBookAuthor("");
     setUpdateBookPrice("");
     setUpdateBookDescription("");
-    setUpdateBookImage(null); // Set to null instead of empty string
+    setUpdateBookImage(null); 
   };
 
   const handleEditBook = async (e) => {
@@ -134,8 +145,6 @@ const ManageBooks = () => {
     try {
       const result = await updateBook(bookId, formData);
 
-
-      // const result = await addBook(formData);
 
       if (result === "unauthorized") {
         setUpdateErrorMessage("You are not authorized to update books.");
@@ -166,7 +175,7 @@ const ManageBooks = () => {
 
       handleBookDetails();
       clearEditForm();
-      setBookId(null); // Reset the selected book ID
+      setBookId(null);
 
     } catch (error) {
       setUpdateErrorMessage("Failed to update book. Please try again.");
@@ -181,7 +190,7 @@ const ManageBooks = () => {
     setUpdateBookAuthor(book.bookAuthor);
     setUpdateBookPrice(book.bookPrice);
     setUpdateBookDescription(book.bookDescription);
-    setUpdateBookImage(book.bookImage); // Reset image or set it to the current book's image if needed
+    setUpdateBookImage(book.bookImage); 
   };
 
   useEffect(() => {
@@ -199,6 +208,11 @@ const ManageBooks = () => {
     return () => clearTimeout(timer);
   }, [successMessage, errorMessage, updateErrorMessage, updateSuccessMessage]);
 
+
+  const serverURL = "http://localhost:8080";
+
+
+
   return (
     <div className="manageBooksContainer">
       <h1 className="title">Manage Books</h1>
@@ -207,6 +221,7 @@ const ManageBooks = () => {
         <table className="booksTable">
           <thead>
             <tr className="tableHeader">
+              <th className="headerCell">Book image</th>
               <th className="headerCell">Book Name</th>
               <th className="headerCell">Category</th>
               <th className="headerCell">Author</th>
@@ -219,6 +234,7 @@ const ManageBooks = () => {
             {dbBooks.length > 0 ? (
               dbBooks.map((book) => (
                 <tr className="tableRow" key={book.id}>
+                  <td className="tableCell"><img src={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`: "./Images/defaultBook.png"} alt={bookName} className='bookImageInTable' /></td>
                   <td className="tableCell">{book.bookName}</td>
                   <td className="tableCell">{book.bookCategory}</td>
                   <td className="tableCell">{book.bookAuthor}</td>
@@ -308,7 +324,7 @@ const ManageBooks = () => {
               id="bookImage"
               name="bookImage"
               onChange={(e) => setBookImage(e.target.files[0])}
-              accept="image/*"
+              required
             />
             <button type="submit" className="submitButton">Add Book</button>
           </form>
@@ -374,7 +390,7 @@ const ManageBooks = () => {
               id="updateImage"
               name="updateImage"
               onChange={(e) => setUpdateBookImage(e.target.files[0])}
-              accept="image/*"
+  
             />
             <button type="submit" className="submitButton">Update Book</button>
           </form>

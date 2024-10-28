@@ -184,3 +184,7 @@
     height: 100px;
     width: 600px;
 }
+.tableRow img {
+    height: 70px;
+    width: 50px;
+}

@@ -20,7 +20,7 @@ function BookDescription() {
     <>
       <NavigationBar />
       <div className="bookDetailsViewBox">
-        <FeaturedBook bookName={(bookDetails.bookName)} bookCategory={(bookDetails.bookCategory)} bookAuthor={bookDetails.bookAuthor} bookPrice={bookDetails.bookPrice} bookDescription={bookDetails.bookDescription} bookImage={`${serverURL}/${(bookDetails.bookImage)}`}
+        <FeaturedBook bookName={(bookDetails.bookName)} bookCategory={(bookDetails.bookCategory)} bookAuthor={bookDetails.bookAuthor} bookPrice={bookDetails.bookPrice} bookDescription={bookDetails.bookDescription} bookImage={bookDetails.bookImage ? `${serverURL}/${(bookDetails.bookImage)}` : "./Images/defaultBook.png"}
         />
 
       </div>

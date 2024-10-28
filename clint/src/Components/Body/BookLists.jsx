@@ -34,7 +34,7 @@ function BookLists() {
                   bookName={(books[0].bookName).toUpperCase()}
                   bookCategory={(books[0].bookCategory).toUpperCase()}
                   bookPrice={books[0].bookPrice}
-                  bookPicture={`${serverURL}/${(books[0].bookImage).replace(/\\/g, '/')}`}
+                  bookPicture={books[0].bookImage ? `${serverURL}/${(books[0].bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
 
                 />
                 <BookDetails
@@ -43,7 +43,7 @@ function BookLists() {
                   bookName={(books[1].bookName).toUpperCase()}
                   bookCategory={(books[1].bookCategory).toUpperCase()}
                   bookPrice={books[1].bookPrice}
-                  bookPicture={`${serverURL}/${(books[1].bookImage).replace(/\\/g, '/')}`}
+                  bookPicture={books[1].bookImage ? `${serverURL}/${(books[1].bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
 
                 />
                 <BookDetails
@@ -51,7 +51,7 @@ function BookLists() {
                   bookName={(books[2].bookName).toUpperCase()}
                   bookCategory={(books[2].bookCategory).toUpperCase()}
                   bookPrice={books[2].bookPrice}
-                  bookPicture={`${serverURL}/${(books[2].bookImage).replace(/\\/g, '/')}`}
+                  bookPicture={books[2].bookImage ? `${serverURL}/${(books[2].bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
 
 
                 />
@@ -60,7 +60,7 @@ function BookLists() {
                   bookName={(books[3].bookName).toUpperCase()}
                   bookCategory={(books[3].bookCategory).toUpperCase()}
                   bookPrice={books[3].bookPrice}
-                  bookPicture={`${serverURL}/${(books[3].bookImage).replace(/\\/g, '/')}`}
+                  bookPicture={books[3].bookImage ? `${serverURL}/${(books[3].bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
 
 
                 />
@@ -74,7 +74,7 @@ function BookLists() {
 
       {books.length > 0 ? (
 
-        <FeaturedBook bookName={(books[0].bookName.toUpperCase())} bookCategory={(books[0].bookCategory).toUpperCase()} bookAuthor={books[0].bookAuthor} bookPrice={books[0].bookPrice} bookDescription={books[0].bookDescription} bookImage={`${serverURL}/${(books[0].bookImage)}`} />
+        <FeaturedBook bookName={(books[0].bookName.toUpperCase())} bookCategory={(books[0].bookCategory).toUpperCase()} bookAuthor={books[0].bookAuthor} bookPrice={books[0].bookPrice} bookDescription={books[0].bookDescription} bookImage={books[0].bookImage ? `${serverURL}/${(books[0].bookImage)}` : "./Images/defaultBook.png"} />
 
       ) : (
         <p>Loading book Details...</p>

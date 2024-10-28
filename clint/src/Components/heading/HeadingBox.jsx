@@ -52,7 +52,7 @@ function HeadingBox() {
 
                 {books.length > 0 ? (
                     <>
-                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture={`${serverURL}/${(books[0].bookImage).replace(/\\/g, '/')}`}
+                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture={books[0].bookImage ? `${serverURL}/${(books[0].bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
                             alt={books[0].bookName} />
                     </>
 
