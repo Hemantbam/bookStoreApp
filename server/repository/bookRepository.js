@@ -87,7 +87,7 @@ export const getBookByBookName = async (bookName) => {
 
 export const getLatestBooks = async () => {
   const query = "SELECT * FROM bookdetails ORDER BY id DESC LIMIT 4";
-  const [books] = await dbConn.query(query);
+  const [books] = await dbConn.query(query); 
   if (books.length < 0) {
     return null;
   }

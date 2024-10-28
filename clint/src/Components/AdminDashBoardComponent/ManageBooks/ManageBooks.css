@@ -84,7 +84,6 @@
     background-color: #e53935;
 }
 
-/* Add/Edit form box */
 .addEditBox {
     display: flex;
     flex-direction: column;
@@ -103,46 +102,8 @@
     margin-bottom: 20px;
 }
 
-.addEditForm {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
 
-.addEditForm label {
-    font-weight: 600;
-    color: #333;
-}
 
-/* Input styles for consistency with the form */
-.addEditForm input,
-.addEditForm select {
-    padding: 10px;
-    border: 1px solid #474747;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
-    transition: border 0.3s ease;
-}
-
-.addEditForm input:focus,
-.addEditForm select:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
-
-/* Textarea styling */
-.addEditForm textarea {
-    padding: 10px;
-    border: 1px solid #474747;
-    border-radius: 5px;
-    width: 100%;
-    height: 100px;
-    resize: vertical;
-}
-
-/* Action buttons styling */
 .addEditActions button {
     padding: 10px;
     border-radius: 5px;
@@ -165,7 +126,7 @@
     background-color: #e53935;
 }
 
-/* Styling for error and success messages */
+
 .success,
 .error {
     margin-top: 10px;
@@ -186,4 +147,40 @@
     padding: 10px;
     border-left: 4px solid #e74c3c;
     border-radius: 5px;
+}
+.bookForm{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.bookForm input{
+    border: 1px solid black;
+    border-radius: 5px;
+    
+}
+
+.bookForm  .submitButton{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0px 10px 0px;
+    font-weight: 800;
+    font-size: 1rem;
+    border: none;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.submitButton:hover {
+    background-color: #45a049;
+}
+
+#updateBookDescription{
+    height: 100px;
+    width: 600px;
+}
+
+#bookDescription{
+    height: 100px;
+    width: 600px;
 }

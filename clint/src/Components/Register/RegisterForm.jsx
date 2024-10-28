@@ -22,19 +22,25 @@ const RegisterForm = () => {
       setEmail(userEmail);
       setPassword(userPassword);
 
-      const data = await generateOtpForUserRegistration(userEmail);
-      console.log("Data received from API:", data);
-      if (data.status === 409) {
-        setError("User already exists")
+      const result = await generateOtpForUserRegistration(userEmail);
+      console.log(result.status)
+      console.log(result.data.message)
+      if (result.status === 409) {
+         setError(result.data.message)
         setSuccessMessage('');
         return
       }
-      if (data) {
-        setSuccessMessage(data.message);
+      if (result.status === 200) {
+        setError("")
+         setSuccessMessage(result.data.message);
         console.log("OTP sent successfully");
+      console.log("message",successMessage)
+
         navigate('/registerOtpVerification');
       } else {
         setError('Registration failed');
+        setSuccessMessage('');
+
       }
     } catch (err) {
       console.log(err);

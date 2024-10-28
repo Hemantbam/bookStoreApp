@@ -4,8 +4,8 @@ import { CartContext } from '../../../Context/context';
 import Swal from 'sweetalert2';
 import { useContext } from 'react';
 
-function FeaturedBook({ bookName, bookCategory, bookAuthor, bookPrice, bookDescription, }) {
-
+function FeaturedBook({ bookName, bookCategory, bookAuthor, bookPrice, bookDescription, bookImage}) {
+console.log(bookImage)
     const bookToAdd = {
         name: bookName,
         category: bookCategory,
@@ -49,7 +49,7 @@ function FeaturedBook({ bookName, bookCategory, bookAuthor, bookPrice, bookDescr
                     <button className={isBookInCart ? 'bookInCartBtn' : 'buyBtn'} onClick={handleAddToCart}>{isBookInCart ? "In cart" : "Add to cart"}  </button>
                 </div>
                 <div className="featuredBookImage">
-                    <img src="./Images/book3.jpg" alt="Featured Book" />
+                    <img src={bookImage} alt={bookName} />
                 </div>
             </div>
         </div>

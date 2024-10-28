@@ -14,7 +14,7 @@ footer {
 
 .footer-section {
     flex: 1;
-    min-width: 200px; /* Ensures sections are at least this wide */
+    min-width: 200px; 
     margin: 20px;
 }
 
@@ -30,13 +30,13 @@ footer {
 }
 
 .footer-section a {
-    color: #faedcd; /* Light color for links */
+    color: #faedcd; 
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer-section a:hover {
-    color: #fff; /* Change color on hover */
+    color: #fff;
 }
 
 .social-links {

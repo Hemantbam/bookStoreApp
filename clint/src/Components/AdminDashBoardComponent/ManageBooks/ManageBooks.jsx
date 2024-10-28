@@ -133,8 +133,8 @@ const ManageBooks = () => {
 
     try {
       const result = await updateBook(bookId, formData);
-  
-  
+
+
       // const result = await addBook(formData);
 
       if (result === "unauthorized") {
@@ -238,12 +238,6 @@ const ManageBooks = () => {
                       >
                         Edit
                       </button>
-                      <button
-                        className="editButton"
-                        onClick={() => handleEditButtonClick(book)}
-                      >
-                        View Details
-                      </button>
                     </div>
                   </td>
                 </tr>
@@ -256,12 +250,19 @@ const ManageBooks = () => {
           </tbody>
         </table>
       </div>
+
+
       <section className="addEditBox">
+
+
         <div className="addBook">
           <h2>Add Book</h2>
+
           {errorMessage && <p className="error">{errorMessage}</p>}
           {successMessage && <p className="success">{successMessage}</p>}
+
           <form onSubmit={handleAddBook} className='bookForm' method="post" encType="multipart/form-data">
+
             <label htmlFor="bookName">Book Name</label>
             <input
               type="text"
@@ -313,7 +314,15 @@ const ManageBooks = () => {
           </form>
         </div>
 
-        <div className="editBook"> 
+
+
+
+
+
+
+
+
+        <div className="editBook">
           <h2>Edit Book</h2>
           {updateErrorMessage && <p className="error">{updateErrorMessage}</p>}
           {updateSuccessMessage && <p className="success">{updateSuccessMessage}</p>}
@@ -359,11 +368,11 @@ const ManageBooks = () => {
               onChange={(e) => setUpdateBookDescription(e.target.value)}
               required
             />
-            <label htmlFor="updateImagex">Book Image</label>
+            <label htmlFor="updateImage">Book Image</label>
             <input
               type="file"
-              id="updateImagex"
-              name="updateImagex"
+              id="updateImage"
+              name="updateImage"
               onChange={(e) => setUpdateBookImage(e.target.files[0])}
               accept="image/*"
             />

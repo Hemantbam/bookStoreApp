@@ -43,6 +43,7 @@ export const userRegistration = async (email, password, otp) => {
 
   const encodedPassword = await bcrypt.hash(password, 10);
   await createUserQuery(userEmail, encodedPassword);
+
   await UpdateOtpStatus(userEmail);
 
   return {
@@ -57,12 +58,15 @@ export const userLogin = async (email, password) => {
     return { success: false, status: 400, message: "Inavlid Input" };
   }
   const userEmail = email.toLowerCase();
+
   const userDetails = await getUserDetails(userEmail);
+
   if (userDetails) {
     const passwordMatch = await bcrypt.compare(
       password,
       userDetails[0].userPassword
     );
+
     if (!passwordMatch) {
       return {
         success: false,
@@ -82,4 +86,37 @@ export const userLogin = async (email, password) => {
     return { success: true, status: 200, token };
   }
   return { success: false, status: 404, message: "User not found" };
+};
+
+
+
+export const userRegistrationByAdmin = async (email, password) => {
+  if (!emailPasswordValidation(email, password)) {
+    return {
+      success: false,
+      status: 400,
+      message: "Invalid input: Please provide a valid email and password.",
+    };
+  }
+
+  const userEmail = email.toLowerCase();
+
+  const existingUser = await getUserDetails(userEmail);
+
+  if (existingUser.length > 0) {
+    return {
+      success: false,
+      status: 409,
+      message: "Conflict: User already exists.",
+    };
+  }
+
+  const encodedPassword = await bcrypt.hash(password, 10);
+  await createUserQuery(userEmail, encodedPassword);
+
+  return {
+    success: true,
+    status: 201,
+    message: "Success: User created successfully.",
+  };
 };

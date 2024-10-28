@@ -1,25 +1,31 @@
 import { generateOtp } from "../controllers/controllerHelpers/generateOtp.js";
-import { getUserDetails } from "../repository/authRepository.js";
+import {
+  getUserDetails,
+  getUserEmailInOtpTable,
+} from "../repository/authRepository.js";
 import { addOtpToresetPassword } from "../repository/passwordReset.js";
 import { sendMaill } from "./sendMail.js";
-import { set500Err } from "../controllers/controllerHelpers/controllerHelper.js";
+import { UpdateOtpStatus } from "../repository/passwordReset.js";
 
-
-export const sendOtpForUserRegistration = async (res, email) => {
-
+export const sendOtpForUserRegistration = async (email) => {
   const userEmail = email.toLowerCase();
   const otp = generateOtp();
   const status = "valid";
-  
+
   try {
     const existingUser = await getUserDetails(userEmail);
 
     if (existingUser) {
-      return res
-        .status(409)
-        .json({ message: "Conflict: User already exists.", status: 409 });
+      return {
+        success: false,
+        status: 409,
+        message: "Conflict: User already exists.",
+      };
     }
-
+    const checkUserInOtpTable = await getUserEmailInOtpTable(userEmail);
+    if (checkUserInOtpTable) {
+      await UpdateOtpStatus(userEmail);
+    }
     const result = await addOtpToresetPassword(otp, status, userEmail);
 
     if (result === true) {
@@ -37,19 +43,21 @@ export const sendOtpForUserRegistration = async (res, email) => {
 </div>
 `;
 
-
       await sendMaill(email, subject, message, otp);
 
-      return res
-        .status(200)
-        .json({ message: "User registration otp sent to yout email" });
-
+      return {
+        success: true,
+        status: 200,
+        message: "User registration otp sent to yout email",
+      };
     } else {
-      return res.status(400).json({ message: "Error in generating otp" });
+      return {
+        success: false,
+        status: 400,
+        message: "Error in generating otp",
+      };
     }
-
   } catch (err) {
-    set500Err(err, req, res);
+    console.log(err)
   }
-
 };

@@ -6,6 +6,8 @@ import Footer from '../../Components/Footer/Footer.jsx'
 import BookDetails from '../../Components/SmallComponents/BookDetails/BookDetails.jsx'
 import { getBooks, searchBook } from '../../api/bookDetails.js'
 function TextBookPage() {
+    const serverURL = "http://localhost:8080";
+
     const [books, setBooks] = useState([])
     const [searchWord, setSearchWord] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
@@ -65,7 +67,7 @@ function TextBookPage() {
             <div className="TextBookViewContainer">
                 <div className="searchBar">
                     <label htmlFor="search">Search</label>
-                    <input type="text" placeholder='search here' value={searchWord} onChange={handleSearchInputChange} />
+                    <input type="text" placeholder='search book here..' value={searchWord} onChange={handleSearchInputChange} />
                 </div>
 
                 <p>Available Books</p>
@@ -86,7 +88,8 @@ function TextBookPage() {
                                 bookName={book.bookName.toUpperCase()}
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
-                                bookPicture={"./Images/book3.jpg"}
+                                bookPicture={`${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`} 
+                                
                             />
                         ))}
                     </div>
@@ -101,7 +104,8 @@ function TextBookPage() {
                                 bookName={book.bookName.toUpperCase()}
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
-                                bookPicture={"./Images/book2.jpg"}
+                                bookPicture={`${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`}
+
 
                             />
                         ))}

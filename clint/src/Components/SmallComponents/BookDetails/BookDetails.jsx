@@ -14,7 +14,7 @@ function BookDetails({ bookId, bookName, bookCategory, bookPrice, bookPicture })
         category: bookCategory,
         price: parseFloat(bookPrice),
         quantity: 1,
-        id: bookId
+        id: bookId,
     };
 
     const navigate = useNavigate()

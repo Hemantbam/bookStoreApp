@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { registerUser } from '../../../api/authApi';
+import { registerUserForAdmin } from '../../../api/authApi';
 import { allUserDetails, deleteUser, updateUser } from '../../../api/userDetails';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -57,7 +57,7 @@ const ManageUsers = () => {
     setSuccessMessage('');
 
     try {
-      const newUser = await registerUser(email, password);
+      const newUser = await registerUserForAdmin(email, password);
       if (newUser) {
         handleUserDetails();
         setSuccessMessage("User added successfully!");

@@ -13,6 +13,5 @@ export const addNewBookOrder = async (req, res) => {
 
 export const pendingOrders=async(req,res)=>{
  const result= await getPendingOrders()
- console.log(result)
  return res.status(result.status).json({ message: result.message , count:result.count});
 }

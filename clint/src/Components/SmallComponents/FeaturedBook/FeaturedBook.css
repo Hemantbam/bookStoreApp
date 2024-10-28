@@ -33,7 +33,7 @@
     font-size: 1.1rem;
     color: rgb(0, 0, 0);
     line-height: 1.6;
-    text-align:justify;
+    text-align: justify;
 }
 
 .featuredBookImage {
@@ -49,32 +49,32 @@
     cursor: pointer;
 }
 
-.featuredBookDescription p.bookName{
+.featuredBookDescription p.bookName {
     font-weight: bold;
     font-size: 1.6rem;
     font-weight: 700;
     color: #2c3e50;
 }
 
-.featuredBookDescription p .bookAuthor{
+.featuredBookDescription p .bookAuthor {
     font-style: italic;
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 10px;
 }
 
-.featuredBookDescription p .bookDescription{
+.featuredBookDescription p .bookDescription {
     margin-top: 10px;
     font-size: 1rem;
     color: #7d7d7d;
 }
 
-.featuredBookDescription p .bookPrice{
+.featuredBookDescription p .bookPrice {
     margin-top: 20px;
     font-weight: 700;
 }
 
-.bookInCartBtn{
+.bookInCartBtn {
     padding: 10px 20px;
     background-color: #353535;
     color: white;
@@ -104,4 +104,11 @@
 
 .buyBtn:hover {
     background-color: #004d40;
+}
+
+@media (max-width: 768px) {
+    .featuredBookImage img {
+        height: 380px;
+        width: 300px;
+    }
 }

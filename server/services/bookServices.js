@@ -79,9 +79,7 @@ export const deleteBookByBookId = async (bookId) => {
 //______________________________________________________________________________________________
 
 export const updateBookByBookId = async (bookId, reqBody, bookImage) => {
-  console.log("Received request body:", reqBody);
 
-  // Validate input data
   if (!bookInputValidate(reqBody)) {
       return {
           success: false,
@@ -90,13 +88,12 @@ export const updateBookByBookId = async (bookId, reqBody, bookImage) => {
       };
   }
 
-  // Check if the book exists
   const existingBook = await getBookByBookId(bookId);
   if (!existingBook) {
       return { success: false, status: 404, message: "Book not found" };
   }
 
-  // Check for duplicate book names
+
   const duplicateBook = await getBookByBookName(reqBody.bookName);
   if (duplicateBook && duplicateBook.id !== bookId) {
       return {
@@ -106,14 +103,12 @@ export const updateBookByBookId = async (bookId, reqBody, bookImage) => {
       };
   }
 
-  // Prepare data for updating
   const updateData = {
       ...reqBody,
-      ...(bookImage && { bookImage }), // Only include bookImage if provided
   };
 
-  // Update the book in the database
-  const updateResult = await updateBook(bookId, updateData);
+  const updateResult = await updateBook(bookId, updateData, bookImage);
+  
   if (updateResult === 0) {
       return {
           success: false,

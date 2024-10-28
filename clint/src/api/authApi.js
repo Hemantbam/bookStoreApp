@@ -10,10 +10,9 @@ export const registerUser = async (email, password, otp) => {
       otp,
     });
 
-    console.log(response); 
-    return response; 
+    console.log(response);
+    return response;
   } catch (error) {
-
     console.error("Error during registration:", error);
 
     return {
@@ -29,7 +28,7 @@ export const loginUser = async (email, password) => {
       email,
       password,
     });
-    console.log(response)
+    console.log(response);
     const data = response.data;
     return data;
   } catch (error) {}
@@ -37,25 +36,55 @@ export const loginUser = async (email, password) => {
 
 export const generateOtpForUserRegistration = async (email) => {
   try {
-      const response = await axios.post(
-          `${API_URL}/auth/generateOtpForRegistration`,
-          { email }
-      );
-      console.log("Successful response:", response.data);
-      return response.data;
+    const response = await axios.post(
+      `${API_URL}/auth/generateOtpForRegistration`,
+      { email }
+    );
+    console.log("Successful response:", response);
+    return response;
   } catch (error) {
-      console.log("Error occurred:", error);
-      
-      if (error.response) {
-          return {
-              message: error.response.data.message,
-              status: error.response.status,
-          };
-      } else {
-          return {
-              message: "An unexpected error occurred.",
-              status: 500,
-          };
-      }
+    console.log("Error occurred:", error);
+
+    if (error.response) {
+      return {
+        message: error.response.data.message,
+        status: error.response.status,
+      };
+    } else {
+      return {
+        message: "An unexpected error occurred.",
+        status: 500,
+      };
+    }
   }
+};
+
+
+export const registerUserForAdmin = async (email, password) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        throw new Error("No token found");
+    }
+
+    try {
+        const response = await axios.post(
+            `${API_URL}/auth/registerUserByAdmin`,
+            { email, password }, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
+
+        console.log(response);
+        return response;
+    } catch (error) {
+        console.error("Error during registration:", error);
+
+        return {
+            message:
+                error.response?.data?.message || "An error occurred. Please try again.",
+        };
+    }
 };

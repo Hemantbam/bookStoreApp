@@ -56,5 +56,12 @@
     color: red;
     text-align: center;
     margin-bottom: 10px;
+    font-weight: bold; 
   }
+  .success {
+    color: green; 
+    text-align: center;
+    margin-bottom: 10px; 
+    font-weight: bold; 
+}
   

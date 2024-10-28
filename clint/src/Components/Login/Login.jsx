@@ -19,8 +19,11 @@ const Login = () => {
         setSuccessMessage('');
 
         try {
-
             const data = await loginUser(email, password);
+            if (!data) {
+                setError('User Details not found');
+            }
+            console.log(data)
             localStorage.setItem('token', data.token);
             const token = localStorage.getItem('token');
 
@@ -29,11 +32,10 @@ const Login = () => {
             if (decodedToken.role == 'admin') {
                 setTimeout(() => navigate('/adminDashboard'), 1000);
                 return;
+            } else {
+                setTimeout(() => navigate('/'), 1000);
+
             }
-
-            setTimeout(() => navigate('/'), 1000);
-
-
         } catch (err) {
             setError('Login failed. Please check your details');
         }

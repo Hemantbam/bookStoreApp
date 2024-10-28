@@ -32,3 +32,8 @@
     margin-bottom: 1rem;
   }
   
+  @media (max-width: 768px) {
+    .aboutUsContainer{
+margin-top: 150px;
+    }
+}

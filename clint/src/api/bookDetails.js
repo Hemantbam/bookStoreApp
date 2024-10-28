@@ -4,7 +4,6 @@ const API_URL = "http://localhost:8080";
 
 export const updateBook = async (id, bookData) => {
   const token = localStorage.getItem("token");
-
   if (!token) {
     return { error: "unauthorized" };
   }

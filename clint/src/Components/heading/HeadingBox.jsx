@@ -38,21 +38,21 @@ function HeadingBox() {
                     <span className='exploreText'>
                         Explore new worlds from authors.
                     </span><br />
-                    <SearchBox />
                 </div>
                 <div className="bookCoverPicture">
                     <img src="./Images/bookCoverPhoto.jpg" alt="" />
                 </div>
+                
                 {authorDetails ? (
                     <>
-                        <AuthorHighlightBox name={(authorDetails.bookAuthor).toUpperCase()} totalBooks={authorDetails.totalBooks} picture="./Images/1.png" />
+                        <AuthorHighlightBox name={(authorDetails.bookAuthor).toUpperCase()} totalBooks={authorDetails.totalBooks} picture="./Images/author.png" />
 
                     </>
                 ) : (<span>Author Details not found</span>)}
 
                 {books.length > 0 ? (
                     <>
-                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture={`${serverURL}/${books[0].bookImage}`}
+                        <BookHighlights bookId={books[0].id} bookName={(books[0].bookName).toUpperCase()} bookCategory={(books[0].bookCategory).toUpperCase()} bookPicture={`${serverURL}/${(books[0].bookImage).replace(/\\/g, '/')}`}
                             alt={books[0].bookName} />
                     </>
 

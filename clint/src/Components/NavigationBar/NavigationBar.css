@@ -15,10 +15,11 @@ nav {
     z-index: 500;
     font-family: "Mulish", sans-serif;
     font-weight: 800;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 nav .logo {
-    margin-left: 50px;
     height: 40px;
 }
 
@@ -44,7 +45,6 @@ nav .userAccount {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-right: 50px;
 }
 
 nav .userAccount button {
@@ -126,6 +126,7 @@ nav .userAccount button:hover {
     align-items: center;
     border-radius: 50%;
     margin-left: 50px;
+    margin-right: 20px;
     cursor: pointer;
 }
 
@@ -134,7 +135,7 @@ nav .userAccount button:hover {
     width: 25px;
 }
 
-.cartIcon .count{
+.cartIcon .count {
     position: absolute;
     height: 17px;
     width: 17px;
@@ -149,7 +150,35 @@ nav .userAccount button:hover {
     color: white;
 }
 
-.navBarPageLinks{
-text-decoration: none;
-color: #000000;
+.navBarPageLinks {
+    text-decoration: none;
+    color: #000000;
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        padding: 10px;
+    }
+
+    nav .pagesOption {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    nav .userAccount {
+        margin-top: 10px;
+    }
+
+    nav .userAccount button {
+        width: 100%;
+    }
+
+    .cartIcon {
+        margin-left: 0;
+    }
 }

@@ -15,29 +15,22 @@ import {
 //______________________________________________________________________________________________
 
 const addNewBook = async (req, res) => {
-  try {
-    const { bookName, bookCategory, bookAuthor, bookPrice, bookDescription } =
-      req.body;
+  const { bookName, bookCategory, bookAuthor, bookPrice, bookDescription } =
+    req.body;
 
-    const bookImage = req.file ? req.file.path : null;
-    console.log("This is book path", bookImage);
-    const bookData = {
-      bookName,
-      bookCategory,
-      bookAuthor,
-      bookPrice,
-      bookDescription,
-    };
+  const bookImage = req.file ? req.file.path : null;
+  console.log("This is book path", bookImage);
+  const bookData = {
+    bookName,
+    bookCategory,
+    bookAuthor,
+    bookPrice,
+    bookDescription,
+  };
 
-    const result = await addNewBooktoDb(bookData, bookImage);
+  const result = await addNewBooktoDb(bookData, bookImage);
 
-    res.status(result.status).json({ message: result.message });
-  } catch (error) {
-    console.error("Error adding new book:", error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while adding the book." });
-  }
+  res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
@@ -83,59 +76,35 @@ const deleteBook = async (req, res) => {
 //______________________________________________________________________________________________
 
 const updateBookDetails = async (req, res) => {
-  console.log("22222222222222222222222222222222")
-
   const bookId = parseInt(req.params.id);
-  const { bookName, bookCategory, bookAuthor, bookPrice, bookDescription } = req.body;
+
+  const { bookName, bookCategory, bookAuthor, bookPrice, bookDescription } =
+    req.body;
   console.log("Received request body:", req.body);
 
-  if (isNaN(bookId)) {
-      return res.status(400).json({ message: "Invalid book ID." });
-  }
-  console.log("reqFile",req.file);
-  console.log("Request Headers:", req.headers);
-  console.log("Request Body:", req.body);
-  console.log("Request Files:", req.file);
-  const bookImage = req.file ? req.file.path : null;
-console.log(bookImage)
-  console.log("Incoming update for book ID:", bookId);
-  console.log("Book data:", {
-      bookName,
-      bookCategory,
-      bookAuthor,
-      bookPrice,
-      bookDescription,
-      bookImage,
-  });
+  const updateImage = req.file ? req.file.path : null;
 
-  // Prepare book data to be updated
+  console.log("backend book image", updateImage);
+  if (isNaN(bookId)) {
+    return res.status(400).json({ message: "Invalid book ID." });
+  }
+
+  console.log(updateImage);
+
+  console.log("Incoming update for book ID:", bookId);
+
   const bookData = {
-      bookName,
-      bookCategory,
-      bookAuthor,
-      bookPrice,
-      bookDescription,
-      ...(bookImage && { bookImage }), // Only add bookImage if it's provided
+    bookName,
+    bookCategory,
+    bookAuthor,
+    bookPrice,
+    bookDescription,
   };
 
-  try {
-      // Assuming updateBookByBookId is a function that updates the book in the database
-      const result = await updateBookByBookId(bookId, bookData,bookImage);
+  const result = await updateBookByBookId(bookId, bookData, updateImage);
 
-      if (!result) {
-          return res.status(404).json({ message: "Book not found." });
-      }
-
-      // Return success response
-      return res.status(200).json({ message: "Book updated successfully." });
-  } catch (error) {
-      // Log the error for debugging
-      console.error("Error occurred during book update:", error);
-      return res.status(500).json({ message: "Internal Server Error", error: error.message });
-  }
+  return res.status(result.status).json({ message: result.message });
 };
-
-
 
 //______________________________________________________________________________________________
 
