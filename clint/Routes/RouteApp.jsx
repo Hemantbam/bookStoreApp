@@ -12,6 +12,7 @@ import AboutUs from "../src/Pages/AboutUs/AboutUs.jsx";
 import RegistrationOtpVerification from "../src/Components/Register/RegistrationOtpVerification.jsx";
 import BookDescription from "../src/Components/BookDescription/BookDescription.jsx";
 import TextBookPage from "../src/Pages/TextBookPage/TextBookPage.jsx";
+import ContactUsPage from "../src/Pages/ContactUsPage/ContactUsPage.jsx";
 function RouteApp() {
     return (
         <>
@@ -28,6 +29,7 @@ function RouteApp() {
                     <Route path='/checkout' element={<Checkout />} />
                     <Route path='/bookDetails' element={<BookDescription />} />
                     <Route path='/textBooks' element={<TextBookPage />} />
+                    <Route path='/contactUsPage' element={<ContactUsPage />} />
                     <Route path="/admindashboard" element={<PrivateRoutes component={AdminDashboard} />} />
                     <Route path="*" element={"Page not found"} />
                 </Routes>

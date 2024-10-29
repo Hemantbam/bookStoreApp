@@ -28,6 +28,8 @@ const ManageBooks = () => {
 
   const [updateBookImageName, setUpdateBookImageName] = useState("");
   const [updateImageID, setUpdateImageID] = useState(null);
+  const [updateImageErrorMessage, setUpdateImageErrorMessage] = useState("");
+  const [updateImageSuccessMessage, setUpdateImageSuccessMessage] = useState("");
 
 
   const MySwal = withReactContent(Swal);
@@ -41,7 +43,6 @@ const ManageBooks = () => {
     if (!file) return true;
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
-      setErrorMessage("Please upload a valid image file (JPEG, PNG, GIF, WEBP).");
       return false;
     }
     setErrorMessage("");
@@ -75,7 +76,6 @@ const ManageBooks = () => {
 
   const handleAddBook = async (e) => {
     e.preventDefault();
-
     const newBook = new FormData();
     newBook.append("bookName", bookName.trim());
     newBook.append("bookCategory", bookCategory.trim());
@@ -83,6 +83,8 @@ const ManageBooks = () => {
     newBook.append("bookPrice", bookPrice.trim());
     newBook.append("bookDescription", bookDescription.trim());
     newBook.append("bookImage", bookImage);
+
+    if (!validateImageFile(bookImage)) return setErrorMessage("Invalid Image File Type"), setSuccessMessage("");
 
     try {
       const result = await addBook(newBook);
@@ -207,9 +209,14 @@ const ManageBooks = () => {
   const handelUpdateImage = async (e) => {
     e.preventDefault();
     const imageData = new FormData();
+    if (!validateImageFile(updateBookImage)) return setUpdateImageErrorMessage("Invalid Image File Type") , setUpdateImageSuccessMessage("");
     imageData.append("updateImage", updateBookImage);
     try {
       const result = await updateBookImageByID(updateImageID, imageData);
+      if(result){
+        setUpdateImageSuccessMessage("Image Updated Successfully")
+        setUpdateImageErrorMessage("")
+      }
       handleBookDetails();
       setBookId(null);
     } catch (err) {
@@ -417,8 +424,9 @@ const ManageBooks = () => {
 <div className="line"></div>
 
         <div className="editBook">
-          <h2>Update Book Image</h2>
-          
+        {updateImageErrorMessage && <p className="error">{updateImageErrorMessage}</p>}
+        {updateImageSuccessMessage && <p className="success">{updateImageSuccessMessage}</p>}
+          <p>{setUpdateImageSuccessMessage}</p>
           <form onSubmit={handelUpdateImage} className='bookForm' method="post" encType="multipart/form-data">
             <label htmlFor="updateBookImageName">Book Name</label>
 

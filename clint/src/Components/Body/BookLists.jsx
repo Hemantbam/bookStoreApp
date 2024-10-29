@@ -16,7 +16,6 @@ function BookLists() {
 
   useEffect(() => {
     handelBookData();
-    console.log(books)
   }, []);
 
   return (

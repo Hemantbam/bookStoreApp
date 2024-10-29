@@ -4,6 +4,8 @@ import { bookRouter } from "./routes/bookRoute.js";
 import { userRoute } from "./routes/userRoute.js";
 import { order } from "./routes/orderRoute.js";
 import { otpAndMail } from "./routes/passwordResetRoute.js";
+import { contactUs } from "./routes/contactUsRoute.js";
+
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from 'url';
@@ -23,6 +25,7 @@ app.use("/book", bookRouter);
 app.use("/user", userRoute);
 app.use("/order", order);
 app.use("/reset", otpAndMail);
+app.use("/contactUS", contactUs);
 //-------------------------------------------------------------------------------
 
 app.listen(port);

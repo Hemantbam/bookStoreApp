@@ -19,7 +19,7 @@ export const addBook = async (reqBody, bookImage) => {
 //____________________________________________________________________________________
 
 export const getBooks = async () => {
-  const query = "SELECT * FROM bookdetails";
+  const query = "SELECT * FROM bookdetails ORDER BY id DESC";
   const [books] = await dbConn.query(query);
   if (books.length < 0) {
     return null;

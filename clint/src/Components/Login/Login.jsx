@@ -15,8 +15,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        setSuccessMessage('');
+
 
         try {
             const data = await loginUser(email, password);
@@ -28,6 +27,7 @@ const Login = () => {
             const token = localStorage.getItem('token');
 
             const decodedToken = jwtDecode(token);
+            setError('')
             setSuccessMessage('Login successful!');
             if (decodedToken.role == 'admin') {
                 setTimeout(() => navigate('/adminDashboard'), 1000);

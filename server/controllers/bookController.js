@@ -81,16 +81,9 @@ const updateBookDetails = async (req, res) => {
 
   const { bookName, bookCategory, bookAuthor, bookPrice, bookDescription } =
     req.body;
-  console.log("Received request body:", req.body);
-
-  // const updateImage = req.file ? req.file.path : null;
-
-  // console.log("backend book image", updateImage);
   if (isNaN(bookId)) {
     return res.status(400).json({ message: "Invalid book ID." });
   }
-
-  // console.log(updateImage);
 
   console.log("Incoming update for book ID:", bookId);
 
@@ -102,7 +95,7 @@ const updateBookDetails = async (req, res) => {
     bookDescription,
   };
 
-  const result = await updateBookByBookId(bookId, bookData ); //updateImage
+  const result = await updateBookByBookId(bookId, bookData ); 
 
   return res.status(result.status).json({ message: result.message });
 };

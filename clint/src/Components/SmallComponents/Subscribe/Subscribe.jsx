@@ -1,40 +1,71 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './Subscribe.css';
 import RedSubmitBtn from '../Button/RedSubmitBtn';
+import { addUserToSubscriberList } from '../../../api/contactUsApi';
+import Swal from 'sweetalert2';
 
 function Subscribe() {
-    const [email, setEmail] = useState('');
+    const [userEmail, setUserEmail] = useState('');
 
-    /**Handel the mail for subscription */
-    const handleSubscribe = () => {
-        if (!email) return;
-        const subject = encodeURIComponent("Request for subscription");
-        const body = encodeURIComponent(`Hello Sir/Madam, I would like to subscribe with the email: ${email}`);
-        const mailTo = `mailto:bookMandu@example.com?subject=${subject}&body=${body}`;
+    const handleSubscribe = async () => {
+        if (!userEmail) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid email address!',
+            });
+            return;
+        }
 
-        window.location.href = mailTo;
-        setEmail('');
+        const response = await addUserToSubscriberList(userEmail);
+
+        if (response.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Subscribed!',
+                text: response.data.message,
+            });
+            setUserEmail('');
+            
+        } else if (response.status === 400) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.data.message,
+            });
+        } else if (response.status === 409) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.error.message,
+            });
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Server Error',
+                text: 'Something went wrong. Please try again later.',
+            });
+        }
     };
 
     return (
-        <>
-            <div className='signUpContainer'>
-                <span className='topSignupText'>Sign Up and Save</span>
-                <span className='subscribeText'>
-                    Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
-                </span>
-                <div className="submission">
-                    <input
-                        type="email"
-                        placeholder='Email'
-                        id='email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <RedSubmitBtn btnName="Subscribe" onClick={handleSubscribe} />
-                </div>
+        <div className='signUpContainer'>
+            <span className='topSignupText'>Sign Up and Save</span>
+            <span className='subscribeText'>
+                Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+            </span>
+            <div className="submission">
+                <input
+                    type="email"
+                    placeholder='Email'
+                    id='email'
+                    value={userEmail}
+                    onChange={(e) => setUserEmail(e.target.value)}
+                />
+                <RedSubmitBtn btnName="Subscribe" onClick={handleSubscribe} />
             </div>
-        </>
+        </div>
     );
 }
 
