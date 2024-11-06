@@ -35,13 +35,143 @@ export const addBookOrder = async (orderData) => {
     }
     try {
       const response = await axios.get(
-        `${API_URL}/order/getPendingOrders`,
+        `${API_URL}/order/admin/getPendingOrders`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      return response.data;
+    } catch (err) {
+      console.log(err)
+      if (err.response) {
+        return { error: err.response.data, status: err.response.status };
+      }
+      return { error: err.message };
+    }
+  }
+
+
+  export const getPendingOrderDetails=async()=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return { error: "unauthorized" };
+    }
+    try {
+      const response = await axios.get(
+        `${API_URL}/order/admin/pendingOrderInformation`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response)
+      return response.data;
+    } catch (err) {
+      console.log(err)
+      if (err.response) {
+        return { error: err.response.data, status: err.response.status };
+      }
+      return { error: err.message };
+    }
+  }
+
+
+  export const getCompletedOrderCount=async()=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return { error: "unauthorized" };
+    }
+    try {
+      const response = await axios.get(
+        `${API_URL}/order/admin/getCompletedOrders`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err)
+      if (err.response) {
+        return { error: err.response.data, status: err.response.status };
+      }
+      return { error: err.message };
+    }
+  }
+
+  export const handelDelivery=async(id)=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return { error: "unauthorized" };
+    }
+    try {
+      const response = await axios.put(
+        `${API_URL}/order/admin/updateOrderStatus/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response)
+      return response.data;
+    } catch (err) {
+      console.log(err)
+      if (err.response) {
+        return { error: err.response.data, status: err.response.status };
+      }
+      return { error: err.message };
+    }
+  }
+
+
+  export const getCompletedOrderList=async()=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return { error: "unauthorized" };
+    }
+    try {
+      const response = await axios.get(
+        `${API_URL}/order/admin/completedOrderInformation`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response)
+      return response.data;
+    } catch (err) {
+      console.log(err)
+      if (err.response) {
+        return { error: err.response.data, status: err.response.status };
+      }
+      return { error: err.message };
+    }
+  }
+
+
+  export const cancelOrder=async(id)=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return { error: "unauthorized" };
+    }
+    try {
+      const response = await axios.put(
+        `${API_URL}/order/admin/cancelOrder/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response)
       return response.data;
     } catch (err) {
       console.log(err)

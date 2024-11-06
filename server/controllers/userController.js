@@ -13,6 +13,8 @@ const getTotalUsers = async (req, res) => {
     .json({ message: "Data fetched Successfully", userCount: result });
 };
 
+
+
 const getLatestUser = async (req, res) => {
   const result = await getNewlyAddedUser();
   if (result) {
@@ -20,6 +22,8 @@ const getLatestUser = async (req, res) => {
   }
   return res.status(404).json({ message: "User Not Found" });
 };
+
+
 
 const updateUserEmail = async (req, res) => {
   const userId = parseInt(req.params.id);
@@ -33,6 +37,8 @@ const updateUserEmail = async (req, res) => {
   return res.status(result.status).json({ message: result.message });
 };
 
+
+
 const getUsers = async (req, res) => {
   const result = await getAllUser();
   if (result.success)
@@ -40,6 +46,8 @@ const getUsers = async (req, res) => {
       .status(result.status)
       .json({ message: result.message, userDetails: result });
 };
+
+
 
 const deleteUserFromDb = async (req, res) => {
   const userId = parseInt(req.params.id);
@@ -50,6 +58,7 @@ const deleteUserFromDb = async (req, res) => {
   }
   return res.status(result.status).json({ message: result.message });
 };
+
 
 export {
   getTotalUsers,

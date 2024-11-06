@@ -4,6 +4,7 @@ import './NavigationBar.css';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../Context/context';
+import Swal from 'sweetalert2';
 
 function NavigationBar() {
     const [isLoggedin, setIsLoggedin] = useState(false);
@@ -28,8 +29,21 @@ function NavigationBar() {
     }, [isLoggedin]);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedin(false);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be logged out!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, log out!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem("token");
+                navigate("/");
+                setIsLoggedin(false);
+            }
+        });
     };
 
     return (

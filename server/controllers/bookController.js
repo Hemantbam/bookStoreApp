@@ -11,6 +11,7 @@ import {
   updateBookByBookId,
   searchBookByKeyWords,
   updateBookImageById,
+  getTheBookIdOfMostBoughtBook,
 } from "../services/bookServices.js";
 
 //______________________________________________________________________________________________
@@ -85,8 +86,6 @@ const updateBookDetails = async (req, res) => {
     return res.status(400).json({ message: "Invalid book ID." });
   }
 
-  console.log("Incoming update for book ID:", bookId);
-
   const bookData = {
     bookName,
     bookCategory,
@@ -95,7 +94,7 @@ const updateBookDetails = async (req, res) => {
     bookDescription,
   };
 
-  const result = await updateBookByBookId(bookId, bookData ); 
+  const result = await updateBookByBookId(bookId, bookData);
 
   return res.status(result.status).json({ message: result.message });
 };
@@ -139,24 +138,28 @@ const getBookBywords = async (req, res) => {
     .json({ message: result.message, bookDetails: result.bookdetails });
 };
 
-
-
 const updateBookImage = async (req, res) => {
   const bookId = parseInt(req.params.id);
-console.log("backend bookId",bookId)
+  console.log("backend bookId", bookId);
   const updateImage = req.file ? req.file.path : null;
 
   if (isNaN(bookId)) {
     return res.status(400).json({ message: "Invalid book ID." });
   }
 
-
-  const result = await updateBookImageById(bookId, updateImage ); 
+  const result = await updateBookImageById(bookId, updateImage);
 
   return res.status(result.status).json({ message: result.message });
 };
 
 //______________________________________________________________________________________________
+
+const getMostBoughtBook = async (req, res) => {
+  const result = await getTheBookIdOfMostBoughtBook();
+  return res
+    .status(result.status)
+    .json({ message: result.message, bookId: result.bookDetails });
+};
 
 export {
   addNewBook,
@@ -170,4 +173,5 @@ export {
   getMostFeaturedAuthor,
   getBookBywords,
   updateBookImage,
+  getMostBoughtBook,
 };

@@ -20,6 +20,10 @@
 .sidebar h2 {
     margin-top: 10px;
 }
+.authorizedFunction{
+margin-top: -100px;
+}
+
 
 .authorizedFunction .manage {
     display: flex;

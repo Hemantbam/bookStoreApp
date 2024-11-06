@@ -1,0 +1,97 @@
+.manageContactUsQueriesContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+    flex-grow: 1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.manageContactTitle {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tableHeader {
+    background-color: #faedcd;
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+}
+
+.headerCell {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+}
+
+.tableRow {
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.tableRow:hover {
+    background-color: #f1f1f1;
+}
+
+.noUsersCell {
+    text-align: center;
+    padding: 20px;
+    font-weight: bold;
+    color: #666;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.deleteButton {
+    background-color: #f44336;
+    color: white;
+}
+
+.deleteButton:hover {
+    background-color: #e53935;
+}
+
+.markReadButton {
+    background-color: #4CAF50;
+    color: white;
+    margin-left: 10px;
+}
+
+.markReadButton:hover {
+    background-color: #45a049;
+}
+
+.tableContainer{
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.tableRow {
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.tableRow:hover {
+    background-color: #f1f1f1;
+}

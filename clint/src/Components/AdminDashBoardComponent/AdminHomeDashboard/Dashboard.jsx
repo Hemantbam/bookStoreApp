@@ -43,12 +43,12 @@ const Dashboard = () => {
 
         try {
             const countUsers = await getTotalUsers()
-            setTotalUsers(countUsers)
+            setTotalUsers(countUsers || 0)
             const countBooks = await getTotalBooks();
-            setTotalBooks(countBooks)
+            setTotalBooks(countBooks || 0)
             const totalPendingOrders = await getPendingOrders();
             console.log("orders",totalPendingOrders)
-            setTotalOrders(totalPendingOrders.count)
+            setTotalOrders(totalPendingOrders.count || 0)
         } catch (err) {
             setTotalBooks(0)
             setTotalUsers(0)
@@ -67,6 +67,7 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0,0)
         totalCount();
         handeluserData()
         fetchLatestAddedUser();

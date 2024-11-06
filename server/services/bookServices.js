@@ -10,9 +10,10 @@ import {
   getAuthorDetails,
   searchBook,
   updateBookImage,
+  getMostBoughtBookId,
 } from "../repository/bookRepository.js";
 import bookInputValidate from "../validation/bookDetailValidation.js";
-
+import fs from 'fs'
 //______________________________________________________________________________________________
 
 export const addNewBooktoDb = async (reqBody,bookImage) => {
@@ -206,14 +207,21 @@ export const searchBookByKeyWords = async (word) => {
 
 
 
-export const updateBookImageById = async (bookId, bookImage) => { //bookImage
-
+export const updateBookImageById = async (bookId, bookImage) => { 
   const existingBook = await getBookByBookId(bookId);
   if (!existingBook) {
       return { success: false, status: 404, message: "Book not found" };
   }
 
-  const updateResult = await updateBookImage(bookId, bookImage); //bookImage
+  const bookDetails = await getBookByBookId(bookId);
+  console.log(bookDetails)
+  let oldBookImage = null; 
+
+  if (bookDetails) {
+    oldBookImage = (bookDetails.bookImage).replace(/\\/g, '/');
+  }
+
+  const updateResult = await updateBookImage(bookId, bookImage); 
   
   if (updateResult === 0) {
       return {
@@ -223,5 +231,30 @@ export const updateBookImageById = async (bookId, bookImage) => { //bookImage
       };
   }
 
-  return { success: true, status: 200, message: "Book Image updated successfully" };
-}
+  if (oldBookImage) {
+    fs.unlink(oldBookImage, (err) => {
+        if (err) {
+            console.error("Error deleting old image:", err);
+        } else {
+            console.log("Old image deleted successfully:", oldBookImage);
+        }
+    });
+  }
+
+  return { success: true, status: 200, message: "Book image updated successfully" };
+};
+
+
+
+export const getTheBookIdOfMostBoughtBook = async (word) => {
+  const response = await getMostBoughtBookId();
+  if (response) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched sucessfully",
+      bookDetails: response[0].bookId,
+    };
+  }
+  return { success: false, status: 404, message: "book not found" };
+};

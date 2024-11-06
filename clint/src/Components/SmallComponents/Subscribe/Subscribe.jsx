@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Subscribe.css';
 import RedSubmitBtn from '../Button/RedSubmitBtn';
-import { addUserToSubscriberList } from '../../../api/contactUsApi';
+import { addUserToSubscriberList } from '../../../api/subscribe.js';
 import Swal from 'sweetalert2';
 
 function Subscribe() {

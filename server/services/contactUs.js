@@ -1,7 +1,8 @@
 import {
   addDetailsToContactUS,
-  addEmailTOSubscribers,
-  checkDuplicateSubscriber,
+  deleteContactUsDetails,
+  getContactUsInformation,
+  getContactUsInformationById
 } from "../repository/contactUs.js";
 
 export const contactUsDetails = async (userName, userEmail, message) => {
@@ -23,44 +24,49 @@ export const contactUsDetails = async (userName, userEmail, message) => {
       status: 200,
       message: "Details submitted Successfully",
     };
-  }else{
+  } else {
     return {
       success: false,
       status: 400,
       message: "Failed: Please try again with valid details",
     };
   }
-  
 };
 
-export const addSubscriber = async (userEmail) => {
-  if (!userEmail || userEmail.trim() === "") {
-    return {
-      success: false,
-      status: 400,
-      message: "Please enter the email",
-    };
-  }
-  const checkSubscriber = await checkDuplicateSubscriber(userEmail);
-  if (checkSubscriber) {
-    return {
-      success: false,
-      status: 409,
-      message: "You have already subscribed",
-    };
-  }
-  const result = await addEmailTOSubscribers(userEmail);
+export const contactUsInformation = async () => {
+  const result = await getContactUsInformation();
   if (result) {
     return {
       success: true,
       status: 200,
-      message: "Subscribed successfully",
+      message: "Data fetched successfully",
+      information: result,
     };
-  } else {
+  }
+
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
+  };
+};
+
+export const deleteContactUsInformation = async (id) => {
+  const checkDetails = await getContactUsInformationById(id);
+  if (!checkDetails) {
     return {
       success: false,
-      status: 400,
-      message: "Invalid data",
+      status: 404,
+      message: "Data not found",
+    };
+  }
+
+  const result = await deleteContactUsDetails(id);
+  if (result) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data deleted successfully",
     };
   }
 };

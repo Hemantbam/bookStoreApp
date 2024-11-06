@@ -1,6 +1,8 @@
-import { contactUsDetails } from "../services/contactUs.js";
-import { addSubscriber } from "../services/contactUs.js";
-
+import {
+  contactUsDetails,
+  contactUsInformation,
+  deleteContactUsInformation,
+} from "../services/contactUs.js";
 
 export const addContactUsDetails = async (req, res) => {
   const { userName, userEmail, message } = req.body;
@@ -8,8 +10,15 @@ export const addContactUsDetails = async (req, res) => {
   return res.status(result.status).json({ message: result.message });
 };
 
-export const addUserEmailToSubscribers = async (req, res) => {
-  const { userEmail } = req.body;
-  const result = await addSubscriber(userEmail);
+export const getAllContactUsInformation = async (req, res) => {
+  const result = await contactUsInformation();
+  return res
+    .status(result.status)
+    .json({ message: result.message, details: result.information });
+};
+
+export const deleteContactUsDetailsByID = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const result = await deleteContactUsInformation(id);
   return res.status(result.status).json({ message: result.message });
 };

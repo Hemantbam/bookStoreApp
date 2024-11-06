@@ -50,7 +50,6 @@ export const deleteBookDetails = async (bookId) => {
 //____________________________________________________________________________________
 
 export const updateBook = async (bookId, bookData) => {
-  //bookImage
   const query =
     "UPDATE bookdetails SET bookName = ?, bookCategory = ?, bookAuthor = ?, bookPrice = ? , bookDescription=? WHERE id = ?"; //bookImage=?
   const result= await dbConn.query(query, [
@@ -126,4 +125,17 @@ export const updateBookImage = async (bookId, bookImage) => {
   const query = "UPDATE bookdetails SET bookImage=? WHERE id = ?";
   const result = await dbConn.query(query, [bookImage, bookId]);
   return result.affectedRows;
+};
+
+
+export const getMostBoughtBookId = async () => {
+
+  const query = `SELECT bookId, COUNT(bookId) AS order_count FROM 
+    bookdatabase.bookOrderDetails GROUP BY bookId ORDER BY order_count DESC limit 1;`
+
+  const [book] = await dbConn.query(query);
+  if (book.length < 0) {
+    return null;
+  }
+  return book;
 };

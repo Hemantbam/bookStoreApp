@@ -1,5 +1,13 @@
 import { orderInputValidate } from "../validation/orderInputValidation.js";
-import { addBookOrder } from "../repository/orderRepository.js";
+import {
+  addBookOrder,
+  getPendingOrderCountNumber,
+  getCompletedOrderCountNumber,
+  getPendingOrderDetails,
+  getCompletedOrderDetails,
+  editOrderStatus,
+  cancelOrder
+} from "../repository/orderRepository.js";
 import { sendMaill } from "./sendMail.js";
 import { getUserByUserId } from "../repository/userRepository.js";
 export const bookOrder = async (userId, reqBody) => {
@@ -12,8 +20,9 @@ export const bookOrder = async (userId, reqBody) => {
   }
   const response = await addBookOrder(reqBody, userId);
   const userDetails = await getUserByUserId(userId);
-  console.log(userDetails);
-  const paymentStatusColor = reqBody.paymentStatus === "pending" ? "#FFA500" : "#6a994e";
+
+  const paymentStatusColor =
+    reqBody.paymentStatus === "pending" ? "#FFA500" : "#6a994e";
   const email = userDetails.userEmail;
   const subject = "An order placed from bookMandu";
   const message = `
@@ -28,13 +37,14 @@ export const bookOrder = async (userId, reqBody) => {
       2
     )}</span></p>
     <p><strong>Address:</strong> <span>${reqBody.address}</span></</p>
+    <p><strong>Contact Information:</strong> <span>${reqBody.contactNumber}</span></</p>
     <p><strong>Payment Mode:</strong> <span>${reqBody.paymentMode}</span></</p>
     <p><strong>Order Status:</strong> <span style="color: orange;">${
       reqBody.orderStatus
     }</span></p>
     <p><strong>Payment Status:</strong> <span style="color: ${paymentStatusColor}">${
-      reqBody.paymentStatus
-    }</span></p>
+    reqBody.paymentStatus
+  }</span></p>
     
     <h3 style="color: #386641;">Purchased Books:</h3>
     <ul style="">
@@ -69,5 +79,110 @@ export const bookOrder = async (userId, reqBody) => {
     success: false,
     status: 400,
     message: "Failed to add book order. Please try again.",
+  };
+};
+
+export const getpendingOrderCount = async () => {
+  const result = await getPendingOrderCountNumber();
+  if (result) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      totalCount: result,
+    };
+  }
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
+  };
+};
+
+export const getpendingOrderList = async () => {
+  const result = await getPendingOrderDetails();
+  if (result !== null) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      pendingOrderDetails:result
+    };
+  }
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
+  };
+};
+
+export const getCompleterOrderCount = async (req, res) => {
+  const result = await getCompletedOrderCountNumber();
+  console.log(result)
+  if (result !== null) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      totalCount: result,
+    };
+  }
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
+  };
+};
+
+
+
+export const getCompletedOrderList = async () => {
+  const result = await getCompletedOrderDetails();
+  if (result !== null) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      completedOrderDetails:result
+    };
+  }
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
+  };
+};
+
+
+export const updateOrderStatus = async (orderId) => {
+  const result = await editOrderStatus(orderId);
+  if (result=== true) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data updated Successfully"
+    };
+  }
+  return {
+    success: false,
+    status: 400,
+    message: "Unable to update the data",
+  };
+};
+
+
+export const cancelOrderById = async (orderId) => {
+  const result = await cancelOrder(orderId);
+  if (result=== true) {
+    return {
+      success: true,
+      status: 200,
+      message: "Order cancelled Successfully"
+    };
+  }
+  return {
+    success: false,
+    status: 400,
+    message: "Unable to cancel the order",
   };
 };

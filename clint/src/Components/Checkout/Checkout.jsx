@@ -10,6 +10,7 @@ function Checkout() {
     const [address, setAddress] = useState('');
     const [paymentMode, setPaymentMode] = useState('');
     const [totalPriceCheckout, setTotalPriceCheckout] = useState(0);
+    const [contactNumber, setContactNumber] = useState("");
 
     useEffect(() => {
         const total = books.reduce((total, book) => total + (book.price) * book.quantity, 0);
@@ -22,7 +23,7 @@ function Checkout() {
 
     const handlePlaceOrder = async () => {
 
-        if (!books.length || !address || !paymentMode ) {
+        if (!books.length || !address || !paymentMode || contactNumber.length !== 10) {
             Swal.fire({
                 title: "Incomplete Details",
                 text: "Please enter your address and select a payment mode. Check Books in the cart.",
@@ -46,6 +47,7 @@ function Checkout() {
         const orderData = {
             orderPrice: totalPriceCheckout,
             address: address,
+            contactNumber:contactNumber,
             paymentMode: paymentMode,
             orderStatus: "pending",
             paymentStatus: paymentStatus,
@@ -65,6 +67,7 @@ function Checkout() {
             setBooks([]);
             setAddress("");
             setPaymentMode("");
+            setContactNumber("")
         } catch (error) {
             Swal.fire({
                 title: "Order Failed",
@@ -78,69 +81,88 @@ function Checkout() {
     return (
         <>
             <NavigationBar />
-            <h1>Checkout</h1>
+            <div className="checkoutBox">
 
-            <div className="checkoutContainer">
-                <div className="checkoutBooks">
-                    <h3>Your Books</h3>
-                    <div className="booksList">
-                        {books.length > 0 ? (
-                            books.map((book, index) => (
-                                <div key={index} className="checkoutBookItem">
-                                    <p><strong>{book.name}</strong></p>
-                                    <p>Category: {book.category}</p>
-                                    <p>Price: Rs {book.price}</p>
-                                    <p>Quantity: {book.quantity}</p>
-                                    <p>Total: Rs {(book.price * book.quantity)}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No books in the cart</p>
-                        )}
+                <h1>Checkout</h1>
+
+                <div className="checkoutContainer">
+                    <div className="checkoutBooks">
+                        <h3>Your Books</h3>
+                        <div className="booksList">
+                            {books.length > 0 ? (
+                                books.map((book, index) => (
+                                    <div key={index} className="checkoutBookItem">
+                                        <p><strong>{book.name}</strong></p>
+                                        <p>Category: {book.category}</p>
+                                        <p>Price: Rs {book.price}</p>
+                                        <p>Quantity: {book.quantity}</p>
+                                        <p>Total: Rs {(book.price * book.quantity)}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No books in the cart</p>
+                            )}
+                        </div>
                     </div>
-                </div>
 
-                <div className="checkoutTotal">
-                    <h2>
-                        Total Price: Rs {totalPriceCheckout}
-                    </h2>
-                </div>
+                    <div className="checkoutTotal">
+                        <h2>
+                            Total Price: Rs {totalPriceCheckout}
+                        </h2>
+                    </div>
 
-                <div className="deliveryAddress">
-                    <h3>Delivery Address</h3>
-                    <textarea
-                        placeholder="Enter your delivery address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </div>
-
-                <div className="paymentMode">
-                    <h3>Payment Mode</h3>
-                    <label>
-                        <input
-                            type="radio"
-                            value="eSewa"
-                            checked={paymentMode === 'eSewa'}
-                            onChange={(e) => setPaymentMode(e.target.value)}
+                    <div className="deliveryAddress">
+                        <h3>Delivery Address</h3>
+                        <textarea
+                            placeholder="Enter your delivery address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
                         />
-                        eSewa
-                    </label>
-                    <label>
+                        <h3>Contact Number</h3>
                         <input
-                            type="radio"
-                            value="COD"
-                            checked={paymentMode === 'COD'}
-                            onChange={(e) => setPaymentMode(e.target.value)}
+                            id="contactNumber"
+                            type="text"
+                            maxLength="10"
+                            value={contactNumber}
+                            placeholder="Enter your contact number"
+                            onChange={(e) => {
+                                const value = e.target.value.replace(/\D/g, ''); 
+                                if (value.length <= 10) {
+                                    setContactNumber(value);
+                                }
+                            
+                            }}
                         />
-                        Cash on Delivery (COD)
-                    </label>
-                </div>
+                    </div>
 
-                <button className="placeOrderBtn" onClick={handlePlaceOrder}>
-                    Place Order
-                </button>
+                    <div className="paymentMode">
+                        <h3>Payment Mode</h3>
+                        <label>
+                            <input
+                                type="radio"
+                                value="eSewa"
+                                checked={paymentMode === 'eSewa'}
+                                onChange={(e) => setPaymentMode(e.target.value)}
+                            />
+                            eSewa
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                value="COD"
+                                checked={paymentMode === 'COD'}
+                                onChange={(e) => setPaymentMode(e.target.value)}
+                            />
+                            Cash on Delivery (COD)
+                        </label>
+                    </div>
+
+                    <button className="placeOrderBtn" onClick={handlePlaceOrder}>
+                        Place Order
+                    </button>
+                </div>
             </div>
+
         </>
     );
 }

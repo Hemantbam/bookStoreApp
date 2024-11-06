@@ -10,18 +10,27 @@ export const addDetailsToContactUS = async (userName, UserEmail, message) => {
   return false;
 };
 
-export const addEmailTOSubscribers = async (userEmail) => {
-  const query = "INSERT INTO subscribers ( userEmail) VALUES (?)";
-  const result = await dbConn.query(query, [userEmail]);
-  if (result[0].affectedRows === 1) {
+export const getContactUsInformation = async () => {
+  const query = "SELECT * FROM contactUs";
+  const [result] = await dbConn.query(query);
+  if (result.length > 0) {
+    return result;
+  }
+  return false;
+};
+
+export const deleteContactUsDetails = async (id) => {
+  const query = "DELETE FROM contactUs WHERE id = ?";
+  const result = await dbConn.query(query, [id]);
+  if (result[0].affectedRows > 0) {
     return true;
   }
   return false;
 };
 
-export const checkDuplicateSubscriber = async (userEmail) => {
-  const query = "select * from subscribers where userEmail=?";
-  const [result] = await dbConn.query(query, [userEmail]);
+export const getContactUsInformationById = async (id) => {
+  const query = "SELECT * FROM contactUs where id=?";
+  const [result] = await dbConn.query(query,[id]);
   if (result.length > 0) {
     return true;
   }

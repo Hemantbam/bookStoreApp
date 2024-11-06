@@ -5,6 +5,7 @@ import { userRoute } from "./routes/userRoute.js";
 import { order } from "./routes/orderRoute.js";
 import { otpAndMail } from "./routes/passwordResetRoute.js";
 import { contactUs } from "./routes/contactUsRoute.js";
+import { subscribe } from "./routes/subscriberRoute.js";
 
 import cors from "cors";
 import path from "path";
@@ -26,6 +27,7 @@ app.use("/user", userRoute);
 app.use("/order", order);
 app.use("/reset", otpAndMail);
 app.use("/contactUS", contactUs);
+app.use("/subscribe", subscribe);
 //-------------------------------------------------------------------------------
 
 app.listen(port);

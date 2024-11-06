@@ -88,14 +88,13 @@ function TextBookPage() {
                                 bookName={book.bookName.toUpperCase()}
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
-                                bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`: "./Images/defaultBook.png"} 
-                                
+                                bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
+
                             />
                         ))}
                     </div>
-                    <div className="BookBox">
 
-                    </div>
+
                     <div className="bookDetailsViewBox">
                         {Array.isArray(secondRowBooks) && secondRowBooks.map(book => (
                             <BookDetails
@@ -104,14 +103,16 @@ function TextBookPage() {
                                 bookName={book.bookName.toUpperCase()}
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
-                                bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}`: "./Images/defaultBook.png"}
+                                bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
 
 
                             />
                         ))}
-                    </div>
 
+
+                    </div>
                 </div>
+
                 <div className="pagination">
                     <button
                         disabled={currentPage === 1}

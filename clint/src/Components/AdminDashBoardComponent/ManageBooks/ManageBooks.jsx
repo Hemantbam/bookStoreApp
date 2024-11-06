@@ -65,10 +65,9 @@ const ManageBooks = () => {
       try {
         await deleteBook(id);
         handleBookDetails();
-        setSuccessMessage("Book deleted successfully!");
+        setSuccessMessage("");
         setErrorMessage("");
       } catch (err) {
-        setErrorMessage("Failed to delete book.");
         console.log(err);
       }
     }
@@ -209,17 +208,20 @@ const ManageBooks = () => {
   const handelUpdateImage = async (e) => {
     e.preventDefault();
     const imageData = new FormData();
-    if (!validateImageFile(updateBookImage)) return setUpdateImageErrorMessage("Invalid Image File Type") , setUpdateImageSuccessMessage("");
+    if (!validateImageFile(updateBookImage)) return setUpdateImageErrorMessage("Invalid Image File Type"), setUpdateImageSuccessMessage("");
     imageData.append("updateImage", updateBookImage);
     try {
       const result = await updateBookImageByID(updateImageID, imageData);
-      if(result){
+      if (result) {
         setUpdateImageSuccessMessage("Image Updated Successfully")
         setUpdateImageErrorMessage("")
+        setUpdateBookImageName('')
       }
       handleBookDetails();
       setBookId(null);
     } catch (err) {
+      setUpdateImageErrorMessage("Unable to update image")
+      setUpdateImageSuccessMessage('')
       console.log(err)
     }
 
@@ -230,15 +232,18 @@ const ManageBooks = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const timer = setTimeout(() => {
       setSuccessMessage('');
       setErrorMessage('');
       setUpdateErrorMessage('');
       setUpdateSuccessMessage('');
+      setUpdateImageErrorMessage('')
+      setUpdateImageSuccessMessage('')
 
-    }, 7000);
+    }, 3000);
     return () => clearTimeout(timer);
-  }, [successMessage, errorMessage, updateErrorMessage, updateSuccessMessage]);
+  }, [successMessage, errorMessage, updateErrorMessage, updateSuccessMessage, updateImageErrorMessage, updateImageSuccessMessage]);
 
 
   const serverURL = "http://localhost:8080";
@@ -421,11 +426,11 @@ const ManageBooks = () => {
           </form>
         </div>
 
-<div className="line"></div>
+        <div className="line"></div>
 
         <div className="editBook">
-        {updateImageErrorMessage && <p className="error">{updateImageErrorMessage}</p>}
-        {updateImageSuccessMessage && <p className="success">{updateImageSuccessMessage}</p>}
+          {updateImageErrorMessage && <p className="error">{updateImageErrorMessage}</p>}
+          {updateImageSuccessMessage && <p className="success">{updateImageSuccessMessage}</p>}
           <p>{setUpdateImageSuccessMessage}</p>
           <form onSubmit={handelUpdateImage} className='bookForm' method="post" encType="multipart/form-data">
             <label htmlFor="updateBookImageName">Book Name</label>
@@ -450,7 +455,7 @@ const ManageBooks = () => {
 
           </form>
         </div>
-        
+
       </section>
     </div>
   );

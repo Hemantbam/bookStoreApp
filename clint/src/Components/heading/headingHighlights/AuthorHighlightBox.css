@@ -53,7 +53,6 @@
 
 .highlightBox .authorDetailsBox  img{
     transition: box-shadow 0.3s ease, transform 0.5s ease;
-    cursor: pointer;
 }
 
 .authorDetailsBox img:hover {

@@ -107,7 +107,6 @@ export const getMostFeaturedAuthor = async () => {
 export const getBookById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/book/bookById/${id}`);
-    console.log("this is response", response);
     return response.data;
   } catch (err) {
     console.error(err);
@@ -148,5 +147,14 @@ export const updateBookImageByID = async (id, bookImage) => {
       return { error: err.response.data, status: err.response.status };
     }
     return { error: err.message };
+  }
+};
+
+export const getBookIdOfMostBoughtBook = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/book/getMostBoughtBookId`, {});
+    return response.data.bookId;
+  } catch (err) {
+    console.error(err);
   }
 };
