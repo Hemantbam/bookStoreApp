@@ -13,6 +13,7 @@ import RegistrationOtpVerification from "../src/Components/Register/Registration
 import BookDescription from "../src/Components/BookDescription/BookDescription.jsx";
 import TextBookPage from "../src/Pages/TextBookPage/TextBookPage.jsx";
 import ContactUsPage from "../src/Pages/ContactUsPage/ContactUsPage.jsx";
+import ProfilePage from "../src/Pages/ProfilePage/ProfilePage.jsx";
 function RouteApp() {
     return (
         <>
@@ -30,6 +31,11 @@ function RouteApp() {
                     <Route path='/bookDetails' element={<BookDescription />} />
                     <Route path='/textBooks' element={<TextBookPage />} />
                     <Route path='/contactUsPage' element={<ContactUsPage />} />
+                    <Route path='/profile' element={<ProfilePage />} />
+
+
+                    {/* <Route path="/profile" element={<PrivateRoutes component={ProfilePage} />} /> */}
+
                     <Route path="/admindashboard" element={<PrivateRoutes component={AdminDashboard} />} />
                     <Route path="*" element={"Page not found"} />
                 </Routes>

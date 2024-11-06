@@ -46,6 +46,11 @@ function NavigationBar() {
         });
     };
 
+    const handelProfile = () => {
+        navigate('/profile');  
+    }
+    
+
     return (
         <nav>
             <div className="logo">
@@ -74,7 +79,7 @@ function NavigationBar() {
                             <img src="Images/user.png" alt="" />
                             {dropdownVisible && (
                                 <div className="dropDownContent">
-                                    <a href="#">Profile</a>
+                                    <a onClick={handelProfile}>Profile</a>
                                     <a href="#" onClick={handleLogout}>Logout</a>
                                 </div>
                             )}

@@ -28,7 +28,7 @@ const AboutUs = () => {
       <div className="contactDetails">
         <h2 className="contactTitle">Contact Us</h2>
         <p>Email: supportbookMandu@gmail.com</p>
-        <p>Phone: +977 12345678</p>
+        <p>Phone: +977 9865986060</p>
         <p>Location: Kathmandu, Nepal</p>
       </div>
     </div>

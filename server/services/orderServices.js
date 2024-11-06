@@ -6,7 +6,11 @@ import {
   getPendingOrderDetails,
   getCompletedOrderDetails,
   editOrderStatus,
-  cancelOrder
+  cancelOrder,
+  getDeliveredOrderCountByUserId,
+  getPendingOrderCountByUserId,
+  getCancelledOrderCountByUserId,
+  getUserALLOrderDetails
 } from "../repository/orderRepository.js";
 import { sendMaill } from "./sendMail.js";
 import { getUserByUserId } from "../repository/userRepository.js";
@@ -37,7 +41,9 @@ export const bookOrder = async (userId, reqBody) => {
       2
     )}</span></p>
     <p><strong>Address:</strong> <span>${reqBody.address}</span></</p>
-    <p><strong>Contact Information:</strong> <span>${reqBody.contactNumber}</span></</p>
+    <p><strong>Contact Information:</strong> <span>${
+      reqBody.contactNumber
+    }</span></</p>
     <p><strong>Payment Mode:</strong> <span>${reqBody.paymentMode}</span></</p>
     <p><strong>Order Status:</strong> <span style="color: orange;">${
       reqBody.orderStatus
@@ -54,7 +60,7 @@ export const bookOrder = async (userId, reqBody) => {
         <li style="margin-bottom: 15px; padding: 10px; border: 2px solid #ddd; border-radius: 5px;">
           <strong style="font-size: 1.1em;">${book.name}</strong><br>
           <span style="color: #555;">Category: ${book.category}</span><br>
-          <span style="color: #000; font-weight:600;">Price: <strong>$${book.price.toFixed(
+          <span style="color: #000; font-weight:600;">Price: <strong>Rs ${book.price.toFixed(
             2
           )}</strong></span><br>
           <span style="color: #555;">Quantity: ${book.quantity}</span>
@@ -106,7 +112,7 @@ export const getpendingOrderList = async () => {
       success: true,
       status: 200,
       message: "Data fetched successfully",
-      pendingOrderDetails:result
+      pendingOrderDetails: result,
     };
   }
   return {
@@ -118,7 +124,7 @@ export const getpendingOrderList = async () => {
 
 export const getCompleterOrderCount = async (req, res) => {
   const result = await getCompletedOrderCountNumber();
-  console.log(result)
+  console.log(result);
   if (result !== null) {
     return {
       success: true,
@@ -134,8 +140,6 @@ export const getCompleterOrderCount = async (req, res) => {
   };
 };
 
-
-
 export const getCompletedOrderList = async () => {
   const result = await getCompletedOrderDetails();
   if (result !== null) {
@@ -143,7 +147,7 @@ export const getCompletedOrderList = async () => {
       success: true,
       status: 200,
       message: "Data fetched successfully",
-      completedOrderDetails:result
+      completedOrderDetails: result,
     };
   }
   return {
@@ -153,14 +157,13 @@ export const getCompletedOrderList = async () => {
   };
 };
 
-
 export const updateOrderStatus = async (orderId) => {
   const result = await editOrderStatus(orderId);
-  if (result=== true) {
+  if (result === true) {
     return {
       success: true,
       status: 200,
-      message: "Data updated Successfully"
+      message: "Data updated Successfully",
     };
   }
   return {
@@ -170,19 +173,89 @@ export const updateOrderStatus = async (orderId) => {
   };
 };
 
-
 export const cancelOrderById = async (orderId) => {
   const result = await cancelOrder(orderId);
-  if (result=== true) {
+  if (result === true) {
     return {
       success: true,
       status: 200,
-      message: "Order cancelled Successfully"
+      message: "Order cancelled Successfully",
     };
   }
   return {
     success: false,
     status: 400,
     message: "Unable to cancel the order",
+  };
+};
+
+export const getCompletedOrderCountOfUser = async (userId) => {
+  const result = await getDeliveredOrderCountByUserId(userId);
+  console.log(result)
+  if (result >=0) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched Successfully",
+      count: result,
+    };
+  }
+  return {
+    success: false,
+    status: 400,
+    message: "Unable to fetch data",
+  };
+};
+
+export const getPendingOrderCountOfUser = async (userId) => {
+  const result = await getPendingOrderCountByUserId(userId);
+  console.log(result)
+  if (result >=0) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched Successfully",
+      count: result,
+    };
+  }
+  return {
+    success: false,
+    status: 400,
+    message: "Unable fetch data",
+  };
+};
+
+export const getCancelledOrderCountOfUser = async (userId) => {
+  const result = await getCancelledOrderCountByUserId(userId);
+  if (result >=0) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched Successfully",
+      count: result,
+    };
+  }
+  return {
+    success: false,
+    status: 400,
+    message: "Unable fetch data",
+  };
+};
+
+
+export const getUserCompletedOrderListById = async (userId) => {
+  const result = await getUserALLOrderDetails(userId);
+  if (result !== null) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      orderDetails: result,
+    };
+  }
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
   };
 };

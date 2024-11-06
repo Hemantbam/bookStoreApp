@@ -155,7 +155,7 @@ export const editOrderStatus = async (orderId) => {
   return false;
 };
 
-const getOrderDetailsById = async (orderId) => {
+export const getOrderDetailsById = async (orderId) => {
   const query = "select * from bookOrder where id=?";
   const [response] = await dbConn.query(query, [orderId]);
   if (response.length > 0) {
@@ -201,3 +201,82 @@ export const cancelOrder = async (orderId) => {
   }
 };
 
+
+export const getDeliveredOrderCountByUserId = async (userId) => {
+  const query = "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'delivered'";
+  try {
+    const [response] = await dbConn.query(query, [userId]);
+    if (response.length > 0) {
+      return response[0].count;  
+    }
+    return null; 
+  } catch (error) {
+    console.error("Error fetching delivered order count:", error);
+    throw error; 
+  }
+};
+
+export const getPendingOrderCountByUserId = async (userId) => {
+  const query = "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'pending'";
+  try {
+    const [response] = await dbConn.query(query, [userId]);
+    if (response.length > 0) {
+      return response[0].count;  
+    }
+    return null; 
+  } catch (error) {
+    console.error("Error fetching delivered order count:", error);
+    throw error; 
+  }
+};
+
+export const getCancelledOrderCountByUserId = async (userId) => {
+  const query = "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'cancelled'";
+  try {
+    const [response] = await dbConn.query(query, [userId]);
+    if (response.length > 0) {
+      return response[0].count;  
+    }
+    return null; 
+  } catch (error) {
+    console.error("Error fetching delivered order count:", error);
+    throw error; 
+  }
+};
+
+
+
+
+export const getUserALLOrderDetails = async (userId) => {
+  const query = `SELECT
+    bookOrder.id AS orderId,
+    bookOrder.userId,
+    bookOrder.orderPrice,
+    bookOrder.paymentMode,
+       bookOrder.contactNumber,
+    bookOrder.paymentStatus,
+     bookOrder.address,
+    bookOrder.created_at,
+    bookOrder.orderStatus,
+    GROUP_CONCAT(bookdetails.bookName ORDER BY bookdetails.id ASC SEPARATOR ',') AS bookNames,
+    GROUP_CONCAT(bookOrderDetails.quantity ORDER BY bookdetails.id ASC SEPARATOR ' , ') AS quantities,
+    GROUP_CONCAT(bookOrderDetails.price ORDER BY bookdetails.id ASC SEPARATOR ' / ') AS prices
+FROM
+    bookdatabase.bookOrder
+INNER JOIN
+    bookdatabase.bookOrderDetails ON bookOrder.id = bookOrderDetails.bookOrderId
+INNER JOIN
+    bookdatabase.bookdetails ON bookOrderDetails.bookId = bookdetails.id
+WHERE
+   bookOrder.userId =?
+GROUP BY
+    bookOrder.id
+ORDER BY
+    bookOrder.id DESC;`;
+
+  const [response] = await dbConn.query(query,[userId]);
+  if (response.length > 0) {
+    return response;
+  }
+  return null;
+};

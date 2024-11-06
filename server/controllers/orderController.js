@@ -3,7 +3,11 @@ import {
   getCompleterOrderCount,
   getpendingOrderList,
   getCompletedOrderList, updateOrderStatus,
-  cancelOrderById
+  cancelOrderById,
+  getCompletedOrderCountOfUser,
+  getPendingOrderCountOfUser,
+  getCancelledOrderCountOfUser,
+  getUserCompletedOrderListById
 } from "../services/orderServices.js";
 import { bookOrder } from "../services/orderServices.js";
 
@@ -66,4 +70,38 @@ export const editOrderStatus = async (req, res) => {
     return res
       .status(result.status)
       .json({ message: result.message});
+  };
+
+
+  export const deliveredOrderCountByuserId = async (req, res) => {
+    const { id } = req.params; 
+    const result = await getCompletedOrderCountOfUser(id);
+    return res
+      .status(result.status)
+      .json({ message: result.message, count:result.count});
+  };
+
+  export const pendingOrderCountByuserId = async (req, res) => {
+    const { id } = req.params; 
+    const result = await getPendingOrderCountOfUser(id);
+    return res
+      .status(result.status)
+      .json({ message: result.message, count:result.count});
+  };
+
+  export const cancelledOrderCountByuserId = async (req, res) => {
+    const { id } = req.params; 
+    const result = await getCancelledOrderCountOfUser(id);
+    return res
+      .status(result.status)
+      .json({ message: result.message, count:result.count});
+  };
+
+
+  export const getUserOrderDetailsById = async (req, res) => {
+    const { id } = req.params; 
+    const result = await getUserCompletedOrderListById(id);
+    return res
+      .status(result.status)
+      .json({ message: result.message, details: result.orderDetails });
   };

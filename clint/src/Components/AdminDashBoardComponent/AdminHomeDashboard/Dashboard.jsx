@@ -66,6 +66,10 @@ const Dashboard = () => {
 
     };
 
+    const handelProfile=()=>{
+        navigate('/profile')
+    }
+
     useEffect(() => {
         window.scrollTo(0,0)
         totalCount();
@@ -81,7 +85,7 @@ const Dashboard = () => {
                     <div className="userAccount">
                         <img src="Images/user.png" alt="" />
                         <div className="dropDownContent">
-                            <a href="#">profile</a>
+                            <a href="#" onClick={handelProfile}>profile</a>
                             <a href="#" onClick={handelLogOut}>Logout</a>
                         </div>
                     </div>

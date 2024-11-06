@@ -1,0 +1,74 @@
+.profilePageContainer {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileBox {
+    height: auto;
+    width: 60%;
+    background-color: #ff6d00;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.profileHeadingBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userBasicInfo p {
+    color: white;
+    font-weight: 800;
+
+}
+
+.imageBox img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    margin-top: -50px;
+}
+
+
+.totalStatsBox {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color: aliceblue;
+    color: black;
+    font-weight: 700;
+    padding: 2px 20px;
+}
+
+.statsBox {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.profileBody {
+    width: 80%;
+    margin-top: 30px;
+    padding: 15px;
+}
+
+.recentOrderDetail {
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.orderButton{
+    padding: 7px 15px;
+}
