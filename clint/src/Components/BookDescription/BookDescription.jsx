@@ -11,7 +11,7 @@ function BookDescription() {
   console.log("tshb", bookDetails)
   useEffect(() => {
     window.scrollTo(0, 0)
-  })
+  }, [])
 
   console.log(bookDetails)
 
@@ -19,11 +19,13 @@ function BookDescription() {
 
     <>
       <NavigationBar />
-      <div className="bookDetailsViewBox">
-        <FeaturedBook bookName={(bookDetails.bookName.toUpperCase())} bookCategory={(bookDetails.bookCategory.toUpperCase())} bookAuthor={bookDetails.bookAuthor.toUpperCase()} bookPrice={bookDetails.bookPrice} bookDescription={bookDetails.bookDescription} bookImage={bookDetails.bookImage ? `${serverURL}/${(bookDetails.bookImage)}` : "./Images/defaultBook.png"}
-        />
-
+      <div className="container">
+        <div className="bookDetailsViewBox">
+          <FeaturedBook bookName={(bookDetails.bookName.toUpperCase())} bookCategory={(bookDetails.bookCategory.toUpperCase())} bookAuthor={bookDetails.bookAuthor.toUpperCase()} bookPrice={bookDetails.bookPrice} bookDescription={bookDetails.bookDescription} bookImage={bookDetails.bookImage ? `${serverURL}/${(bookDetails.bookImage)}` : "./Images/defaultBook.png"}
+          />
+        </div>
       </div>
+
       <Footer />
     </>
   )

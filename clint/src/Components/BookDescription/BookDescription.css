@@ -1,8 +1,7 @@
-.bookDetailsViewBox{
-    margin-top: 100px;
+
+.container{
+margin-top: 30px;
 }
-
-
 @media (max-width: 768px) {
     .bookDetailsViewBox{
 margin-top: 250px;

@@ -58,6 +58,16 @@ const OtpVerification = () => {
 
     };
 
+    const regenerateOtp = async () => {
+        await createOtp(email);
+        setError('')
+        setMessage("OTP resend Successfully")
+        setTimeout(()=>{
+            setError('')
+            setMessage('')
+        },3000)
+      }
+
     return (
         <div className="container">
             <div className="formBox">
@@ -92,6 +102,7 @@ const OtpVerification = () => {
                         Update password
                     </button>
                 </form>
+                <span onClick={regenerateOtp} className='resentOtpBtn'>Resend Otp</span>
                 <span><Link to="/">  Back to homepage</Link></span>
             </div>
         </div>
