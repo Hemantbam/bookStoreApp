@@ -36,7 +36,7 @@ function Subscribe() {
         } else if (response.status === 409) {
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
+                title: 'opps!!',
                 text: response.error.message,
             });
 

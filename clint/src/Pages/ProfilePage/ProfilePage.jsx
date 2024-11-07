@@ -99,16 +99,13 @@ function ProfilePage() {
                             {userOrderDetails.length > 0 ? (
                                 <div className="orderDetailContainer">
                                     <p><strong>Order ID:</strong> {userOrderDetails[0].orderId}</p>
-                                    <p><strong>Book Title(s):</strong> {userOrderDetails[0].bookNames}</p>
+                                    <p><strong>Book Titles:</strong> {userOrderDetails[0].bookNames}</p>
                                     <p><strong>Order Status:</strong> {userOrderDetails[0].orderStatus}</p>
                                     <p><strong>Total Price:</strong> Rs {userOrderDetails[0].orderPrice}</p>
                                     <p><strong>Payment Status:</strong> {userOrderDetails[0].paymentStatus}</p> </div>
                             ) : (
                                 <p>No recent orders found.</p>
                             )}
-                        </div>
-                        <div className="orderButton">
-                            <button onClick={() => navigate('/orders')}>View All Orders</button>
                         </div>
                     </div>
                 </div>

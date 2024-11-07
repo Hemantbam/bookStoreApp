@@ -32,8 +32,6 @@ function ManageContactUsQueries() {
                 showCloseButton: true
             });
 
-            /*set the details state again with the dynamic value for the row color button text and button disable state 
-            when the user clicked row details id is equal to the id of the detail state (for mark as read) */
 
             setDetails((stateDetails) =>
                 stateDetails.map((detail) =>
@@ -43,8 +41,6 @@ function ManageContactUsQueries() {
                 )
             );
 
-            /*set the details state again with the dynamic value for the row color button text and button disable state 
-            when the user clicked row details id is equal to the id of the detail state for(deleting) */
 
             setTimeout(() => {
                 setDetails((stateDetails) =>

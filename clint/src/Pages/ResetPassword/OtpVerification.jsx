@@ -13,6 +13,7 @@ const OtpVerification = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
@@ -26,18 +27,26 @@ const OtpVerification = () => {
                 if (response.status === 409) {
                     setError(response.err.message)
                     setMessage('')
+                    setTimeout(() => {
+                    })
+
                     return
 
                 }
                 if (response.status === 400) {
                     setError(response.err.message)
                     setMessage('')
+                    setTimeout(() => {
+                    })
                     return
                 }
 
                 if (response.message) {
                     setMessage(response.message)
                     setError("")
+                    setTimeout(() => {
+                        navigate('/login')
+                    }, 3000)
                     return
                 }
             }
@@ -46,7 +55,6 @@ const OtpVerification = () => {
         } catch (err) {
             console.log(err)
         }
-
 
     };
 
@@ -58,7 +66,7 @@ const OtpVerification = () => {
                 {message && <span className="successMessage">{message}</span>}
                 <form onSubmit={handleSubmit}>
                     <div className="emailArea">
-                        
+
                         <label htmlFor="password">Password</label>
                         <input
                             type="password"

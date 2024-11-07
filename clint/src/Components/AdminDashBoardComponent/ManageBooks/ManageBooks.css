@@ -50,6 +50,8 @@
 .tableCell {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    width: 200px;
+    word-wrap:break-word;
 }
 
 .actionCell {

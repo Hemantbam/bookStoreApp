@@ -80,7 +80,7 @@ function NavigationBar() {
                             {dropdownVisible && (
                                 <div className="dropDownContent">
                                     <a onClick={handelProfile}>Profile</a>
-                                    <a href="#" onClick={handleLogout}>Logout</a>
+                                    <a  onClick={handleLogout}>Logout</a>
                                 </div>
                             )}
                         </div>

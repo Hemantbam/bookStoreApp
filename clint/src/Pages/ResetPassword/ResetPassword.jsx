@@ -21,9 +21,7 @@ const ResetPassword = () => {
     setError('');
     setEmail(userEmail)
     try {
-      console.log(email)
       const response = await createOtp(userEmail);
-      console.log(response);
 
       if (response.status === 404) {
         setError("User not found");
