@@ -32,10 +32,6 @@ function RouteApp() {
                     <Route path='/textBooks' element={<TextBookPage />} />
                     <Route path='/contactUsPage' element={<ContactUsPage />} />
                     <Route path='/profile' element={<ProfilePage />} />
-
-
-                    {/* <Route path="/profile" element={<PrivateRoutes component={ProfilePage} />} /> */}
-
                     <Route path="/admindashboard" element={<PrivateRoutes component={AdminDashboard} />} />
                     <Route path="*" element={"Page not found"} />
                 </Routes>

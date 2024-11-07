@@ -10,10 +10,11 @@ import {
   getDeliveredOrderCountByUserId,
   getPendingOrderCountByUserId,
   getCancelledOrderCountByUserId,
-  getUserALLOrderDetails
+  getUserALLOrderDetails,
 } from "../repository/orderRepository.js";
 import { sendMaill } from "./sendMail.js";
 import { getUserByUserId } from "../repository/userRepository.js";
+
 export const bookOrder = async (userId, reqBody) => {
   if (!orderInputValidate(reqBody)) {
     return {
@@ -191,8 +192,8 @@ export const cancelOrderById = async (orderId) => {
 
 export const getCompletedOrderCountOfUser = async (userId) => {
   const result = await getDeliveredOrderCountByUserId(userId);
-  console.log(result)
-  if (result >=0) {
+  console.log(result);
+  if (result >= 0) {
     return {
       success: true,
       status: 200,
@@ -209,8 +210,8 @@ export const getCompletedOrderCountOfUser = async (userId) => {
 
 export const getPendingOrderCountOfUser = async (userId) => {
   const result = await getPendingOrderCountByUserId(userId);
-  console.log(result)
-  if (result >=0) {
+  console.log(result);
+  if (result >= 0) {
     return {
       success: true,
       status: 200,
@@ -227,7 +228,7 @@ export const getPendingOrderCountOfUser = async (userId) => {
 
 export const getCancelledOrderCountOfUser = async (userId) => {
   const result = await getCancelledOrderCountByUserId(userId);
-  if (result >=0) {
+  if (result >= 0) {
     return {
       success: true,
       status: 200,
@@ -241,7 +242,6 @@ export const getCancelledOrderCountOfUser = async (userId) => {
     message: "Unable fetch data",
   };
 };
-
 
 export const getUserCompletedOrderListById = async (userId) => {
   const result = await getUserALLOrderDetails(userId);
@@ -259,3 +259,4 @@ export const getUserCompletedOrderListById = async (userId) => {
     message: "Data not found",
   };
 };
+

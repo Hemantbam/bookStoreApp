@@ -1,0 +1,67 @@
+.bookOrderDetailsContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+    flex-grow: 1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: scroll;
+}
+
+.countBox {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.statBox {
+    background-color: white;
+    border-radius: 5px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 30%;
+}
+
+.confirmDeleveryBtn {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.confirmDeleveryBtn:hover {
+    background-color: #45a049;
+}
+
+.pendingBookOrderTableContainer{
+    height: 300px;
+    width: auto;
+    overflow-y: scroll;
+}
+
+.completedBookOrderTableContainer{
+    height: 300px;
+    width: auto;
+    overflow-y: scroll;
+}
+
+.deliveredStatus{
+    background-color: #9dffa2;
+    font-weight: 700;
+}
+.orderActionBtn{
+display: flex;
+gap: 10px;
+
+}
+
+.cancelOrdeBtn{
+background-color: red;
+color: white;
+}
+
+.cancelledStatus{
+    background-color: rgb(249, 61, 61);
+    color: white;
+    font-weight: 700;
+}

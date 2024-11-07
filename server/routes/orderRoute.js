@@ -53,7 +53,6 @@ router.put(
 router.put(
   "/admin/cancelOrder/:id",
   verifyToken,
-  isAdmin,
   errorHandlerWrapper(cancelOrder)
 );
 
@@ -80,5 +79,7 @@ router.get(
   verifyToken,
   errorHandlerWrapper(getUserOrderDetailsById)
 );
+
+
 
 export const order = router;

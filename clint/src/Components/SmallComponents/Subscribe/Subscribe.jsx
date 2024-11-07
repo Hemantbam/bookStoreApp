@@ -51,7 +51,7 @@ function Subscribe() {
 
     return (
         <div className='signUpContainer'>
-            <span className='topSignupText'>Sign Up and Save</span>
+            <span className='topSignupText'>Sign Up and Place Orders</span>
             <span className='subscribeText'>
                 Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
             </span>

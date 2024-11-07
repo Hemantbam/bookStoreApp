@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './textBook.css'
 import NavigationBar from '../../Components/NavigationBar/NavigationBar.jsx'
 import Footer from '../../Components/Footer/Footer.jsx'
 import BookDetails from '../../Components/SmallComponents/BookDetails/BookDetails.jsx'
 import { getBooks, searchBook } from '../../api/bookDetails.js'
+
 function TextBookPage() {
     const serverURL = "http://localhost:8080";
 
@@ -13,6 +13,8 @@ function TextBookPage() {
     const [currentPage, setCurrentPage] = useState(1)
     const [noResult, setNoResult] = useState(false)
     const [pageSize] = useState(6)
+    const [priceFilter, setPriceFilter] = useState('')
+
     const handelGetBookDetails = async () => {
         const result = await getBooks()
         console.log(result)
@@ -24,7 +26,7 @@ function TextBookPage() {
         window.scrollTo(0, 0)
     }, [])
 
-    const totalPages = Math.ceil(books.length / pageSize)
+    let totalPages = Math.ceil(books.length / pageSize)
 
     const displayedBooks = Array.isArray(books) ? books.slice((currentPage - 1) * pageSize, currentPage * pageSize) : [];
 
@@ -32,16 +34,13 @@ function TextBookPage() {
     const secondRowBooks = displayedBooks.slice(3, 6);
 
     const handlePageChange = (pageNumber) => {
-
         setCurrentPage(pageNumber);
     };
-
 
     const handelSearch = async (word) => {
         const trimmedWord = word.trim()
         if (trimmedWord === "") {
             return handelGetBookDetails()
-
         }
         const response = await searchBook(trimmedWord)
         console.log(response)
@@ -60,6 +59,19 @@ function TextBookPage() {
         handelSearch(word);
     };
 
+    const handlePriceFilterChange = (e) => {
+        const filter = e.target.value;
+        setPriceFilter(filter);
+        if (filter === 'lowToHigh') {
+            setBooks(prevBooks =>
+                [...prevBooks].sort((a, b) => a.bookPrice - b.bookPrice)
+            );
+        } else if (filter === 'highToLow') {
+            setBooks(prevBooks =>
+                [...prevBooks].sort((a, b) => b.bookPrice - a.bookPrice)
+            );
+        }
+    };
 
     return (
         <>
@@ -68,16 +80,27 @@ function TextBookPage() {
                 <div className="searchBar">
                     <label htmlFor="search">Search</label>
                     <input type="text" placeholder='search book here..' value={searchWord} onChange={handleSearchInputChange} />
+
+                    <div className="filterContainer">
+                        <label htmlFor="priceFilter">Sort by Price:</label>
+                        <select id="priceFilter" value={priceFilter} onChange={handlePriceFilterChange}>
+                            <option value="highToLow">Price: High to Low</option>
+                            <option value="lowToHigh">Price: Low to High</option>
+
+                        </select>
+                    </div>
                 </div>
 
                 <p>Available Books</p>
                 <div className="BooksBox">
-
                     <div className="noResult">
                         {noResult &&
                             <>
                                 <h2 className='notfoundBookText'>Book not found</h2>
                                 <img src="./Images/notFound.png" alt="book" />
+                                <span>
+                                    {totalPages = 1}
+                                </span>
                             </>}
                     </div>
                     <div className="bookDetailsViewBox">
@@ -89,11 +112,9 @@ function TextBookPage() {
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
                                 bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
-
                             />
                         ))}
                     </div>
-
 
                     <div className="bookDetailsViewBox">
                         {Array.isArray(secondRowBooks) && secondRowBooks.map(book => (
@@ -104,12 +125,8 @@ function TextBookPage() {
                                 bookCategory={book.bookCategory.toUpperCase()}
                                 bookPrice={book.bookPrice}
                                 bookPicture={book.bookImage ? `${serverURL}/${(book.bookImage).replace(/\\/g, '/')}` : "./Images/defaultBook.png"}
-
-
                             />
                         ))}
-
-
                     </div>
                 </div>
 
@@ -127,7 +144,6 @@ function TextBookPage() {
 
             </div>
             <Footer />
-
         </>
     )
 }

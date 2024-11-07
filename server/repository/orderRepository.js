@@ -177,10 +177,10 @@ export const cancelOrder = async (orderId) => {
     }
 
     let query;
-    if (orderDetails.paymentMode === 'eSewa') {
-      query = "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='refunded' WHERE id=?";
-    } else {
+    if (orderDetails.paymentMode === 'COD') {
       query = "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='failed' WHERE id=?";
+    } else {
+      query = "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='refunded' WHERE id=?";
     }
 
     const [response] = await connection.query(query, [orderId]);
@@ -271,6 +271,113 @@ WHERE
    bookOrder.userId =?
 GROUP BY
     bookOrder.id
+ORDER BY
+    bookOrder.id DESC;`;
+
+  const [response] = await dbConn.query(query,[userId]);
+  if (response.length > 0) {
+    return response;
+  }
+  return null;
+};
+
+
+
+export const getCompletedOrderDetailsById = async (userId) => {
+  const query = `SELECT
+    bookOrder.id AS orderId,
+    bookOrder.userId,
+    bookOrder.orderPrice,
+    bookOrder.paymentMode,
+       bookOrder.contactNumber,
+    bookOrder.paymentStatus,
+     bookOrder.address,
+    bookOrder.created_at,
+    bookOrder.orderStatus,
+    GROUP_CONCAT(bookdetails.bookName ORDER BY bookdetails.id ASC SEPARATOR ',') AS bookNames,
+    GROUP_CONCAT(bookOrderDetails.quantity ORDER BY bookdetails.id ASC SEPARATOR ' , ') AS quantities,
+    GROUP_CONCAT(bookOrderDetails.price ORDER BY bookdetails.id ASC SEPARATOR ' / ') AS prices
+FROM
+    bookdatabase.bookOrder
+INNER JOIN
+    bookdatabase.bookOrderDetails ON bookOrder.id = bookOrderDetails.bookOrderId
+INNER JOIN
+    bookdatabase.bookdetails ON bookOrderDetails.bookId = bookdetails.id
+WHERE
+   bookOrder.orderStatus = 'delivered' and userId=?
+GROUP BY
+    bookOrder.id
+    
+ORDER BY
+    bookOrder.id DESC;`;
+
+  const [response] = await dbConn.query(query,[userId]);
+  if (response.length > 0) {
+    return response;
+  }
+  return null;
+};
+
+export const getPendingOrderDetailsById = async (userId) => {
+  const query = `SELECT
+    bookOrder.id AS orderId,
+    bookOrder.userId,
+    bookOrder.orderPrice,
+    bookOrder.paymentMode,
+       bookOrder.contactNumber,
+    bookOrder.paymentStatus,
+     bookOrder.address,
+    bookOrder.created_at,
+    bookOrder.orderStatus,
+    GROUP_CONCAT(bookdetails.bookName ORDER BY bookdetails.id ASC SEPARATOR ',') AS bookNames,
+    GROUP_CONCAT(bookOrderDetails.quantity ORDER BY bookdetails.id ASC SEPARATOR ' , ') AS quantities,
+    GROUP_CONCAT(bookOrderDetails.price ORDER BY bookdetails.id ASC SEPARATOR ' / ') AS prices
+FROM
+    bookdatabase.bookOrder
+INNER JOIN
+    bookdatabase.bookOrderDetails ON bookOrder.id = bookOrderDetails.bookOrderId
+INNER JOIN
+    bookdatabase.bookdetails ON bookOrderDetails.bookId = bookdetails.id
+WHERE
+   bookOrder.orderStatus = 'pending' and userId=?
+GROUP BY
+    bookOrder.id
+    
+ORDER BY
+    bookOrder.id DESC;`;
+
+  const [response] = await dbConn.query(query,[userId]);
+  if (response.length > 0) {
+    return response;
+  }
+  return null;
+};
+
+export const getCancelledOrderDetailsById = async (userId) => {
+  const query = `SELECT
+    bookOrder.id AS orderId,
+    bookOrder.userId,
+    bookOrder.orderPrice,
+    bookOrder.paymentMode,
+       bookOrder.contactNumber,
+    bookOrder.paymentStatus,
+     bookOrder.address,
+    bookOrder.created_at,
+    bookOrder.orderStatus,
+    GROUP_CONCAT(bookdetails.bookName ORDER BY bookdetails.id ASC SEPARATOR ',') AS bookNames,
+    GROUP_CONCAT(bookOrderDetails.quantity ORDER BY bookdetails.id ASC SEPARATOR ' , ') AS quantities,
+    GROUP_CONCAT(bookOrderDetails.price ORDER BY bookdetails.id ASC SEPARATOR ' / ') AS prices
+FROM
+    bookdatabase.bookOrder
+INNER JOIN
+    bookdatabase.bookOrderDetails ON bookOrder.id = bookOrderDetails.bookOrderId
+INNER JOIN
+    bookdatabase.bookdetails ON bookOrderDetails.bookId = bookdetails.id
+WHERE
+   bookOrder.orderStatus = 'cancelled' and userId=?
+GROUP BY
+    bookOrder.id
+    
 ORDER BY
     bookOrder.id DESC;`;
 

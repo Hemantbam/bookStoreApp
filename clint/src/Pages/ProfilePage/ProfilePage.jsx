@@ -1,114 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import './ProfilePage.css';
-import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import Footer from '../../Components/Footer/Footer';
-import { getCancelledOrderCountOfUser, getCompletedOrderCountOfUser, getPendingOrderCountOfUser, getUserOrderListById } from '../../api/orderDetails';
-import { jwtDecode } from 'jwt-decode';
-
+import ProfileDashboard from '../../Components/UserProfileComponent/ProfileDashboardComponet/ProfileDashboard';
+import Order from '../../Components/UserProfileComponent/OrderDashboardComponent/Order';
 function ProfilePage() {
-    const [email, setEmail] = useState('');
-    const [userRole, setUserRole] = useState('');
-    const [userId, setUserId] = useState(null);
-    const [completedOrderCount, setCompletedOrderCount] = useState(0);
-    const [pendingOrderCount, setPendingOrderCount] = useState(0);
-    const [cancelledOrderCount, setCancelledOrderCount] = useState(0);
-    const [userOrderDetails, setUserOrderDetails] = useState([]);
+    const [Dashboard, setDashboard] = useState(false)
+    const [orders, setOrders] = useState(false)
+    const [editProfile, setEditProfile] = useState(false)
+    const handelShowDashboard = () => {
+        setDashboard(true)
+        setOrders(false)
+        setEditProfile(false)
+    }
 
-    const navigate = useNavigate();
+    const handelShowOrders = () => {
+        setDashboard(false)
+        setOrders(true)
+        setEditProfile(false)
+    }
 
-    const handleUserDetails = () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            navigate('/login');
-            return;
-        }
-        try {
-            const decodedToken = jwtDecode(token);
-            setEmail(decodedToken.email);
-            setUserRole(decodedToken.role);
-            setUserId(decodedToken.id);
-        } catch (error) {
-            console.error("Invalid token:", error);
-            navigate('/login');
-        }
-    };
-
-    const handleUserOrderDetails = async () => {
-        if (!userId) return;
-        try {
-            const deliveredCount = await getCompletedOrderCountOfUser(userId);
-            const pendingCount = await getPendingOrderCountOfUser(userId);
-            const cancelledCount = await getCancelledOrderCountOfUser(userId);
-
-            setCompletedOrderCount(deliveredCount.count);
-            setPendingOrderCount(pendingCount.count);
-            setCancelledOrderCount(cancelledCount.count);
-        } catch (error) {
-            console.error("Error fetching order counts:", error);
-        }
-    };
-
-    const handleUserOrderList = async () => {
-        if (!userId) return;
-        try {
-            const result = await getUserOrderListById(userId);
-            setUserOrderDetails(result.details);
-        } catch (error) {
-            console.error("Error fetching user order list:", error);
-        }
-    };
+    const handelShowEditProfile = () => {
+        setDashboard(false)
+        setOrders(false)
+        setEditProfile(true)
+    }
 
     useEffect(() => {
-        handleUserDetails();
-    }, []);
-
-    useEffect(() => {
-        handleUserOrderDetails();
-        handleUserOrderList();
-    }, [userId]);
-
+        handelShowDashboard()
+    }, [])
     return (
         <>
             <NavigationBar />
-            <div className="profilePageContainer">
-                <div className="profileBox">
-                    <div className="profileHeadingBox">
-                        <div className="imageBox">
-                            <img src="./Images/profile.png" alt="Profile" />
+            <div className="profileContainer">
+
+                <aside className="sidebar">
+                    <h2>User Profile</h2>
+                    <section className="authorizedFunction">
+                        <div className="manage">
+                            <span className='ManageUserProfile' onClick={handelShowDashboard} >
+                                <img src="./Images/dashboard.png" alt="" />Dashboard
+                            </span>
+                            <span className='ManageUserProfile' onClick={handelShowOrders} >
+                                <img src="./Images/manageUsers.png" alt="" />Order Details
+                            </span>
+                            <span className='ManageUserProfile' onClick={handelShowEditProfile}>
+                                <img src="./Images/manageBooks.png" alt="" />Edit Profile
+                            </span>
                         </div>
-                        <div className="userBasicInfo">
-                            <p>{email}</p>
-                            <p>Role: {(userRole).toUpperCase()}</p>
-                        </div>
-                    </div>
-                    <div className="statsBox">
-                        <div className="totalStatsBox">
-                            <p>Completed Orders: {completedOrderCount || 0}</p>
-                        </div>
-                        <div className="totalStatsBox">
-                            <p>Pending Orders: {pendingOrderCount || 0}</p>
-                        </div>
-                        <div className="totalStatsBox">
-                            <p>Cancelled Orders: {cancelledOrderCount || 0}</p>
-                        </div>
-                    </div>
-                    <div className="profileBody">
-                        <div className="recentOrderDetail">
-                            <h3>Recently Ordered Items</h3>
-                            {userOrderDetails.length > 0 ? (
-                                <div className="orderDetailContainer">
-                                    <p><strong>Order ID:</strong> {userOrderDetails[0].orderId}</p>
-                                    <p><strong>Book Titles:</strong> {userOrderDetails[0].bookNames}</p>
-                                    <p><strong>Order Status:</strong> {userOrderDetails[0].orderStatus}</p>
-                                    <p><strong>Total Price:</strong> Rs {userOrderDetails[0].orderPrice}</p>
-                                    <p><strong>Payment Status:</strong> {userOrderDetails[0].paymentStatus}</p> </div>
-                            ) : (
-                                <p>No recent orders found.</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                    </section>
+                    <br />
+                    <br />
+                    <h3 className='logOut' >Logout</h3>
+                </aside>
+
+                {Dashboard && <ProfileDashboard />}
+                {orders && <Order />}
             </div>
             <Footer />
         </>

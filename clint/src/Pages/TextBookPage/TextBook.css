@@ -13,6 +13,7 @@
     align-items: center;
     margin-top: 80px;
     margin-bottom: 40px;
+    gap:40px;
 }
 
 .searchBar label {
@@ -97,6 +98,29 @@ margin-top: 20px;
 height: 50px;
 width: 50px;
 }
+.noResult span{
+    display: none;
+}
+
+#priceFilter {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    width: 200px;
+    transition: border-color 0.3s ease;
+}
+
+#priceFilter:focus {
+    border-color: #000000;
+    outline: none;
+}
+
+
+
+
+
 @media (max-width: 768px) {
     .bookDetailsViewBox {
         flex-direction: column;
