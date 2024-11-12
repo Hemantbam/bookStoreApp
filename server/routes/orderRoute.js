@@ -11,6 +11,7 @@ import {
   pendingOrderCountByuserId,
   cancelledOrderCountByuserId,
   getUserOrderDetailsById,
+  cancelledOrderInformation,
 } from "../controllers/orderController.js";
 import { verifyToken, isAdmin } from "../middleware/authMiddleware.js";
 import { errorHandlerWrapper } from "../middleware/errorHandellerWrapper.js";
@@ -80,6 +81,18 @@ router.get(
   errorHandlerWrapper(getUserOrderDetailsById)
 );
 
+// router.get(
+//   "/admin/allOrderDetails",
+//   verifyToken,
+//   isAdmin,
+//   errorHandlerWrapper(allOrderInformation)
+// );
 
+router.get(
+  "/admin/cancelledOrderDetails",
+  verifyToken,
+  isAdmin,
+  errorHandlerWrapper(cancelledOrderInformation)
+);
 
 export const order = router;

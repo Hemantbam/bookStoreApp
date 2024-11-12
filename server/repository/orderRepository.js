@@ -91,7 +91,7 @@ GROUP BY
     bookOrder.id`;
 
   const [response] = await dbConn.query(query);
-
+  console.log("response", response);
   if (response.length > 0) {
     return response;
   }
@@ -177,10 +177,12 @@ export const cancelOrder = async (orderId) => {
     }
 
     let query;
-    if (orderDetails.paymentMode === 'COD') {
-      query = "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='failed' WHERE id=?";
+    if (orderDetails.paymentMode === "COD") {
+      query =
+        "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='failed' WHERE id=?";
     } else {
-      query = "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='refunded' WHERE id=?";
+      query =
+        "UPDATE bookOrder SET orderStatus='cancelled', paymentStatus='refunded' WHERE id=?";
     }
 
     const [response] = await connection.query(query, [orderId]);
@@ -201,51 +203,50 @@ export const cancelOrder = async (orderId) => {
   }
 };
 
-
 export const getDeliveredOrderCountByUserId = async (userId) => {
-  const query = "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'delivered'";
+  const query =
+    "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'delivered'";
   try {
     const [response] = await dbConn.query(query, [userId]);
     if (response.length > 0) {
-      return response[0].count;  
+      return response[0].count;
     }
-    return null; 
+    return null;
   } catch (error) {
     console.error("Error fetching delivered order count:", error);
-    throw error; 
+    throw error;
   }
 };
 
 export const getPendingOrderCountByUserId = async (userId) => {
-  const query = "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'pending'";
+  const query =
+    "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'pending'";
   try {
     const [response] = await dbConn.query(query, [userId]);
     if (response.length > 0) {
-      return response[0].count;  
+      return response[0].count;
     }
-    return null; 
+    return null;
   } catch (error) {
     console.error("Error fetching delivered order count:", error);
-    throw error; 
+    throw error;
   }
 };
 
 export const getCancelledOrderCountByUserId = async (userId) => {
-  const query = "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'cancelled'";
+  const query =
+    "SELECT COUNT(*) AS count FROM bookOrder WHERE userId = ? AND orderStatus = 'cancelled'";
   try {
     const [response] = await dbConn.query(query, [userId]);
     if (response.length > 0) {
-      return response[0].count;  
+      return response[0].count;
     }
-    return null; 
+    return null;
   } catch (error) {
     console.error("Error fetching delivered order count:", error);
-    throw error; 
+    throw error;
   }
 };
-
-
-
 
 export const getUserALLOrderDetails = async (userId) => {
   const query = `SELECT
@@ -274,14 +275,12 @@ GROUP BY
 ORDER BY
     bookOrder.id DESC;`;
 
-  const [response] = await dbConn.query(query,[userId]);
+  const [response] = await dbConn.query(query, [userId]);
   if (response.length > 0) {
     return response;
   }
   return null;
 };
-
-
 
 export const getCompletedOrderDetailsById = async (userId) => {
   const query = `SELECT
@@ -311,7 +310,7 @@ GROUP BY
 ORDER BY
     bookOrder.id DESC;`;
 
-  const [response] = await dbConn.query(query,[userId]);
+  const [response] = await dbConn.query(query, [userId]);
   if (response.length > 0) {
     return response;
   }
@@ -346,7 +345,7 @@ GROUP BY
 ORDER BY
     bookOrder.id DESC;`;
 
-  const [response] = await dbConn.query(query,[userId]);
+  const [response] = await dbConn.query(query, [userId]);
   if (response.length > 0) {
     return response;
   }
@@ -381,9 +380,49 @@ GROUP BY
 ORDER BY
     bookOrder.id DESC;`;
 
-  const [response] = await dbConn.query(query,[userId]);
+  const [response] = await dbConn.query(query, [userId]);
   if (response.length > 0) {
     return response;
   }
   return null;
+};
+
+export const getAllCancelledOrderDetails = async () => {
+  const query = `
+    SELECT
+      bookOrder.id AS orderId,
+      bookOrder.userId,
+      bookOrder.orderPrice,
+      bookOrder.paymentMode,
+      bookOrder.contactNumber,
+      bookOrder.paymentStatus,
+      bookOrder.address,
+      bookOrder.created_at,
+      bookOrder.orderStatus,
+      GROUP_CONCAT(bookdetails.bookName ORDER BY bookdetails.id ASC SEPARATOR ', ') AS bookNames,
+      GROUP_CONCAT(bookOrderDetails.quantity ORDER BY bookdetails.id ASC SEPARATOR ', ') AS quantities,
+      GROUP_CONCAT(bookOrderDetails.price ORDER BY bookdetails.id ASC SEPARATOR ', ') AS prices
+    FROM
+      bookdatabase.bookOrder
+    INNER JOIN
+      bookdatabase.bookOrderDetails ON bookOrder.id = bookOrderDetails.bookOrderId
+    INNER JOIN
+      bookdatabase.bookdetails ON bookOrderDetails.bookId = bookdetails.id
+      WHERE
+   bookOrder.orderStatus = 'cancelled'
+    GROUP BY
+      bookOrder.id;
+  `;
+
+  try {
+    const [response] = await dbConn.query(query);
+    if (response.length > 0) {
+      return response;
+    } else {
+      return { message: "No orders found." };
+    }
+  } catch (error) {
+    console.error("Database query error:", error);
+    throw new Error("Failed to retrieve order details.");
+  }
 };

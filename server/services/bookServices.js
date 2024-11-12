@@ -80,7 +80,7 @@ export const deleteBookByBookId = async (bookId) => {
 
 //______________________________________________________________________________________________
 
-export const updateBookByBookId = async (bookId, reqBody) => { //bookImage
+export const updateBookByBookId = async (bookId, reqBody) => { 
 
   if (!bookInputValidate(reqBody)) {
       return {

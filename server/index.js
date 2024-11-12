@@ -6,10 +6,12 @@ import { order } from "./routes/orderRoute.js";
 import { otpAndMail } from "./routes/passwordResetRoute.js";
 import { contactUs } from "./routes/contactUsRoute.js";
 import { subscribe } from "./routes/subscriberRoute.js";
+import { userDetails } from "./routes/userDetailsRoute.js";
 
 import cors from "cors";
 import path from "path";
-import { fileURLToPath } from 'url';
+
+import { fileURLToPath } from "url";
 const app = express();
 const port = 8080;
 app.use(cors());
@@ -28,6 +30,7 @@ app.use("/order", order);
 app.use("/reset", otpAndMail);
 app.use("/contactUS", contactUs);
 app.use("/subscribe", subscribe);
+app.use("/userDetails", userDetails)
 //-------------------------------------------------------------------------------
 
 app.listen(port);

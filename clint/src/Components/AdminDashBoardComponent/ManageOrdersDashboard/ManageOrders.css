@@ -4,6 +4,7 @@
     flex-grow: 1;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: scroll;
 }
 
 .countBox {
@@ -32,29 +33,104 @@
     background-color: #45a049;
 }
 
-.pendingBookOrderTableContainer{
+.pendingBookOrderTableContainer,
+.completedBookOrderTableContainer {
     height: 300px;
-    width: auto;
+    width: 100%;
     overflow-y: scroll;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
-.completedBookOrderTableContainer{
-    height: 300px;
-    width: auto;
-    overflow-y: scroll;
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.deliveredStatus{
+.tableHeader {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    text-align: left;
+}
+
+.headerCell {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.tableRow {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.tableRow:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tableRow:hover {
+    background-color: #e8f4ff;
+}
+
+.tableRow td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Status cell styling */
+.deliveredStatus {
     background-color: #9dffa2;
-    font-weight: 700;
-}
-.orderActionBtn{
-display: flex;
-gap: 10px;
-
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
 }
 
-.cancelOrdeBtn{
-background-color: red;
-color: white;
+.cancelledStatus {
+    background-color: #f93d3d;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* Action button container styling */
+.orderActionBtn {
+    display: flex;
+    gap: 10px;
+}
+
+/* Button styles */
+.confirmDeleveryBtn, .cancelOrdeBtn {
+    padding: 8px 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancelOrdeBtn {
+    background-color: red;
+    color: white;
+}
+
+.cancelOrdeBtn:hover {
+    background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .headerCell, .tableRow td {
+        font-size: 12px;
+        padding: 8px;
+    }
+    .statBox {
+        width: 100%;
+    }
+    .countBox{
+        flex-direction: column;
+        align-items: center;
+    }
 }

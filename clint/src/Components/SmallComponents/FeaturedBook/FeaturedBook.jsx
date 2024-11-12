@@ -4,13 +4,13 @@ import { CartContext } from '../../../Context/context';
 import Swal from 'sweetalert2';
 import { useContext } from 'react';
 
-function FeaturedBook({ bookName, bookCategory, bookAuthor, bookPrice, bookDescription, bookImage}) {
-console.log(bookImage)
+function FeaturedBook({ bookId, bookName, bookCategory, bookAuthor, bookPrice, bookDescription, bookImage }) {
     const bookToAdd = {
         name: bookName,
         category: bookCategory,
         price: parseFloat(bookPrice),
         quantity: 1,
+        id: bookId
     };
 
     const { books, setBooks } = useContext(CartContext);
@@ -42,7 +42,7 @@ console.log(bookImage)
                     <span className='bookCategory'>{bookCategory}</span>
                     <p>
                         <span className="bookName">{bookName}</span> <br />
-                        <span className="bookAuthor">By {bookAuthor}</span> <br /> 
+                        <span className="bookAuthor">By {bookAuthor}</span> <br />
                         <span className="bookDescription">{bookDescription}</span> <br />
                         <span className="bookPrice">Price: {bookPrice}</span>
                     </p>

@@ -8,6 +8,7 @@ import {
   getPendingOrderCountOfUser,
   getCancelledOrderCountOfUser,
   getUserCompletedOrderListById,
+  getCancelledOrderList,
 } from "../services/orderServices.js";
 import { bookOrder } from "../services/orderServices.js";
 
@@ -107,3 +108,9 @@ export const editOrderStatus = async (req, res) => {
   };
 
 
+  export const cancelledOrderInformation = async (req, res) => {
+    const result = await getCancelledOrderList();
+    return res
+      .status(result.status)
+      .json({ message: result.message, details: result.allDetails });
+  };

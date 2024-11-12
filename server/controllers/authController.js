@@ -11,7 +11,6 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const result = await userLogin(email, password);
-  console.log("this is result", result);
 
   if (result.success) {
     const token = result.token;

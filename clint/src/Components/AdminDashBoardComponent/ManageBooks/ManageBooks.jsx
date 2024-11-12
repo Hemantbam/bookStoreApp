@@ -208,7 +208,9 @@ const ManageBooks = () => {
   const handelUpdateImage = async (e) => {
     e.preventDefault();
     const imageData = new FormData();
-    if (!validateImageFile(updateBookImage)) return setUpdateImageErrorMessage("Invalid Image File Type"), setUpdateImageSuccessMessage("");
+    if (!validateImageFile(updateBookImage)) 
+      return setUpdateImageErrorMessage("Invalid Image File Type"), 
+    setUpdateImageSuccessMessage("");
     imageData.append("updateImage", updateBookImage);
     try {
       const result = await updateBookImageByID(updateImageID, imageData);

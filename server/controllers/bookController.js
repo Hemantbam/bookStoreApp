@@ -140,7 +140,6 @@ const getBookBywords = async (req, res) => {
 
 const updateBookImage = async (req, res) => {
   const bookId = parseInt(req.params.id);
-  console.log("backend bookId", bookId);
   const updateImage = req.file ? req.file.path : null;
 
   if (isNaN(bookId)) {

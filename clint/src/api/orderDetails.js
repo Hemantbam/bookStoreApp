@@ -283,3 +283,30 @@ export const addBookOrder = async (orderData) => {
       return { error: err.message };
     }
   }
+
+
+
+  
+  export const getCancelledOrderDetails=async()=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return { error: "unauthorized" };
+    }
+    try {
+      const response = await axios.get(
+        `${API_URL}/order/admin/cancelledOrderDetails`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err)
+      if (err.response) {
+        return { error: err.response.data, status: err.response.status };
+      }
+      return { error: err.message };
+    }
+  }

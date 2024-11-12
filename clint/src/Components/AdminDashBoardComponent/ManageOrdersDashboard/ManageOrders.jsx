@@ -1,41 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import './ManageOrders.css';
 import Swal from 'sweetalert2';
-import { 
-  getPendingOrderDetails, 
-  getPendingOrders, 
-  handelDelivery, 
-  getCompletedOrderCount, 
-  getCompletedOrderList, 
-  cancelOrder 
+import {
+  getPendingOrderDetails,
+  getPendingOrders,
+  handelDelivery,
+  getCompletedOrderCount,
+  getCompletedOrderList,
+  cancelOrder,
+ getCancelledOrderDetails
 } from '../../../api/orderDetails';
 
 function ManageOrders() {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
+  const [cancelledOrders, setCancelledOrders] = useState([]);
+  const [allOrders, setAllOrders] = useState([]);
+
   const [pendingOrderCount, setPendingOrderCount] = useState(0);
   const [completedOrderCount, setCompletedOrderCount] = useState(0);
+  const [cancelledOrderCount, setCancelledOrderCount] = useState(0);
   const [delivered, setDelivered] = useState(false);
   const [cancelOrderStatus, setCancelOrderStatus] = useState(false);
 
-  const handlePendingOrderDetailsList = async () => {
+  const handelPendingOrderDetailsList = async () => {
     const result = await getPendingOrderDetails();
     setPendingOrders(result.details || []);
+    setPendingOrderCount((result.details).length || 0)
   };
 
   const handelCompletedOrderDetailList = async () => {
     const result = await getCompletedOrderList();
     setCompletedOrders(result.details || []);
+    setCompletedOrderCount((result.details).length || 0)
   };
 
-  const handlePendingOrderCount = async () => {
-    const result = await getPendingOrders();
-    setPendingOrderCount(result.count || 0);
-  };
-
-  const handleCompletedOrderCount = async () => {
-    const result = await getCompletedOrderCount();
-    setCompletedOrderCount(result.count || 0);
+  const handelCancelOrderDetails = async () => {
+    const result = await getCancelledOrderDetails();
+    setCancelledOrders(result.details || []);
+    setCancelledOrderCount((result.details).length)
   };
 
   const handelConfirmDelivery = async (id) => {
@@ -80,13 +83,14 @@ function ManageOrders() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    handlePendingOrderDetailsList();
+    handelPendingOrderDetailsList();
     handelCompletedOrderDetailList();
-    handlePendingOrderCount();
-    handleCompletedOrderCount();
+    handelCancelOrderDetails();
     setDelivered(false);
     setCancelOrderStatus(false);
   }, [delivered, cancelOrderStatus]);
+
+
 
   return (
     <div className="bookOrderDetailsContainer">
@@ -99,14 +103,17 @@ function ManageOrders() {
         <div className="statBox">
           <span>Total completed Orders: {completedOrderCount}</span>
         </div>
+        <div className="statBox">
+          <span>Total Cancelled Orders: {cancelledOrderCount}</span>
+        </div>
       </div>
+      
 
       <h2>Pending Book Order Details</h2>
       <div className="pendingBookOrderTableContainer">
         <table>
           <thead>
             <tr className='tableHeader'>
-              {/* Headers */}
               <th className='headerCell'>Order Id</th>
               <th className='headerCell'>User ID</th>
               <th className='headerCell'>Book Name</th>
@@ -153,6 +160,8 @@ function ManageOrders() {
         </table>
       </div>
 
+
+
       <h2>Completed Book Order Details</h2>
       <div className="completedBookOrderTableContainer">
         <table>
@@ -191,6 +200,59 @@ function ManageOrders() {
             ) : (
               <tr>
                 <td colSpan="11">No Completed orders found</td>
+              </tr>
+            )}
+
+
+
+
+          </tbody>
+        </table>
+
+
+
+      </div>
+
+
+
+      <h2>Cancelled Book Order Details</h2>
+      <div className="completedBookOrderTableContainer">
+        <table>
+          <thead>
+            <tr className='tableHeader'>
+              <th className='headerCell'>Order Id</th>
+              <th className='headerCell'>User ID</th>
+              <th className='headerCell'>Book Name</th>
+              <th className='headerCell'>Book Quantity</th>
+              <th className='headerCell'>Total Price</th>
+              <th className='headerCell'>Payment Mode</th>
+              <th className='headerCell'>Payment Status</th>
+              <th className='headerCell'>Delivery Address</th>
+              <th className='headerCell'>Contact Number</th>
+              <th className='headerCell'>Order Time</th>
+              <th className='headerCell'>Order Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cancelledOrders.length > 0 ? (
+              cancelledOrders.map((detail) => (
+                <tr className="tableRow" key={detail.orderId}>
+                  <td>{detail.orderId}</td>
+                  <td>{detail.userId}</td>
+                  <td>{detail.bookNames}</td>
+                  <td>{detail.quantities}</td>
+                  <td>{detail.orderPrice}</td>
+                  <td>{detail.paymentMode}</td>
+                  <td>{detail.paymentStatus}</td>
+                  <td>{detail.address}</td>
+                  <td>{detail.contactNumber}</td>
+                  <td>{detail.created_at}</td>
+                  <td className='cancelledStatus'>{(detail.orderStatus).toUpperCase()}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="11">No Cancelled orders found</td>
               </tr>
             )}
           </tbody>

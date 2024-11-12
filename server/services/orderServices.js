@@ -11,6 +11,7 @@ import {
   getPendingOrderCountByUserId,
   getCancelledOrderCountByUserId,
   getUserALLOrderDetails,
+  getAllCancelledOrderDetails,
 } from "../repository/orderRepository.js";
 import { sendMaill } from "./sendMail.js";
 import { getUserByUserId } from "../repository/userRepository.js";
@@ -108,6 +109,7 @@ export const getpendingOrderCount = async () => {
 
 export const getpendingOrderList = async () => {
   const result = await getPendingOrderDetails();
+  console.log("pending order",result)
   if (result !== null) {
     return {
       success: true,
@@ -260,3 +262,21 @@ export const getUserCompletedOrderListById = async (userId) => {
   };
 };
 
+
+
+export const getCancelledOrderList = async () => {
+  const result = await getAllCancelledOrderDetails();
+  if (result !== null) {
+    return {
+      success: true,
+      status: 200,
+      message: "Data fetched successfully",
+      allDetails: result,
+    };
+  }
+  return {
+    success: false,
+    status: 404,
+    message: "Data not found",
+  };
+};

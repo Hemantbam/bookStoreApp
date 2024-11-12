@@ -9,6 +9,8 @@ import { emailPasswordValidation } from "../validation/EmailPasswordValidation.j
 
 import { UpdateOtpStatus } from "../repository/passwordReset.js";
 import { verifyValidOtp } from "./verifyOtp.js";
+import { addUserProfileDetailsById } from "../repository/userDetailsRepository.js";
+import { getUserByUserEmail } from "../repository/userRepository.js";
 
 const secretKey = "keySecretForbookStoreAuthentication9898#@";
 
@@ -43,7 +45,8 @@ export const userRegistration = async (email, password, otp) => {
 
   const encodedPassword = await bcrypt.hash(password, 10);
   await createUserQuery(userEmail, encodedPassword);
-
+  const id = await getUserByUserEmail(userEmail);
+  await addUserProfileDetailsById(id);
   await UpdateOtpStatus(userEmail);
 
   return {
@@ -87,8 +90,6 @@ export const userLogin = async (email, password) => {
   }
   return { success: false, status: 404, message: "User not found" };
 };
-
-
 
 export const userRegistrationByAdmin = async (email, password) => {
   if (!emailPasswordValidation(email, password)) {

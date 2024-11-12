@@ -17,6 +17,7 @@ function Order() {
 
     const handeUserOrderDetailList = async () => {
         const result = await getUserOrderListById(tokenDetails.id);
+        console.log(result.details)
         setUserOrders(result.details || []);
     };
 
@@ -55,15 +56,17 @@ function Order() {
             }
         }
     };
-
     useEffect(() => {
         handeUserOrderDetailList();
+    }, []);
+
+    useEffect(() => {
         handlePendingUserOrderDetails()
         handleCancelledUserOrderDetails()
         handleCompletedUserOrderDetails()
         setDelivered(false);
         setCancelOrderStatus(false);
-    }, [userOrders]);
+    }, [userOrders, cancelOrderStatus, delivered]);
 
     return (
         <div className="bookOrderDetailsContainer">

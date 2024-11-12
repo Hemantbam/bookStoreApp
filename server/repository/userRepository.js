@@ -13,6 +13,17 @@ export const getUserByUserId = async (userId) => {
 
 //____________________________________________________________________________________
 
+export const getUserByUserEmail = async (email) => {
+  const query = "SELECT userId FROM users where userEmail=?";
+  const [user] = await dbConn.query(query, [email]);
+  if (user.length === 0) {
+    return false;
+  }
+  return user[0].userId;
+};
+
+//____________________________________________________________________________________
+
 export const getTotalCountUsers = async () => {
   const query = "SELECT count(*) as count from users";
   const [count] = await dbConn.query(query);

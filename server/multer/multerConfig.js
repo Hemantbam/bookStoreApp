@@ -12,10 +12,21 @@ const storage = multer.diskStorage({
 });
 
 
+const userStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/images/userImages'); 
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+
+
 export const uploadBookImage = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png/; // 
+    const filetypes = /jpeg|jpg|png/; 
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
@@ -26,4 +37,16 @@ export const uploadBookImage = multer({
   }
 });
 
+export const uploadUserProfileImage = multer({
+  storage: userStorage,
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
 
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb("Error: File type not supported!", false);
+  }
+});

@@ -16,7 +16,7 @@
     flex-direction: column;
     align-items: center;
     padding: 0px 50px;
-
+    margin-top: -70px;
 }
 
 .profileHeadingBox {
@@ -92,9 +92,9 @@
     gap: 100px;
 }
 
-.sidebar {
-    height: 700px;
-    max-height: 100%;
+.asidebar {
+    max-height: 1200px;
+    min-height: 800px;
     min-width: 250px;
     background-color: #fd962f;
     color: white;
@@ -105,7 +105,7 @@
     border-radius: 10px;
 }
 
-.sidebar h2 {
+.asidebar h2 {
     margin-top: 10px;
 }
 

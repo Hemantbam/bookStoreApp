@@ -6,7 +6,7 @@
     font-family: Arial, sans-serif;
 }
 
-.sidebar {
+.sidebarAdmin {
     min-width: 250px;
     background-color: #fd962f;
     color: white;
@@ -17,7 +17,7 @@
     border-radius: 10px;
 }
 
-.sidebar h2 {
+.sidebarAdmin h2 {
     margin-top: 10px;
 }
 .authorizedFunction{
