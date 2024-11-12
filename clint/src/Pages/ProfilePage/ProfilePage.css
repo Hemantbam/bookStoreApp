@@ -93,7 +93,8 @@
 }
 
 .asidebar {
-    max-height: 1200px;
+    /* max-height: 1200px; */
+    height: auto;
     min-height: 800px;
     min-width: 250px;
     background-color: #fd962f;

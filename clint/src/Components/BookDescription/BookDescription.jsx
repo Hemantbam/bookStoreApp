@@ -8,7 +8,7 @@ import { useContext } from 'react';
 function BookDescription() {
   const { bookDetails } = useContext(CartContext);
   const serverURL = "http://localhost:8080";
-  console.log("tshb", bookDetails)
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])

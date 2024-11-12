@@ -29,15 +29,21 @@ export const updateUserProfileById = async (userId, userData) => {
 };
 
 export const addUserProfileDetailsById = async (id) => {
-  console.log("id", id);
 
   const query =
-    "INSERT INTO userDetails (userId, firstName, lastName, address, contactNumber, city, about) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO userDetails (userId, firstName, lastName, address, contactNumber, city, about,userImage) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
   try {
-    const [result] = await dbConn.query(query, [id, "", "", "", "", "", ""]);
-
-    console.log("Insert result", result);
+    const [result] = await dbConn.query(query, [
+      id,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    ]);
 
     if (result.affectedRows > 0) {
       return true;
@@ -59,4 +65,11 @@ export const updateProfileImageById = async (userId, userImage) => {
   return false;
 };
 
-
+export const deleteUserFromUserDetails = async (userId) => {
+  const query = "DELETE FROM userDetails WHERE userId = ?";
+  const result = await dbConn.query(query, [userId]);
+  if (result[0].affectedRows > 0) {
+    return true;
+  }
+  return false;
+};

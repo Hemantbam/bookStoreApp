@@ -10,6 +10,7 @@ function BookDetails({ bookId, bookName, bookCategory, bookPrice, bookPicture })
     const { books, setBooks } = useContext(CartContext);
     const { bookDetails, setBookDetails } = useContext(CartContext);
     
+    
     const bookToAdd = {
         name: bookName,
         category: bookCategory,

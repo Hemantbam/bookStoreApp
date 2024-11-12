@@ -38,7 +38,7 @@ export const updateUserProfile = async (userId, userData) => {
   };
 };
 
-export const addUSerProfileDetails = async (id, userData) => {
+export const addUserProfileDetails = async (id, userData) => {
   const result = await addUserProfileDetailsById(id, userData);
   if (result === true) {
     return {

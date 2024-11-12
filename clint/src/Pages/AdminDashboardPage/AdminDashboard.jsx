@@ -103,7 +103,7 @@ const AdminDashboard = () => {
     return (
         <>
             <div className="Container">
-                <aside className="sidebarAdmin">
+                <aside className="sidebar">
                     <h2>Admin Panel</h2>
                     <section className="authorizedFunction">
                         <div className="manage">

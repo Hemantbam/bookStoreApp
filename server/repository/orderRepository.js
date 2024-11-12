@@ -58,7 +58,6 @@ export const getPendingOrderCountNumber = async () => {
   const query =
     "SELECT COUNT(*) as count FROM bookOrder where orderStatus='pending';";
   const [response] = await dbConn.query(query);
-  console.log(response);
   if (response !== null) {
     return response[0].count;
   }
@@ -91,7 +90,6 @@ GROUP BY
     bookOrder.id`;
 
   const [response] = await dbConn.query(query);
-  console.log("response", response);
   if (response.length > 0) {
     return response;
   }

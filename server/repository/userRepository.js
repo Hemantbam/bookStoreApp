@@ -56,7 +56,11 @@ export const updateUserDetails = async (userEmail, userId) => {
 
 export const deleteUser = async (userId) => {
   const query = "DELETE FROM users WHERE userId = ?";
-  await dbConn.query(query, [userId]);
+  const result = await dbConn.query(query, [userId]);
+  if (result[0].affectedRows > 0) {
+    return true;
+  }
+  return false;
 };
 
 //____________________________________________________________________________________

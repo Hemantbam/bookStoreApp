@@ -1,3 +1,4 @@
+import { deleteUserFromUserDetails } from "../repository/userDetailsRepository.js";
 import {
   getUserByUserId,
   getAllUserDetails,
@@ -10,13 +11,13 @@ import {
 
 export const countTotalUsers = async () => {
   const response = await getTotalCountUsers();
-  console.log(response)
+  console.log(response);
   if (response) {
     return {
       success: true,
       status: 200,
       message: "Data fetched Successfully",
-      count:response
+      count: response,
     };
   }
   return { success: false, status: 500, message: "Internal Server Error" };
@@ -24,7 +25,7 @@ export const countTotalUsers = async () => {
 
 export const getNewlyAddedUser = async () => {
   const response = await getlatestRegisteredUser();
-  console.log(response)
+  console.log(response);
   if (response) {
     return {
       success: true,
@@ -47,7 +48,6 @@ export const updateUserEmailById = async (userId, email) => {
   return { success: false, status: 409, message: "Email already exists" };
 };
 
-
 export const getAllUser = async () => {
   const response = await getAllUserDetails();
   if (response) {
@@ -61,12 +61,18 @@ export const getAllUser = async () => {
   return { success: false, status: 500, message: "Internal Server Error" };
 };
 
-
 export const deleteUserById = async (userId) => {
   const user = await getUserByUserId(userId);
   if (user) {
-    await deleteUser(userId);
-    return {success:true, status:200, message:"User deleted successfullly"};
+    const result = await deleteUserFromUserDetails(userId);
+    if (result === true) {
+      await deleteUser(userId);
+      return {
+        success: true,
+        status: 200,
+        message: "User deleted successfullly",
+      };
+    }
   }
   return { success: false, status: 404, message: "User not found" };
 };

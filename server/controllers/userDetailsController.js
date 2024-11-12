@@ -1,5 +1,5 @@
 import {
-  addUSerProfileDetails,
+  addUserProfileDetails,
   getUserDetailsByUserId,
   updateUserProfileImage,
 } from "../services/userDetailsServices.js";
@@ -31,7 +31,7 @@ export const addUserDetails = async (req, res) => {
     about,
   };
   console.log("controller", userData);
-  const result = await addUSerProfileDetails(userId, userData);
+  const result = await addUserProfileDetails(userId, userData);
   return res
     .status(result.status)
     .json({ status: result.status, message: result.message });

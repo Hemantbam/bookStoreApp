@@ -53,6 +53,7 @@ const deleteUserFromDb = async (req, res) => {
   const userId = parseInt(req.params.id);
 
   const result = await deleteUserById(userId);
+  console.log(result)
   if (result.success) {
     return res.status(result.status).json({ message: result.message });
   }
